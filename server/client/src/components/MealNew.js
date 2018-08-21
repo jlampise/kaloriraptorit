@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Field, FieldArray, reduxForm } from 'redux-form';
+
 import { createMeal } from '../actions';
+import renderSearchField from './parts/form/search';
 
 import {
   renderField,
   renderDateField,
   renderIngredients
 } from './parts/form/fields';
-
-import renderSearchField from './parts/form/search';
 import validate from './parts/form/validate';
 
 class MealNew extends Component {
@@ -42,6 +42,9 @@ class MealNew extends Component {
   }
 
   render() {
+
+
+
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div className="container">
@@ -90,9 +93,11 @@ class MealNew extends Component {
   }
 }
 
-//getting props to this component
-function mapsStateToProps({ date, ingredients }) {
-  return { date, ingredients };
+
+
+
+function mapsStateToProps({ date }) {
+  return { date };
 }
 
 export default reduxForm({

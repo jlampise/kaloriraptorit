@@ -17,8 +17,8 @@ class MealEdit extends Component {
     this.props.fetchMeal(this.props.match.params.id);
   }
 
+
   onSubmit(values) {
-    //send to action
     this.props.updateMeal(this.props.match.params.id, values, () => {
       this.props.history.push('/meals');
     });
@@ -48,7 +48,6 @@ class MealEdit extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div>
-
         <h2>Edit your Meal - {this.props.meal.name}</h2>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <div className="row">
@@ -65,6 +64,7 @@ class MealEdit extends Component {
               component={renderDateField}
               size="col-xs-10 col-sm-5 col-md-3"
               showTime={true}
+
             />
           </div>
           <Field

@@ -99,8 +99,8 @@ class SearchField extends Component {
 }
 
 //getting props to this component
-function mapsStateToProps({ ingredients, ownProps }) {
-  return { ingredients, ownProps };
+function mapsStateToProps({ ingredients }) {
+  return { ingredients };
 }
 
 //and add redux connection

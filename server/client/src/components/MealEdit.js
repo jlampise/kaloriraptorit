@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { fetchMeal, updateMeal } from '../actions';
+import { fetchMeal, updateMeal, createMeal, initNewMeal } from '../actions';
 import renderSearchField from './parts/form/search';
 
 import {
@@ -13,15 +13,24 @@ import {
 import validate from './parts/form/validate';
 
 class MealEdit extends Component {
-  componentDidMount() {
-    this.props.fetchMeal(this.props.match.params.id);
+  componentDidUpdate() {
+    if (this.props.match.params.id) {
+      this.props.fetchMeal(this.props.match.params.id);
+    } else {
+      this.props.initNewMeal(this.props.date);
+    }
   }
 
-
   onSubmit(values) {
-    this.props.updateMeal(this.props.match.params.id, values, () => {
-      this.props.history.push('/meals');
-    });
+    if (this.props.match.params.id) {
+      this.props.updateMeal(this.props.match.params.id, values, () => {
+        this.props.history.push('/meals');
+      });
+    } else {
+      this.props.createMeal(values, () => {
+        this.props.history.push('/meals');
+      });
+    }
   }
 
   chosenFood(foodInfo) {
@@ -42,13 +51,15 @@ class MealEdit extends Component {
   }
 
   render() {
-    if (!this.props.initialValues) {
-      return <div />;
-    }
+    //if (!this.props.initialValues) {
+    //  return <div />;
+    //}
+    //    <h2>Edit your Meal - {this.props.initialValues.name}</h2>
+
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div>
-        <h2>Edit your Meal - {this.props.meal.name}</h2>
+        <h2>Edit your Meal</h2>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <div className="row">
             <Field
@@ -64,7 +75,6 @@ class MealEdit extends Component {
               component={renderDateField}
               size="col-xs-10 col-sm-5 col-md-3"
               showTime={true}
-
             />
           </div>
           <Field
@@ -76,7 +86,7 @@ class MealEdit extends Component {
           <FieldArray name="ingredients" component={renderIngredients} />
           <div className="form__actions">
             <button type="submit" className="btn btn-success">
-              Save your meal
+              Save
             </button>
             <button
               type="button"
@@ -84,10 +94,10 @@ class MealEdit extends Component {
               disabled={pristine || submitting}
               onClick={reset}
             >
-              back to default
+              Discard Changes
             </button>
             <Link className="btn btn-primary" to="/meals">
-              go back
+              Cancel
             </Link>
           </div>
         </form>
@@ -97,7 +107,7 @@ class MealEdit extends Component {
 }
 
 function mapsStateToProps({ editableMeal, date }) {
-  return { initialValues: editableMeal, meal: editableMeal, date };
+  return { initialValues: editableMeal, date };
 }
 
 let InitializeFromStateForm = reduxForm({
@@ -108,8 +118,9 @@ let InitializeFromStateForm = reduxForm({
 })(MealEdit);
 
 //and add redux connection
-InitializeFromStateForm = connect(mapsStateToProps, { fetchMeal, updateMeal })(
-  InitializeFromStateForm
-);
+InitializeFromStateForm = connect(
+  mapsStateToProps,
+  { fetchMeal, updateMeal, createMeal, initNewMeal }
+)(InitializeFromStateForm);
 
 export default InitializeFromStateForm;

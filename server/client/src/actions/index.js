@@ -86,6 +86,10 @@ export const fetchMeal = mealId => async dispatch => {
   dispatch({ type: FETCH_MEAL, payload: res.data });
 };
 
+export const initNewMeal = date => dispatch => {
+  dispatch({ type: FETCH_MEAL, payload: { name: '', date, ingredients: [] }});
+};
+
 export const deleteMeal = mealId => async dispatch => {
   try {
     await axios.delete('/api/meals/' + mealId);

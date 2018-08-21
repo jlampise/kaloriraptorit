@@ -6,7 +6,6 @@ import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 
 import MealsComponent from '../components/Meals';
 import Header from './Header';
-import MealNewComponent from './MealNew';
 import Landing from './Landing';
 import MealEditComponent from './MealEdit';
 import TrendsComponent from './Trends';
@@ -24,7 +23,6 @@ const userIsAuthenticated = connectedRouterRedirect({
 });
 
 const Meals = userIsAuthenticated(MealsComponent);
-const MealNew = userIsAuthenticated(MealNewComponent);
 const MealEdit = userIsAuthenticated(MealEditComponent);
 const Trends = userIsAuthenticated(TrendsComponent);
 
@@ -52,7 +50,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/meals" component={Meals} />
-              <Route exact path="/meals/new" component={MealNew} />
+              <Route exact path="/meals/new" component={MealEdit} />
               <Route exact path="/meals/edit/:id" component={MealEdit} />
               <Route exact path="/trends" component={Trends} />
               <Route path="/" render={() => <Redirect to="/" />} />

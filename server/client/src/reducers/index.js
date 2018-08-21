@@ -6,6 +6,7 @@ import mealsReducer from './mealsReducer';
 import waterReducer from './waterReducer';
 import trendsReducer from './trendsReducer';
 import ingredientsReducer from './ingredientsReducer';
+import editableMealReducer from './editableMealReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   water: waterReducer,
   form: formReducer,
   trends: trendsReducer,
-  ingredients: ingredientsReducer
+  ingredients: ingredientsReducer,
+  editableMeal: editableMealReducer
 });

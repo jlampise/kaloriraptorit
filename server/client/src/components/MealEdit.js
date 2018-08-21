@@ -49,7 +49,7 @@ class MealEdit extends Component {
     return (
       <div>
 
-        <h2>Edit your Meal - {this.props.meals.name}</h2>
+        <h2>Edit your Meal - {this.props.meal.name}</h2>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <div className="row">
             <Field
@@ -96,8 +96,8 @@ class MealEdit extends Component {
   }
 }
 
-function mapsStateToProps({ meals, date, ownProps }) {
-  return { initialValues: meals, meals, date, ownProps };
+function mapsStateToProps({ editableMeal, date }) {
+  return { initialValues: editableMeal, meal: editableMeal, date };
 }
 
 let InitializeFromStateForm = reduxForm({

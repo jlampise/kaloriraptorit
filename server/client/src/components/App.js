@@ -23,6 +23,7 @@ const userIsAuthenticated = connectedRouterRedirect({
 });
 
 const Meals = userIsAuthenticated(MealsComponent);
+const MealNew = userIsAuthenticated(MealEditComponent);
 const MealEdit = userIsAuthenticated(MealEditComponent);
 const Trends = userIsAuthenticated(TrendsComponent);
 
@@ -50,7 +51,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/meals" component={Meals} />
-              <Route exact path="/meals/new" component={MealEdit} />
+              <Route exact path="/meals/new" component={MealNew} />
               <Route exact path="/meals/edit/:id" component={MealEdit} />
               <Route exact path="/trends" component={Trends} />
               <Route path="/" render={() => <Redirect to="/" />} />

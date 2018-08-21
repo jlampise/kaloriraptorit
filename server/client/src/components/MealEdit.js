@@ -13,7 +13,7 @@ import {
 import validate from './parts/form/validate';
 
 class MealEdit extends Component {
-  componentDidUpdate() {
+  componentDidMount() {
     if (this.props.match.params.id) {
       this.props.fetchMeal(this.props.match.params.id);
     } else {
@@ -51,15 +51,19 @@ class MealEdit extends Component {
   }
 
   render() {
-    //if (!this.props.initialValues) {
-    //  return <div />;
-    //}
-    //    <h2>Edit your Meal - {this.props.initialValues.name}</h2>
+    if (this.props.match.params.id && !this.props.initialValues) {
+      return (
+        <div>
+          No meal with given id exists.
+        </div>
+      );
+    }
 
     const { handleSubmit, pristine, reset, submitting } = this.props;
+    let headerStr = this.props.match.params.id? 'Edit your meal' : 'Add a new meal';
     return (
       <div>
-        <h2>Edit your Meal</h2>
+        <h2>{headerStr}</h2>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <div className="row">
             <Field

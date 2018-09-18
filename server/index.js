@@ -9,8 +9,13 @@ require('./models/Meal');
 require('./models/Water');
 require('./services/passport');
 
+mongoose.connect(
+  keys.mongoURI,
+  {
+    useNewUrlParser: true }
+);
 
-mongoose.connect(keys.mongoURI);
+mongoose.set('useCreateIndex', true);
 
 const app = express();
 

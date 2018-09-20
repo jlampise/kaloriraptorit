@@ -1,5 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const MockStrategy = require('passport-mock-strategy');
+const testUser = require('../config/testUser');
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 
@@ -18,33 +20,50 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback',
-      proxy: true
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ googleId: profile.id });
+passport.use(strategyForEnvironment());
 
-      if (existingUser) {
-        return done(null, existingUser);
+function strategyForEnvironment() {
+  if (process.env.NODE_ENV === 'test') {
+    return new MockStrategy(
+      {
+        name: 'google',
+        user: testUser
+      },
+      (user, done) => {
+        strategyCallback(null, null, user, done);
       }
-      const newWaterId = new mongoose.mongo.ObjectID();
-      const user = await new User({
-        googleId: profile.id,
-        name: profile.name.givenName,
-        _water: newWaterId
-      }).save();
-      await new Water({
-        _id: newWaterId,
-        _user: user._id,
-        defaultTarget: WATER_TARGET_INITIAL_VALUE,
-        dailyWaters: []
-      }).save();
-      done(null, user);
-    }
-  )
-);
+    );
+  } else {
+    return new GoogleStrategy(
+      {
+        name: 'google',
+        clientID: keys.googleClientID,
+        clientSecret: keys.googleClientSecret,
+        callbackURL: '/auth/google/callback',
+        proxy: true
+      },
+      strategyCallback
+    );
+  }
+}
+
+async function strategyCallback(accessToken, refreshToken, profile, done) {
+  const existingUser = await User.findOne({ googleId: profile.id });
+
+  if (existingUser) {
+    return done(null, existingUser);
+  }
+  const newWaterId = new mongoose.mongo.ObjectID();
+  const user = await new User({
+    googleId: profile.id,
+    name: profile.name.givenName,
+    _water: newWaterId
+  }).save();
+  await new Water({
+    _id: newWaterId,
+    _user: user._id,
+    defaultTarget: WATER_TARGET_INITIAL_VALUE,
+    dailyWaters: []
+  }).save();
+  done(null, user);
+}

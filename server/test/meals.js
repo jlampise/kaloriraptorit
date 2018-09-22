@@ -35,7 +35,7 @@ describe('/api/meals', () => {
   });
 
   describe('POST /api/meals', () => {
-    it('add meal with good properties', done => {
+    it('success with good properties', done => {
       agent
         .post('/api/meals')
         .send({
@@ -71,12 +71,16 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.name.should.be.a('string');
+          res.body.date.should.be.a('string');
+          res.body.ingredients.should.be.a('array');  
           // Taking this id for update and delete testing
-          testMealMongoId = res.body.createdMeal._id;
+          testMealMongoId = res.body._id;
           done();
         });
     });
-    it('add meal with zero ingredients', done => {
+    it('success with zero ingredients', done => {
       agent
         .post('/api/meals')
         .send({
@@ -87,85 +91,14 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.name.should.be.a('string');
+          res.body.date.should.be.a('string');
+          res.body.ingredients.should.be.a('array');  
           done();
         });
     });
-    it.skip('add meal with missing property: ingredients', done => {
-      agent
-        .post('/api/meals')
-        .send({
-          name: 'Aamiainen',
-          date: '2018-04-04T10:00:00+03:00'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.should.be.json;
-          done();
-        });
-    });
-    it.skip('add meal with missing property: name', done => {
-      agent
-        .post('/api/meals')
-        .send({
-          date: '2018-04-04T10:00:00+03:00',
-          ingredients: []
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.should.be.json;
-          done();
-        });
-    });
-    it.skip('add meal with missing property: date', done => {
-      agent
-        .post('/api/meals')
-        .send({
-          name: 'Aamiainen',
-          ingredients: []
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.should.be.json;
-          done();
-        });
-    });
-    it.skip('add meal with malformed property: date', done => {
-      agent
-        .post('/api/meals')
-        .send({
-          name: 'Aamiainen',
-          date: '2018-0g4-0d4T10:00:00+03:00',
-          ingredients: []
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.should.be.json;
-          done();
-        });
-    });
-    it.skip('add meal with missing property in ingredient: kcal', done => {
-      agent
-        .post('/api/meals')
-        .send({
-          date: '2018-04-04T10:00:00+03:00',
-          name: 'Aamiainen',
-          ingredients: [
-            {
-              name: 'Omena, kuivattu',
-              mass: 100,
-              protein: 0.89,
-              carbohydrate: 60.2,
-              fat: 0.32
-            }
-          ]
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.should.be.json;
-          done();
-        });
-    });
-    it.skip('add meal with additional property', done => {
+    it('success with additional property, ignores the property', done => {
       agent
         .post('/api/meals')
         .send({
@@ -175,12 +108,17 @@ describe('/api/meals', () => {
           ingredients: []
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(200);
           res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.name.should.be.a('string');
+          res.body.date.should.be.a('string');
+          res.body.ingredients.should.be.a('array');  
+          res.body.should.not.have.property('additional');
           done();
         });
     });
-    it.skip('add meal with additional property in ingredient', done => {
+    it('success with additional property in ingredient-subdocument, ignores the property', done => {
       agent
         .post('/api/meals')
         .send({
@@ -191,6 +129,91 @@ describe('/api/meals', () => {
               name: 'Omena, kuivattu',
               additional: 'property',
               mass: 100,
+              kcal: 270,
+              protein: 0.89,
+              carbohydrate: 60.2,
+              fat: 0.32
+            }
+          ]
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.name.should.be.a('string');
+          res.body.date.should.be.a('string');
+          res.body.ingredients.should.be.a('array');  
+          res.body.ingredients[0].should.not.have.property('additional');
+          done();
+        });
+    });
+    it('fails with missing property: ingredients', done => {
+      agent
+        .post('/api/meals')
+        .send({
+          name: 'Aamiainen',
+          date: '2018-04-04T10:00:00+03:00'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.error.should.not.be.empty;
+          done();
+        });
+    });
+    it('fails with missing property: name', done => {
+      agent
+        .post('/api/meals')
+        .send({
+          date: '2018-04-04T10:00:00+03:00',
+          ingredients: []
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.error.should.not.be.empty;
+          done();
+        });
+    });
+    it('fails with missing property: date', done => {
+      agent
+        .post('/api/meals')
+        .send({
+          name: 'Aamiainen',
+          ingredients: []
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.error.should.not.be.empty;
+          done();
+        });
+    });
+    it('fails with malformed property: date', done => {
+      agent
+        .post('/api/meals')
+        .send({
+          name: 'Aamiainen',
+          date: '2018-0g4-0d4T10:00:00+03:00',
+          ingredients: []
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.error.should.not.be.empty;
+          done();
+        });
+    });
+    it('fails with missing property in ingredient: kcal', done => {
+      agent
+        .post('/api/meals')
+        .send({
+          date: '2018-04-04T10:00:00+03:00',
+          name: 'Aamiainen',
+          ingredients: [
+            {
+              name: 'Omena, kuivattu',
+              mass: 100,
               protein: 0.89,
               carbohydrate: 60.2,
               fat: 0.32
@@ -200,6 +223,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.should.be.json;
+          res.body.error.should.not.be.empty;
           done();
         });
     });
@@ -410,7 +434,7 @@ describe('/api/meals', () => {
   });
 
   describe('GET /api/meals', () => {
-    it('gets all meals with no query params', done => {
+    it('success with no query params', done => {
       agent.get('/api/meals').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -424,7 +448,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('gets no meals after 2018-05-02', done => {
+    it('success with query param \'after\'', done => {
       agent.get('/api/meals?after=2018-05-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -435,7 +459,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('gets no meals before 2018-03-02', done => {
+    it('success with query param \'before\'', done => {
       agent.get('/api/meals?before=2018-03-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -446,14 +470,13 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('ignores query params with malformed values', done => {
+    it('success: ignores query params with malformed values', done => {
       agent.get('/api/meals?before=2018-0sdf3-02&after=adsuef').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
         res.body.should.be.a('object');
         res.body.count.should.be.a('number');
         res.body.meals.should.be.a('array');
-        assert.equal(res.body.count, 2);
         done();
       });
     });
@@ -490,24 +513,30 @@ describe('/api/meals', () => {
   });
 
   describe('DELETE /api/meals/:id', () => {
-    it.skip('delete meal with good id', done => {
+    it('success with good id', done => {
       agent.delete(`/api/meals/${testMealMongoId}`).end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
+        res.body.should.be.a('object');
+        res.body.name.should.be.a('string');
+        res.body.date.should.be.a('string');
+        res.body.ingredients.should.be.a('array');
         done();
       });
     });
-    it.skip('delete meal with malformed id', done => {
+    it('fails with malformed id', done => {
       agent.delete('/api/meals/235233').end((err, res) => {
         res.should.have.status(400);
         res.should.be.json;
+        res.body.error.should.not.be.empty;
         done();
       });
     });
-    it.skip('delete meal with non-existing id', done => {
+    it('fails with non-existing id', done => {
       agent.delete('/api/meals/5ac4b2a76613d34c5d9e275c').end((err, res) => {
         res.should.have.status(400);
         res.should.be.json;
+        res.body.error.should.not.be.empty;
         done();
       });
     });

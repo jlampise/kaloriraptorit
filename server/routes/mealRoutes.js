@@ -15,7 +15,7 @@ module.exports = app => {
       if (req.query.after) {
         const after = new Date(req.query.after);
         if (!isNaN(after)) {
-          dateConditions.$gt = after ;
+          dateConditions.$gt = after;
         }
       }
 
@@ -26,10 +26,10 @@ module.exports = app => {
         }
       }
 
-      if(dateConditions.$lt || dateConditions.$gt) {
+      if (dateConditions.$lt || dateConditions.$gt) {
         conditions.date = dateConditions;
       }
-      
+
       const meals = await Meal.find(conditions);
       res.status(200).json({
         count: meals.length,
@@ -43,21 +43,34 @@ module.exports = app => {
   app.post('/api/meals', requireLogin, async (req, res) => {
     const { name, date, ingredients } = req.body;
     const userId = req.user.id;
-    const meal = new Meal({
-      _id: new mongoose.Types.ObjectId(),
-      name,
-      date: date,
-      ingredients,
-      _user: userId
-    });
+
+    // We do not accept missing properties, but somehow empty array for ingredients is created with ingredients missing
+    // So we check this here independently:
+    if (!ingredients) {
+      return res
+        .status(400)
+        .json({
+          error: 'meals validation failed: name: Path `ingredients` is required.'
+        });
+    }
+
     try {
-      await meal.save();
-      res.status(200).json({
-        message: 'New meal was created',
-        createdMeal: meal
+      const meal = new Meal({
+        _id: new mongoose.Types.ObjectId(),
+        name: name,
+        date: date,
+        ingredients: ingredients,
+        _user: userId
       });
+      await meal.save();
+      res.status(200).json(meal);
     } catch (err) {
-      res.status(500).json({ error: err });
+      // We handle these two API user errors with different status code.
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        res.status(400).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: err.message });
+      }
     }
   });
 
@@ -112,21 +125,24 @@ module.exports = app => {
 
   app.delete('/api/meals/:mealId', requireLogin, async (req, res) => {
     try {
-      const id = req.params.mealId;
-      const meal = await Meal.findOneAndRemove({ _id: id, _user: req.user.id });
-      if (!meal) {
-        return res.status(404).json({
-          message: 'Meal with given id does not exist',
-          id: id
-        });
+      const mealId = req.params.mealId;
+      const meal = await Meal.findOneAndDelete({
+        _id: mealId,
+        _user: req.user.id
+      });
+      if (meal) {
+        res.status(200).json(meal);
       } else {
-        return res.status(200).json({
-          message: 'Meal with the given id was deleted',
-          id: id
-        });
+        res
+          .status(400)
+          .json({ error: 'Meal with id ' + mealId + ' does not exist.' });
       }
     } catch (err) {
-      res.status(500).json({ error: err });
+      if (err.name === 'CastError') {
+        res.status(400).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: err.message });
+      }
     }
   });
 };

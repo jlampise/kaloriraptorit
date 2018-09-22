@@ -410,7 +410,7 @@ describe('/api/meals', () => {
   });
 
   describe('GET /api/meals', () => {
-    it('getting all meals', done => {
+    it('gets all meals with no query params', done => {
       agent.get('/api/meals').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -424,7 +424,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('getting meals after 2018-05-02', done => {
+    it('gets no meals after 2018-05-02', done => {
       agent.get('/api/meals?after=2018-05-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -435,7 +435,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('getting meals before 2018-03-02', done => {
+    it('gets no meals before 2018-03-02', done => {
       agent.get('/api/meals?before=2018-03-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -443,6 +443,17 @@ describe('/api/meals', () => {
         res.body.count.should.be.a('number');
         res.body.meals.should.be.a('array');
         assert.equal(res.body.count, 0);
+        done();
+      });
+    });
+    it('ignores query params with malformed values', done => {
+      agent.get('/api/meals?before=2018-0sdf3-02&after=adsuef').end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('object');
+        res.body.count.should.be.a('number');
+        res.body.meals.should.be.a('array');
+        assert.equal(res.body.count, 2);
         done();
       });
     });

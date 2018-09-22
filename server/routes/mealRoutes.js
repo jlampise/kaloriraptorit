@@ -9,24 +9,28 @@ module.exports = app => {
     // before and after are optional params for getting
     // only meals before or/and after specific date
     try {
-      const dateQueryParams = {};
+      const conditions = { _user: req.user.id };
+      const dateConditions = {};
+
       if (req.query.after) {
         const after = new Date(req.query.after);
         if (!isNaN(after)) {
-          dateQueryParams.$gt = after;
+          dateConditions.$gt = after ;
         }
       }
+
       if (req.query.before) {
         const before = new Date(req.query.before);
         if (!isNaN(before)) {
-          dateQueryParams.$lt = before;
+          dateConditions.$lt = before;
         }
       }
-      const queryParams = { _user: req.user.id };
-      if (!_.isEmpty(dateQueryParams)) {
-        queryParams.date = dateQueryParams;
+
+      if(dateConditions.$lt || dateConditions.$gt) {
+        conditions.date = dateConditions;
       }
-      const meals = await Meal.find(queryParams).select('-__v -_user');
+      
+      const meals = await Meal.find(conditions);
       res.status(200).json({
         count: meals.length,
         meals: meals

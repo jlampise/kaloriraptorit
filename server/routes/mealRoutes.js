@@ -59,20 +59,21 @@ module.exports = app => {
 
   app.get('/api/meals/:mealId', requireLogin, async (req, res) => {
     try {
-      const id = req.params.mealId;
-      const meal = await Meal.findOne({ _id: id, _user: req.user.id }).select(
-        '-__v -_user'
-      );
+      const mealId = req.params.mealId;
+      const meal = await Meal.findOne({ _id: mealId, _user: req.user.id });
       if (meal) {
         res.status(200).json(meal);
       } else {
-        res.status(404).json({
-          message: 'Meal with given id does not exist',
-          id: id
-        });
+        res
+          .status(400)
+          .json({ error: 'Meal with id ' + mealId + ' does not exist.' });
       }
     } catch (err) {
-      res.status(500).json({ error: err });
+      if (err.name === 'CastError') {
+        res.status(400).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: err.message });
+      }
     }
   });
 
@@ -93,7 +94,7 @@ module.exports = app => {
       } else {
         res
           .status(400)
-          .json({ error: 'Meal with id' + mealId + ' does not exist.' });
+          .json({ error: 'Meal with id ' + mealId + ' does not exist.' });
       }
     } catch (err) {
       // We handle these two API user errors with different status code.

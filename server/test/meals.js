@@ -305,6 +305,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.should.be.json;
+          res.body.error.should.not.be.empty;
           done();
         });
     });
@@ -318,6 +319,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.should.be.json;
+          res.body.error.should.not.be.empty;
           done();
         });
     });
@@ -331,6 +333,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.should.be.json;
+          res.body.error.should.not.be.empty;
           done();
         });
     });
@@ -346,6 +349,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.should.be.json;
+          res.body.error.should.not.be.empty;
           done();
         });
     });
@@ -368,6 +372,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.should.be.json;
+          res.body.error.should.not.be.empty;
           done();
         });
     });
@@ -444,7 +449,7 @@ describe('/api/meals', () => {
   });
 
   describe('GET /api/meals/:id', () => {
-    it.skip('get meal with good id', done => {
+    it('success with good id', done => {
       agent.get(`/api/meals/${testMealMongoId}`).end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -455,21 +460,24 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it.skip('get meal with malformed id', done => {
+    it('fails with malformed id', done => {
       agent.get('/api/meals/235233').end((err, res) => {
         res.should.have.status(400);
         res.should.be.json;
+        res.body.error.should.not.be.empty;
         done();
       });
     });
-    it.skip('get meal with non-existing id', done => {
+    it('fails with non-existing id', done => {
       agent.get('/api/meals/5ac4b2a76613d34c5d9e275c').end((err, res) => {
         res.should.have.status(400);
         res.should.be.json;
+        res.body.error.should.not.be.empty;
         done();
       });
     });
   });
+
   describe('DELETE /api/meals/:id', () => {
     it.skip('delete meal with good id', done => {
       agent.delete(`/api/meals/${testMealMongoId}`).end((err, res) => {

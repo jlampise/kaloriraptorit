@@ -36,14 +36,15 @@ module.exports = app => {
     }
   });
 
-  app.post('/api/meals/new', requireLogin, async (req, res) => {
+  app.post('/api/meals', requireLogin, async (req, res) => {
     const { name, date, ingredients } = req.body;
+    const userId = req.user.id;
     const meal = new Meal({
       _id: new mongoose.Types.ObjectId(),
       name,
       date: date,
       ingredients,
-      _user: req.user.id
+      _user: userId
     });
     try {
       await meal.save();
@@ -75,29 +76,32 @@ module.exports = app => {
     }
   });
 
-  app.post('/api/meals/:mealId', requireLogin, async (req, res) => {
+  app.put('/api/meals/:mealId', requireLogin, async (req, res) => {
+    // Notice: We want all the fields here, even for subdocuments (ingredients)!
+    // Could not make it with findOneAndUpdate because it did not validate fields
+    // in ingredients. With .save() it did work properly.
     try {
-      const id = req.params.mealId;
-      const meal = await Meal.findOne({ _id: id, _user: req.user.id });
+      const mealId = req.params.mealId;
 
-      const { name, date, ingredients } = req.body;
+      const meal = await Meal.findOne({ _id: mealId, _user: req.user.id });
       if (meal) {
-        meal.name = name;
-        meal.date = date;
-        meal.ingredients = ingredients;
+        meal.name = req.body.name;
+        meal.date = req.body.date;
+        meal.ingredients = req.body.ingredients;
         await meal.save();
-        res.status(200).json({
-          message: 'Meal with the given id was overwritten',
-          overwrittenMeal: meal
-        });
+        res.status(200).json(meal);
       } else {
-        res.status(404).json({
-          message: 'Meal with given id does not exist',
-          id: id
-        });
+        res
+          .status(400)
+          .json({ error: 'Meal with id' + mealId + ' does not exist.' });
       }
     } catch (err) {
-      res.status(500).json({ error: err });
+      // We handle these two API user errors with different status code.
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        res.status(400).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: err.message });
+      }
     }
   });
 

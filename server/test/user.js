@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 const agent = chai.request.agent(app);
 
 
-describe('Setting up user', () => {
+describe.skip('Setting up user', () => {
   describe('GET /api/logout', () => {
     it('responds with status 404 and empty body', done => {
       agent.get('/api/logout').end((err, res) => {

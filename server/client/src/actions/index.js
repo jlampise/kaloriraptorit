@@ -126,7 +126,7 @@ export const setWater = (date, target, desiliters) => async dispatch => {
 
 export const createMeal = (values, callback) => async dispatch => {
   try {
-    const res = await axios.post('/api/meals/new', values);
+    const res = await axios.post('/api/meals', values);
     callback();
     dispatch({ type: CREATE_MEAL, payload: res.data.createdMeal });
   } catch (err) {
@@ -149,7 +149,7 @@ export const clearTrendsData = () => dispatch => {
 };
 
 export const updateMeal = (mealId, values, callback) => async dispatch => {
-  const res = await axios.post(`/api/meals/${mealId}`, values);
+  const res = await axios.put(`/api/meals/${mealId}`, values);
   callback();
   dispatch({ type: UPDATE_MEAL, payload: res.data });
 };

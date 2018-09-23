@@ -5,175 +5,164 @@ const moment = require('moment');
 const Water = mongoose.model('waters');
 
 module.exports = app => {
-  app.get('/api/water/target', requireLogin, async (req, res) => {
+  app.get('/api/watertarget', requireLogin, async (req, res) => {
     try {
-      const water = await Water.findOne({ _user: req.user.id }).select(
-        '-__v -_user'
-      );
+      const water = await Water.findOne({ _user: req.user.id });
       if (!water) {
-        // Problems... DB should always have this document for the user
-        return res
+        res
           .status(500)
-          .json({ error: 'No water document for the user!!!' });
+          .json({ error: `No water document for the userid: ${req.user.id}.` });
+      } else {
+        res.status(200).json({ waterTarget: water.defaultTarget });
       }
-
-      return res.status(200).json({ defaultTarget: water.defaultTarget });
     } catch (err) {
-      return res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message });
     }
   });
 
-  app.post('/api/water/target', requireLogin, async (req, res) => {
+  app.put('/api/watertarget', requireLogin, async (req, res) => {
+    const target = req.body.target;
+
+    if (target === undefined || target < 0) {
+      const errorMessage = `Illegal value for property 'target': ${target}.`;
+      return res.status(400).json({ error: errorMessage });
+    }
+
     try {
-      if (req.body.target === undefined || req.body.target < 0) {
-        return res.status(400).json({
-          error: 'Illegal params. Must contain non-negative target.'
-        });
-      }
-
-      const water = await Water.findOne({ _user: req.user.id }).select(
-        '-__v -_user'
-      );
+      const water = await Water.findOne({ _user: req.user.id });
       if (!water) {
-        // Problems... DB should always have this document for the user
-        return res
+        res
           .status(500)
-          .json({ error: 'No water document for the user!!!' });
+          .json({ error: `No water document for the userid: ${req.user.id}.` });
+      } else {
+        water.defaultTarget = target;
+        await water.save();
+        res.status(200).json({ waterTarget: water.defaultTarget });
       }
-
-      water.defaultTarget = req.body.target;
-      await water.save();
-      return res.status(200).json({ message: 'Saved new target value' });
     } catch (err) {
-      return res.status(500).json({ error: err });
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        res.status(400).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: err.message });
+      }
     }
   });
 
   app.get('/api/water', requireLogin, async (req, res) => {
     try {
-      const water = await Water.findOne({ _user: req.user.id }).select(
-        '-__v -_user'
-      );
+      const water = await Water.findOne({ _user: req.user.id });
       if (!water) {
-        // Problems... DB should always have this document for the user
-        return res
+        res
           .status(500)
-          .json({ error: 'No water document for the user!!!' });
+          .json({ error: `No water document for the userid: ${req.user.id}.` });
+      } else {
+        return res.status(200).json(water);
       }
-
-      return res.status(200).json(water);
     } catch (err) {
-      return res.status(500).json({ error: err });
+      return res.status(500).json({ error: err.message });
     }
   });
 
   app.get('/api/water/:day', requireLogin, async (req, res) => {
-    try {
-      const day = req.params.day;
-      if (!moment(day, 'YYYY-MM-DD', true).isValid()) {
-        return res.status(400).json({
-          error:
-            'Illegal day param. Use strictly format YYYY-MM-DD with no time.',
-          day: day
-        });
-      }
-      const water = await Water.findOne({ _user: req.user.id }).select(
-        '-__v -_user'
-      );
+    const day = req.params.day;
 
+    if (!moment(day, 'YYYY-MM-DD', true).isValid()) {
+      const errorMessage = `Illegal value for param day: ${day}. Use strictly format YYYY-MM-DD with no time.`;
+      return res.status(400).json({ error: errorMessage });
+    }
+
+    try {
+      const water = await Water.findOne({ _user: req.user.id });
       if (!water) {
-        // Problems... DB should always have this document for the user
         return res
           .status(500)
-          .json({ error: 'No water document for the user!!!' });
+          .json({ error: `No water document for the userid: ${req.user.id}.` });
       }
 
       const dailyWater = water.dailyWaters.find(dw => {
         return dw.date === day;
       });
 
-      if (dailyWater === null || dailyWater === undefined) {
+      if (!dailyWater) {
         // If there is no dailyWater-document, we respond with zero desiliters
         // AND target value from user's "global" water settings
-        return res
+        res
           .status(200)
           .json({ date: day, desiliters: 0, target: water.defaultTarget });
+      } else {
+        res.status(200).json(dailyWater);
       }
-
-      return res.status(200).json(dailyWater);
     } catch (err) {
-      return res.status(500).json({ error: err });
+      return res.status(500).json({ error: err.message });
     }
   });
 
-  app.post('/api/water/:day', requireLogin, async (req, res) => {
-    try {
-      const day = req.params.day;
-      if (!moment(day, 'YYYY-MM-DD', true).isValid()) {
-        return res.status(400).json({
-          error:
-            'Illegal day param. Use strictly format YYYY-MM-DD with no time.',
-          day: day
-        });
-      }
-      if (
-        req.body.desiliters === undefined ||
-        req.body.target === undefined ||
-        req.body.desiliters < 0 ||
-        req.body.target < 0
-      ) {
-        return res.status(400).json({
-          error:
-            'Illegal params. Must contain non-negative desiliters and target.'
-        });
-      }
+  app.put('/api/water/:day', requireLogin, async (req, res) => {
+    // Validating input values
 
-      const water = await Water.findOne({ _user: req.user.id }).select(
-        '-__v -_user'
-      );
+    const day = req.params.day;
+    const desiliters = req.body.desiliters;
+    const target = req.body.target;
+
+    let errorMessage = null;
+
+    if (!moment(day, 'YYYY-MM-DD', true).isValid()) {
+      errorMessage = `Illegal value for param day: ${day}. Use strictly format YYYY-MM-DD with no time.`;
+    } else if (desiliters === undefined || desiliters < 0) {
+      errorMessage = `Illegal value for property 'desiliters': ${desiliters}.`;
+    } else if (target === undefined || target < 0) {
+      errorMessage = `Illegal value for property 'target': ${target}.`;
+    }
+
+    if (errorMessage) {
+      return res.status(400).json({ error: errorMessage });
+    }
+
+    // Getting water document and updating or creating subdocument
+
+    try {
+      const water = await Water.findOne({ _user: req.user.id });
       if (!water) {
-        // Problems... DB should always have this document for the user
         return res
           .status(500)
-          .json({ error: 'No water document for the user!!!' });
+          .json({ error: `No water document for the userid: ${req.user.id}.` });
       }
 
-      var newWater = {
+      // New values to save
+      var newDailyWater = {
         date: day,
-        desiliters: req.body.desiliters,
-        target: req.body.target
+        desiliters: desiliters,
+        target: target
       };
 
-      const dailyWater = water.dailyWaters.find(dw => {
+      const existingDailyWater = water.dailyWaters.find(dw => {
         return dw.date === day;
       });
-      if (dailyWater === null || dailyWater === undefined) {
+
+      if (!existingDailyWater) {
         // We save new subdocument
-        // Take the day from params
-        water.dailyWaters.push(newWater);
-        await water.save();
-        return res
-          .status(200)
-          .json({ message: 'Saved new daily water', water: dailyWater });
+        water.dailyWaters.push(newDailyWater);
       } else {
+        // Here is the catch... if the update is such that it only has "default-values"
+        // (BOTH desiliters is zero AND target equals default-target), we actually remove
+        // the daily water subdocument.
         if (
-          newWater.desiliters === 0 &&
-          newWater.target === water.defaultTarget
+          newDailyWater.desiliters === 0 &&
+          newDailyWater.target === water.defaultTarget
         ) {
-          // If desiliters is zero and target equals default target,
-          // we remove the document
-          water.dailyWaters.id(dailyWater._id).remove();
+          water.dailyWaters.id(existingDailyWater._id).remove();
         } else {
-          // We overwrite the subdocument
-          Object.assign(dailyWater, newWater);
+          Object.assign(existingDailyWater, newDailyWater);
         }
-        await water.save();
-        return res
-          .status(200)
-          .json({ message: 'Updated daily water', water: dailyWater });
       }
+      await water.save();
+      return res.status(200).json(newDailyWater);
     } catch (err) {
-      return res.status(500).json({ error: err });
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        res.status(400).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: err.message });
+      }
     }
   });
 };

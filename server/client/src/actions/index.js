@@ -31,20 +31,23 @@ export const chooseDate = date => dispatch => {
 };
 
 export const fetchDefaultWaterTarget = () => async dispatch => {
-  const url = '/api/water/target';
+  const url = '/api/watertarget';
   try {
     const res = await axios.get(url);
-    dispatch({ type: FETCH_DEFAULT_WATER_TARGET, payload: res.data });
+    dispatch({
+      type: FETCH_DEFAULT_WATER_TARGET,
+      payload: { defaultTarget: res.data.waterTarget }
+    });
   } catch (err) {
     dispatch({ type: FETCH_DEFAULT_WATER_TARGET, payload: null });
   }
 };
 
 export const setDefaultWaterTarget = target => async dispatch => {
-  const url = '/api/water/target';
+  const url = '/api/watertarget';
   const body = { target };
   try {
-    await axios.post(url, body);
+    await axios.put(url, body);
     dispatch({
       type: FETCH_DEFAULT_WATER_TARGET,
       payload: { defaultTarget: target }
@@ -87,7 +90,7 @@ export const fetchMeal = mealId => async dispatch => {
 };
 
 export const initNewMeal = date => dispatch => {
-  dispatch({ type: FETCH_MEAL, payload: { name: '', date, ingredients: [] }});
+  dispatch({ type: FETCH_MEAL, payload: { name: '', date, ingredients: [] } });
 };
 
 export const deleteMeal = mealId => async dispatch => {
@@ -117,7 +120,7 @@ export const setWater = (date, target, desiliters) => async dispatch => {
   const url = '/api/water/' + day;
   const body = { desiliters, target };
   try {
-    await axios.post(url, body);
+    await axios.put(url, body);
     dispatch({ type: FETCH_DAILY_WATER, payload: { target, desiliters } });
   } catch (err) {
     dispatch({ type: FETCH_DAILY_WATER, payload: null });

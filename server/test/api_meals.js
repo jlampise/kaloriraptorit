@@ -11,25 +11,30 @@ const assert = chai.assert;
 chai.should();
 chai.use(chaiHttp);
 
-// Will not close the server automatically
-const agent = chai.request.agent(app);
-
-// We need one meal to test update, delete
-let testMealMongoId = 0;
+async function cleanUpMealDb() {
+  console.log('Cleaning up Meal database.');
+  // Finding all the meals of the test user and deleting them.
+  const user = await User.findOne({ googleId: testUser.id });
+  await Meal.deleteMany({ _user: user._id });
+}
 
 describe('/api/meals', () => {
+  const agent = chai.request.agent(app);
+  let testMealMongoId = 0;
+
   before(done => {
-    agent.get('/auth/google').end(() => {
+    console.log('Logging in as a testUser.');
+    agent.get('/auth/google').end(async () => {
+      await cleanUpMealDb();
       done();
-    });
+    }); 
   });
 
   after(done => {
+    console.log('Logging out. Closing agent.');
     agent.get('/api/logout').end(async (err, res) => {
       agent.close();
-      // Finding all the meals of the test user and deleting them
-      const users = await User.find({ googleId: testUser.id });
-      await Meal.deleteMany({ _user: users[0]._id });
+      await cleanUpMealDb();
       done();
     });
   });
@@ -74,7 +79,7 @@ describe('/api/meals', () => {
           res.body.should.be.a('object');
           res.body.name.should.be.a('string');
           res.body.date.should.be.a('string');
-          res.body.ingredients.should.be.a('array');  
+          res.body.ingredients.should.be.a('array');
           // Taking this id for update and delete testing
           testMealMongoId = res.body._id;
           done();
@@ -94,7 +99,7 @@ describe('/api/meals', () => {
           res.body.should.be.a('object');
           res.body.name.should.be.a('string');
           res.body.date.should.be.a('string');
-          res.body.ingredients.should.be.a('array');  
+          res.body.ingredients.should.be.a('array');
           done();
         });
     });
@@ -113,7 +118,7 @@ describe('/api/meals', () => {
           res.body.should.be.a('object');
           res.body.name.should.be.a('string');
           res.body.date.should.be.a('string');
-          res.body.ingredients.should.be.a('array');  
+          res.body.ingredients.should.be.a('array');
           res.body.should.not.have.property('additional');
           done();
         });
@@ -142,7 +147,7 @@ describe('/api/meals', () => {
           res.body.should.be.a('object');
           res.body.name.should.be.a('string');
           res.body.date.should.be.a('string');
-          res.body.ingredients.should.be.a('array');  
+          res.body.ingredients.should.be.a('array');
           res.body.ingredients[0].should.not.have.property('additional');
           done();
         });
@@ -448,7 +453,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('success with query param \'after\'', done => {
+    it("success with query param 'after'", done => {
       agent.get('/api/meals?after=2018-05-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -459,7 +464,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('success with query param \'before\'', done => {
+    it("success with query param 'before'", done => {
       agent.get('/api/meals?before=2018-03-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -471,14 +476,16 @@ describe('/api/meals', () => {
       });
     });
     it('success: ignores query params with malformed values', done => {
-      agent.get('/api/meals?before=2018-0sdf3-02&after=adsuef').end((err, res) => {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.should.be.a('object');
-        res.body.count.should.be.a('number');
-        res.body.meals.should.be.a('array');
-        done();
-      });
+      agent
+        .get('/api/meals?before=2018-0sdf3-02&after=adsuef')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.count.should.be.a('number');
+          res.body.meals.should.be.a('array');
+          done();
+        });
     });
   });
 

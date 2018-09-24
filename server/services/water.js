@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Water = mongoose.model('waters');
-const moment = require('moment');
+const isProperDayFormat = require('../models/validators/isProperDayFormat');
 
 async function getWaters(req, res) {
   try {
@@ -22,17 +22,16 @@ async function getWaters(req, res) {
 async function getDailyWater(req, res) {
   const day = req.params.day;
 
-  if (!moment(day, 'YYYY-MM-DD', true).isValid()) {
-    const errorMessage = `Illegal value for param day: ${day}. Use strictly format YYYY-MM-DD with no time.`;
-    return res.status(400).json({ error: errorMessage });
-  }
-
   try {
+    if (!isProperDayFormat(day)) {
+      let e = new Error(`Illegal value for param day: ${day}.`);
+      e.name = 'ValidationError';
+      throw e;
+    }
+
     const water = await Water.findOne({ _user: req.user.id });
     if (!water) {
-      return res
-        .status(500)
-        .json({ error: `No water document for the userid: ${req.user.id}.` });
+      throw new Error('Internal Error');
     }
 
     const dailyWater = water.dailyWaters.find(dw => {
@@ -49,50 +48,32 @@ async function getDailyWater(req, res) {
       res.status(200).json(dailyWater);
     }
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    if (err.name === 'ValidationError' || err.name === 'CastError') {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: err.message });
+    }
   }
 }
 
 async function updateDailyWater(req, res) {
-  // Validating input values
-
-  const day = req.params.day;
-  const desiliters = req.body.desiliters;
-  const target = req.body.target;
-
-  let errorMessage = null;
-
-  if (!moment(day, 'YYYY-MM-DD', true).isValid()) {
-    errorMessage = `Illegal value for param day: ${day}. Use strictly format YYYY-MM-DD with no time.`;
-  } else if (desiliters === undefined || desiliters < 0) {
-    errorMessage = `Illegal value for property 'desiliters': ${desiliters}.`;
-  } else if (target === undefined || target < 0) {
-    errorMessage = `Illegal value for property 'target': ${target}.`;
-  }
-
-  if (errorMessage) {
-    return res.status(400).json({ error: errorMessage });
-  }
+  // New values to save
+  var newDailyWater = {
+    date: req.params.day,
+    desiliters: req.body.desiliters,
+    target: req.body.target
+  };
 
   // Getting water document and updating or creating subdocument
 
   try {
     const water = await Water.findOne({ _user: req.user.id });
     if (!water) {
-      return res
-        .status(500)
-        .json({ error: `No water document for the userid: ${req.user.id}.` });
+      throw new Error('Internal Error');
     }
 
-    // New values to save
-    var newDailyWater = {
-      date: day,
-      desiliters: desiliters,
-      target: target
-    };
-
     const existingDailyWater = water.dailyWaters.find(dw => {
-      return dw.date === day;
+      return dw.date === newDailyWater.date;
     });
 
     if (!existingDailyWater) {

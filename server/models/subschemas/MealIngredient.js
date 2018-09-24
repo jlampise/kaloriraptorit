@@ -5,11 +5,11 @@ const { Schema } = mongoose;
 
 const mealIngredientSchema = new Schema({
   name: { type: String, required: true },
-  mass: { type: Number, required: true },
-  kcal: { type: Number, required: true },
-  protein: { type: Number, required: true },
-  carbohydrate: { type: Number, required: true },
-  fat: { type: Number, required: true }
+  mass: { type: Number, required: true, min: 0 },
+  kcal: { type: Number, required: true, min: 0 },
+  protein: { type: Number, required: true, min: 0 },
+  carbohydrate: { type: Number, required: true, min: 0 },
+  fat: { type: Number, required: true, min: 0 }
 });
 
 module.exports = mealIngredientSchema;

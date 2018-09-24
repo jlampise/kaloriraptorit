@@ -17,12 +17,6 @@ async function getWaterTarget(req, res, next) {
 
 async function updateWaterTarget(req, res, next) {
   const target = req.body.target;
-
-  if (target === undefined || target < 0) {
-    const errorMessage = `Illegal value for property 'target': ${target}.`;
-    return res.status(400).json({ error: errorMessage });
-  }
-
   try {
     const water = await Water.findOne({ _user: req.user.id });
     if (!water) {

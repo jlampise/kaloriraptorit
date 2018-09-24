@@ -1,26 +1,27 @@
+'use strict';
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
+const app = express();
+
+// Create models and setup db
 require('./models/User');
 require('./models/Meal');
 require('./models/Water');
 require('./services/passport');
-
-const routes = require('./routes');
-
+mongoose.set('useCreateIndex', true);
 mongoose.connect(
   keys.mongoURI,
   {
-    useNewUrlParser: true }
+    useNewUrlParser: true
+  }
 );
 
-mongoose.set('useCreateIndex', true);
-
-const app = express();
-
+// Setup middleware
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -31,10 +32,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Setup routes
+const routes = require('./routes');
 routes.init(app);
 
-
-
+// Setup production-only routing
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets
   // like our main.js, or main.css file

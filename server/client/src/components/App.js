@@ -32,16 +32,6 @@ class App extends Component {
     this.props.fetchUser();
   }
 
-  isLoggedIn() {
-    if (this.props.auth === null) {
-      return false;
-    } else if (this.props.auth === false) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   render() {
     return (
       <div className="container-fluid">
@@ -63,7 +53,4 @@ class App extends Component {
   }
 }
 
-function mapsStateToProps({ auth }) {
-  return { auth };
-}
-export default connect(mapsStateToProps, actions)(App);
+export default connect(null, actions)(App);

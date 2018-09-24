@@ -1,11 +1,15 @@
 'use strict';
 
-const requireLogin = require('../../middlewares/requireLogin');
 const router = require('express').Router();
+const requireLogin = require('../../middlewares/requireLogin');
+const handleError = require('../../middlewares/handleError');
 const services = require('../../services/watertarget');
 
-router.get('/', requireLogin, services.getWaterTarget);
+router.use(requireLogin);
 
+router.get('/', requireLogin, services.getWaterTarget);
 router.put('/', requireLogin, services.updateWaterTarget);
+
+router.use(handleError);
 
 module.exports = router;

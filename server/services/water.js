@@ -4,22 +4,19 @@ const mongoose = require('mongoose');
 const Water = mongoose.model('waters');
 const isProperDayFormat = require('../models/validators/isProperDayFormat');
 
-async function getWaters(req, res) {
+async function getWaters(req, res, next) {
   try {
     const water = await Water.findOne({ _user: req.user.id });
     if (!water) {
-      res
-        .status(500)
-        .json({ error: `No water document for the userid: ${req.user.id}.` });
-    } else {
-      return res.status(200).json(water);
+      throw new Error('Internal Error');
     }
+    res.status(200).json(water);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    next(err);
   }
 }
 
-async function getDailyWater(req, res) {
+async function getDailyWater(req, res, next) {
   const day = req.params.day;
 
   try {
@@ -48,15 +45,11 @@ async function getDailyWater(req, res) {
       res.status(200).json(dailyWater);
     }
   } catch (err) {
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      res.status(400).json({ error: err.message });
-    } else {
-      res.status(500).json({ error: err.message });
-    }
+    next(err);
   }
 }
 
-async function updateDailyWater(req, res) {
+async function updateDailyWater(req, res, next) {
   // New values to save
   var newDailyWater = {
     date: req.params.day,
@@ -95,11 +88,7 @@ async function updateDailyWater(req, res) {
     await water.save();
     return res.status(200).json(newDailyWater);
   } catch (err) {
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      res.status(400).json({ error: err.message });
-    } else {
-      res.status(500).json({ error: err.message });
-    }
+    next(err);
   }
 }
 

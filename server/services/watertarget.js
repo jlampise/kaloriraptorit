@@ -3,22 +3,19 @@
 const mongoose = require('mongoose');
 const Water = mongoose.model('waters');
 
-async function getWaterTarget(req, res) {
+async function getWaterTarget(req, res, next) {
   try {
     const water = await Water.findOne({ _user: req.user.id });
     if (!water) {
-      res
-        .status(500)
-        .json({ error: `No water document for the userid: ${req.user.id}.` });
-    } else {
-      res.status(200).json({ waterTarget: water.defaultTarget });
+      throw new Error('Internal Error');
     }
+    res.status(200).json({ waterTarget: water.defaultTarget });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 }
 
-async function updateWaterTarget(req, res) {
+async function updateWaterTarget(req, res, next) {
   const target = req.body.target;
 
   if (target === undefined || target < 0) {
@@ -29,20 +26,13 @@ async function updateWaterTarget(req, res) {
   try {
     const water = await Water.findOne({ _user: req.user.id });
     if (!water) {
-      res
-        .status(500)
-        .json({ error: `No water document for the userid: ${req.user.id}.` });
-    } else {
-      water.defaultTarget = target;
-      await water.save();
-      res.status(200).json({ waterTarget: water.defaultTarget });
+      throw new Error('Internal Error');
     }
+    water.defaultTarget = target;
+    await water.save();
+    res.status(200).json({ waterTarget: water.defaultTarget });
   } catch (err) {
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      res.status(400).json({ error: err.message });
-    } else {
-      res.status(500).json({ error: err.message });
-    }
+    next(err);
   }
 }
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const DailyWaterSchema = require('./DailyWater');
+const DailyWaterSchema = require('./subschemas/DailyWater');
 
 const waterSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,

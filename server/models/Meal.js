@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const MealIngredientSchema = require('./MealIngredient');
+const MealIngredientSchema = require('./subschemas/MealIngredient');
 
 const mealSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,

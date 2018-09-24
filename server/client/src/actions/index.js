@@ -158,6 +158,6 @@ export const updateMeal = (mealId, values, callback) => async dispatch => {
 };
 
 export const searchIngredients = query => async dispatch => {
-  const res = await axios.get(`/api/fineli/foods?q=${query}`);
+  const res = await axios.get(`/api/ingredients?q=${query}`);
   dispatch({ type: FETCH_INGREDIENTS, payload: res.data });
 };

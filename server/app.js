@@ -9,6 +9,8 @@ require('./models/Meal');
 require('./models/Water');
 require('./services/passport');
 
+const routes = require('./routes');
+
 mongoose.connect(
   keys.mongoURI,
   {
@@ -29,10 +31,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/authRoutes')(app);
-require('./routes/mealRoutes')(app);
-require('./routes/ingredientRoutes')(app);
-require('./routes/waterRoutes')(app);
+routes.init(app);
 
 
 

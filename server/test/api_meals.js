@@ -27,7 +27,7 @@ describe('/api/meals', () => {
     agent.get('/auth/google').end(async () => {
       await cleanUpMealDb();
       done();
-    }); 
+    });
   });
 
   after(done => {
@@ -255,7 +255,7 @@ describe('/api/meals', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
-          assert(res.body.ingredients[0].mass === 666);
+          assert.equal(res.body.ingredients[0].mass, 666);
           done();
         });
     });
@@ -453,7 +453,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it("success with query param 'after'", done => {
+    it('success with query param "after"', done => {
       agent.get('/api/meals?after=2018-05-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -464,7 +464,7 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it("success with query param 'before'", done => {
+    it('success with query param "before"', done => {
       agent.get('/api/meals?before=2018-03-02').end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;

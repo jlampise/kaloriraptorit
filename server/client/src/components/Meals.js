@@ -203,11 +203,10 @@ class Meals extends Component {
 
         <div
           id={`${meal._id}`}
-          class="panel-collapse collapse"
+          className="panel-collapse collapse"
           role="tabpanel"
-          aria-expanded="false"
         >
-          <div class="panel-body">
+          <div className="panel-body">
             <div className="col-xs-12 col-md-8">
               {_.map(_.sortBy(meal.ingredients, ['name']), ingredient => {
                 return this.renderIngredientRow(ingredient);

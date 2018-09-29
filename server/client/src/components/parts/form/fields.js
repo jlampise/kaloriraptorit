@@ -112,10 +112,10 @@ export const renderIngredients = function({
                       </div>
                       <div
                         id={`${index}`}
-                        class="panel-collapse collapse"
+                        className="panel-collapse collapse"
                         role="tabpanel"
                       >
-                        <div class="panel-body">
+                        <div className="panel-body">
                           <Field
                             name={`${ingredient}.kcal`}
                             type="text"

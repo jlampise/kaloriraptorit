@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/lib/connect/connect';
-import {
-  Button,
-  ToggleButton,
-  ToggleButtonGroup,
-  Grid,
-  OverlayTrigger,
-  Popover,
-  Glyphicon
-} from 'react-bootstrap';
+import { DateTimePicker } from 'react-widgets';
 import {
   clearTrendsData,
   fetchTrendsWater,
@@ -27,7 +19,6 @@ import {
   Tooltip,
   Legend
 } from 'recharts';
-import { DateRange } from 'react-date-range';
 import '../css/trends.css';
 
 const WATER = 'water';
@@ -44,7 +35,9 @@ class Trends extends Component {
       startDate: new Date(),
       endDate: new Date(),
       gotData: false,
-      toggles: []
+      showWater: false,
+      showMacros: false,
+      showEnergy: false
     };
   }
 
@@ -53,7 +46,13 @@ class Trends extends Component {
   }
 
   handleToggles(e) {
-    this.setState({ toggles: e });
+    if (e.target.value === WATER) {
+      this.setState({ showWater: !this.state.showWater });
+    } else if (e.target.value === ENERGY) {
+      this.setState({ showEnergy: !this.state.showEnergy });
+    } else if (e.target.value === MACRO) {
+      this.setState({ showMacros: !this.state.showMacros });
+    }
   }
 
   fetchTrendsData() {
@@ -146,11 +145,7 @@ class Trends extends Component {
   renderEnergyChart(chartData) {
     // Energy is in its own chart because it has unit of kcal. The chart is
     // shown only if ENERGY is activated.
-    if (
-      this.state.toggles.find(e => {
-        return e === ENERGY;
-      })
-    ) {
+    if (this.state.showEnergy) {
       return (
         <ResponsiveContainer width="100%" aspect={3}>
           <LineChart
@@ -172,11 +167,7 @@ class Trends extends Component {
   renderMacronutrientChart(chartData) {
     // Macronutrients are in their own chart because they have unit of grams.
     // The chart is shown only if MACRO is activated
-    if (
-      this.state.toggles.find(e => {
-        return e === MACRO;
-      })
-    ) {
+    if (this.state.showMacros) {
       return (
         <ResponsiveContainer width="100%" aspect={3}>
           <LineChart
@@ -215,11 +206,7 @@ class Trends extends Component {
   renderWaterChart(chartData) {
     // Water is in its own chart because it has unit of desiliter. The chart
     // is shown only if WATER is activated
-    if (
-      this.state.toggles.find(e => {
-        return e === WATER;
-      })
-    ) {
+    if (this.state.showWater) {
       return (
         <ResponsiveContainer width="100%" aspect={3}>
           <LineChart
@@ -238,97 +225,57 @@ class Trends extends Component {
     }
   }
 
-  handleSelect(range) {
+  setStartDate(date) {
     this.props.clearTrendsData();
-    this.setState({ gotData: false });
-    this.setState({ startDate: range.startDate.toDate() });
-    this.setState({ endDate: range.endDate.toDate() });
+    this.setState({ startDate: date, gotData: false });
   }
 
-  datepickerOverlay(onChange) {
-    return (
-      <Popover id="calendar" title="Choose date range">
-        <DateRange onInit={onChange} onChange={onChange} />
-      </Popover>
-    );
+  setEndDate(date) {
+    this.props.clearTrendsData();
+    this.setState({ endDate: date, gotData: false });
   }
 
   validDateRange() {
     return (
       this.state.startDate &&
       this.state.endDate &&
+      this.state.endDate > this.state.startDate &&
       !moment(this.state.startDate).isSame(moment(this.state.endDate), 'day')
     );
   }
 
   renderDateRangeButton() {
     return (
-      <OverlayTrigger
-        trigger={['click']}
-        placement="bottom"
-        overlay={this.datepickerOverlay(this.handleSelect.bind(this))}
-      >
-        <Button className="btn-set-range">
-          <Glyphicon glyph="calendar" />
-        </Button>
-      </OverlayTrigger>
+      <div>
+        <DateTimePicker
+          value={this.state.startDate}
+          onChange={value => this.setStartDate(value)}
+        />
+        <DateTimePicker
+          value={this.state.endDate}
+          onChange={value => this.setEndDate(value)}
+        />
+      </div>
     );
   }
 
-  loadButtonPopover(text) {
-    if (text === null) {
-      return;
-    } else {
-      return <Popover id="loadButton">{text}</Popover>;
-    }
-  }
   renderLoadButton() {
-    // This is ugly, but popover was very hard to get working as intended,
-    // so we handle this active button -case separately (without OverlayTrigger)
-    // which finally fixes most of the problems.
-    if (!this.state.gotData && this.validDateRange()) {
-      return (
-        <Button
-          className="btn-load-data"
-          bsStyle="primary"
-          onClick={this.fetchTrendsData.bind(this)}
-        >
-          <Glyphicon glyph="download" />
-        </Button>
-      );
+    const disabled = this.state.gotData || !this.validDateRange();
+    let glyph = '';
+    if (this.state.gotData) {
+      glyph = 'fas fa-check-circle';
     } else {
-      // And here, the Popover barely works... we need additional <span> to
-      // wrap the button. The clicking has to happen in quite center of the
-      // button for this to work.
-      var glyphStr = '';
-      var loadTooltipTxt = '';
-      if (this.state.gotData) {
-        glyphStr = 'ok';
-        loadTooltipTxt = 'Data is already loaded for given date range.';
-      } else {
-        glyphStr = 'download';
-        loadTooltipTxt = 'You must choose date range first.';
-      }
-      return (
-        <OverlayTrigger
-          trigger={['click']}
-          rootClose
-          placement="bottom"
-          overlay={<Popover id="loadButton">{loadTooltipTxt}</Popover>}
-        >
-          <span>
-            <Button
-              className="btn-load-data"
-              bsStyle="primary"
-              onClick={this.fetchTrendsData.bind(this)}
-              disabled
-            >
-              <Glyphicon glyph={glyphStr} />
-            </Button>
-          </span>
-        </OverlayTrigger>
-      );
+      glyph = 'fas fa-download';
     }
+    return (
+      <button
+        className="btn btn-primary btn-load-data"
+        onClick={this.fetchTrendsData.bind(this)}
+        disabled={disabled}
+      >
+        <i className={glyph} />
+      </button>
+    );
   }
 
   renderDateAndControls() {
@@ -339,35 +286,55 @@ class Trends extends Component {
         ' - ' +
         moment(this.state.endDate).format('DD.MM.YYYY');
     } else {
-      header += 'Range not set';
+      header += 'Valid range not set';
     }
 
     return (
-      <Grid>
+      <div>
         <h3>{header}</h3>
         {this.renderDateRangeButton()}
         {this.renderLoadButton()}
-      </Grid>
+      </div>
     );
   }
 
   renderChartToggles() {
     return (
-      <Grid>
+      <div>
         <h4>Charts to show</h4>
-        <ToggleButtonGroup
-          justified
-          bsSize="xsmall"
-          type="checkbox"
-          value={this.state.toggles}
-          onChange={this.handleToggles}
-          className="btn-chart-toggle"
-        >
-          <ToggleButton value={ENERGY}>Energy</ToggleButton>
-          <ToggleButton value={MACRO}>Macros</ToggleButton>
-          <ToggleButton value={WATER}>Water</ToggleButton>
-        </ToggleButtonGroup>
-      </Grid>
+        <div>
+          <label>
+            <input
+              value={ENERGY}
+              name="showEnergy"
+              type="checkbox"
+              checked={this.state.showEnergy}
+              onChange={this.handleToggles}
+            />
+            Energy
+          </label>
+          <label>
+            <input
+              value={MACRO}
+              name="showMacros"
+              type="checkbox"
+              checked={this.state.showMacros}
+              onChange={this.handleToggles}
+            />
+            Macronutrients
+          </label>
+          <label>
+            <input
+              value={WATER}
+              name="showWater"
+              type="checkbox"
+              checked={this.state.showWater}
+              onChange={this.handleToggles}
+            />
+            Water
+          </label>
+        </div>
+      </div>
     );
   }
 
@@ -390,11 +357,11 @@ class Trends extends Component {
 
   render() {
     return (
-      <Grid>
+      <div className="container">
         {this.renderDateAndControls()}
         {this.renderChartToggles()}
         {this.renderCharts()}
-      </Grid>
+      </div>
     );
   }
 }
@@ -402,8 +369,11 @@ class Trends extends Component {
 function mapStateToProps({ trends }) {
   return { trends };
 }
-export default connect(mapStateToProps, {
-  clearTrendsData,
-  fetchTrendsWater,
-  fetchTrendsMeals
-})(Trends);
+export default connect(
+  mapStateToProps,
+  {
+    clearTrendsData,
+    fetchTrendsWater,
+    fetchTrendsMeals
+  }
+)(Trends);

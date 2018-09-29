@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import '../css/navbar.css';
 
 class Header extends Component {
@@ -21,55 +20,72 @@ class Header extends Component {
   renderAuthNav() {
     if (this.isLoadingAuth()) {
       return null;
-    } else if (!this.isLoggedIn()) {
+    } else {
       return (
-        <Nav pullRight>
-          <NavItem href="/auth/google">Login with Google</NavItem>
-        </Nav>
+        <ul className="nav navbar-nav navbar-right">
+          <li>
+            <a href={this.isLoggedIn() ? '/api/logout' : '/auth/google'}>
+              {this.isLoggedIn() ? 'Logout' : 'Login with Google'}
+            </a>
+          </li>
+        </ul>
       );
     }
-    return (
-      <Nav pullRight>
-        <NavItem href="/api/logout">
-          Logout: {this.props.auth.data.name}
-        </NavItem>
-      </Nav>
-    );
   }
 
   renderFeaturesNav() {
-    return (
-      <div>
-        {this.isLoggedIn() ? (
-          <Nav>
-            <NavItem componentClass={Link} href="/meals" to="/meals">
-              My Meals
-            </NavItem>
-            <NavItem componentClass={Link} href="/trends" to="/trends">
-              My Trends
-            </NavItem>
-            <NavItem componentClass={Link} href="/meals/new" to="/meals/new">
-              New Meal
-            </NavItem>
-          </Nav>
-        ) : null}
-      </div>
-    );
+    if (this.isLoggedIn()) {
+      return (
+        <ul className="nav navbar-nav">
+          <li>
+            <Link to="/meals">My Meals</Link>
+          </li>
+          <li>
+            <Link to="/trends">My Trends</Link>
+          </li>
+          <li>
+            <Link to="/meals/new">New Meal</Link>
+          </li>
+        </ul>
+      );
+    } else {
+      return <ul />;
+    }
   }
+
   render() {
     return (
-      <Navbar collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <Link to={this.isLoggedIn() ? '/meals' : '/'}>KaloriRaptorit</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          {this.renderFeaturesNav()}
-          {this.renderAuthNav()}
-        </Navbar.Collapse>
-      </Navbar>
+      <nav className="navbar navbar-default">
+        <div className="container-fluid">
+          <div className="navbar-header">
+            <button
+              type="button"
+              className="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false"
+            >
+              <span className="sr-only">Toggle navigation</span>
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+            </button>
+            <div className="navbar-brand" href="#">
+              <Link to={this.isLoggedIn() ? '/meals' : '/'}>
+                KaloriRaptorit
+              </Link>
+            </div>
+          </div>
+
+          <div
+            className="collapse navbar-collapse"
+            id="bs-example-navbar-collapse-1"
+          >
+            {this.renderFeaturesNav()}
+            {this.renderAuthNav()}
+          </div>
+        </div>
+      </nav>
     );
   }
 }
@@ -78,4 +94,7 @@ function mapsStateToProps({ auth, date }) {
   return { auth, date };
 }
 
-export default connect(mapsStateToProps, null)(Header);
+export default connect(
+  mapsStateToProps,
+  null
+)(Header);

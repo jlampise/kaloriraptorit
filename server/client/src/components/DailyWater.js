@@ -56,9 +56,9 @@ class DailyWater extends Component {
       return (
         <div className="row">
           <div className="progress">
-            <div class="progress">
+            <div className="progress">
               <div
-                class="progress-bar progress-bar-striped bg-info"
+                className="progress-bar progress-bar-striped"
                 role="progressbar"
                 style={style}
               />

@@ -4,12 +4,7 @@ import moment from 'moment';
 import { DateTimePicker } from 'react-widgets';
 import momentLocaliser from 'react-widgets-moment';
 import 'react-widgets/dist/css/react-widgets.css';
-import {
-  Panel,
-  Glyphicon
-} from 'react-bootstrap';
 momentLocaliser(moment);
-
 
 //field parameter handles all events properties for Field component
 export const renderField = function(field) {
@@ -51,7 +46,11 @@ export const renderDateField = function(field) {
         {...field.input}
         onChange={field.input.onChange}
         time={field.showTime}
-        value={!field.input.value ? new Date(field.date) : new Date(field.input.value)}
+        value={
+          !field.input.value
+            ? new Date(field.date)
+            : new Date(field.input.value)
+        }
       />
 
       <div className="help-block">{touched ? error : ''}</div>
@@ -79,11 +78,9 @@ export const renderIngredients = function({
           return (
             <li key={index}>
               <h4>{`Ingredient #${fields.length - index} `}</h4>
-              
+
               <div className="row ingredient">
-               
                 <div className="col-sm-12">
-                  
                   <div className="row">
                     <Field
                       name={`${ingredient}.name`}
@@ -103,12 +100,22 @@ export const renderIngredients = function({
                     />
                   </div>
                   <div className="row">
-                    <Panel  bsStyle="success">
-                      <Panel.Heading>
-                        <Panel.Toggle>Edit nutritions (per 100g) </Panel.Toggle>
-                      </Panel.Heading>
-                      <Panel.Collapse>
-                        <Panel.Body>
+                    <div className="panel panel-default">
+                      <div className="panel-heading">
+                        <a
+                          role="button"
+                          data-toggle="collapse"
+                          href={`#${index}`}
+                        >
+                          Edit nutritions (per 100g)
+                        </a>
+                      </div>
+                      <div
+                        id={`${index}`}
+                        class="panel-collapse collapse"
+                        role="tabpanel"
+                      >
+                        <div class="panel-body">
                           <Field
                             name={`${ingredient}.kcal`}
                             type="text"
@@ -141,28 +148,26 @@ export const renderIngredients = function({
                             label="Carbohydrate"
                             size="col-xs-6 col-sm-2 col-md-2"
                           />
-                        </Panel.Body>
-                      </Panel.Collapse>
-                    </Panel>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  <button
+                    className="btn btn-danger remove-ingredient"
+                    type="button"
+                    title="Remove ingredient"
+                    onClick={() => fields.remove(index)}
+                  >
+                    <i className="fa fa-times" />
+                  </button>
                 </div>
-                <button
-                  className="btn btn-danger remove-ingredient"
-                  type="button"
-                  title="Remove ingredient"
-                  onClick={() => fields.remove(index)}
-                >
-                  <Glyphicon glyph="remove" />
-                </button>
               </div>
             </li>
           );
         })}
       </ul>
       <div className="row ingredient-actions">
-        <div className="col-sm-6">
-   
-        </div>
+        <div className="col-sm-6" />
       </div>
     </div>
   );

@@ -1,13 +1,7 @@
-.btn-meals-date {
-  width: 40px;
-}
-
-.btn-calendar {
-  width: 40px;
-}
-
-.btn-show-more {
-  width: 40px;
+.panel-new-meal {
+  font-size: 16;
+  font-weight: bold;
+  text-align: center;
 }
 
 .btn-meal-list {

@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import {
-  Panel,
-  Grid,
-  Row,
-  Col,
-  Button,
-  ButtonToolbar,
-  Popover,
-  OverlayTrigger,
-  Glyphicon
-} from 'react-bootstrap';
 import _ from 'lodash';
 import DailyWater from './DailyWater';
 import { Link } from 'react-router-dom';
@@ -22,7 +11,6 @@ import {
   deleteMeal,
   chooseDate
 } from '../actions';
-import { Calendar } from 'react-date-range';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import '../css/meals.css';
 
@@ -79,84 +67,65 @@ class Meals extends Component {
     await this.props.fetchDailyMeals(this.props.date);
   }
 
-  datepickerOverlay(onChange) {
-    return (
-      <Popover id="calendar" title="Choose a date">
-        <Calendar onChange={onChange} />
-      </Popover>
-    );
-  }
-
   renderDateAndControls() {
     const dateString =
       'My Meals: ' + moment(this.props.date).format('ddd, DD of MMM YYYY');
 
     return (
-      <Grid>
+      <div>
         <h3>{dateString}</h3>
-        <ButtonToolbar>
-          <Button
-            bsSize="small"
-            onClick={this.decrementDate.bind(this)}
-            className="btn-meals-date"
-          >
-            <Glyphicon glyph="chevron-left" />
-          </Button>
-          <Button
-            bsSize="small"
-            onClick={this.incrementDate.bind(this)}
-            className="btn-meals-date"
-          >
-            <Glyphicon glyph="chevron-right" />
-          </Button>
+        <button
+          className="btn btn-default btn-small btn-meals-date"
+          onClick={this.decrementDate.bind(this)}
+        >
+          <i className="fas fa-chevron-left" />
+        </button>
+        <button
+          className="btn btn-default btn-small btn-meals-date"
+          onClick={this.incrementDate.bind(this)}
+        >
+          <i className="fas fa-chevron-right" />
+        </button>
 
-          <OverlayTrigger
-            trigger={['click']}
-            placement="bottom"
-            overlay={this.datepickerOverlay(this.chooseDate.bind(this))}
-          >
-            <Button bsSize="small" className="btn-calendar">
-              <Glyphicon glyph="calendar" />
-            </Button>
-          </OverlayTrigger>
-          <Button
-            bsSize="small"
-            onClick={this.toggleShowMore.bind(this)}
-            className="btn-show-more"
-          >
-            <Glyphicon glyph="edit" />
-          </Button>
-        </ButtonToolbar>
-      </Grid>
+        <button
+          className="btn btn-default btn-sm btn-show-more"
+          onClick={this.toggleShowMore.bind(this)}
+        >
+          <i className="fas fa-edit" />
+        </button>
+      </div>
     );
   }
 
   renderIngredientRow(ingredient) {
     return (
-      <Row key={ingredient._id}>
-        <Col className="col-ingredient" xs={9} sm={4}>
+      <div className="row" key={ingredient._id}>
+        <div className="col-xs-9 col-sm-4 col-ingredient">
           {ingredient.name}
-        </Col>
-        <Col className="col-mass" xs={3} sm={3}>
+        </div>
+        <div className="col-xs-3 col-sm 3 col-mass">
           {ingredient.mass.toFixed(NUM_OF_DECIMALS)}g
-        </Col>
-        <Col className="col-ch" xs={3} sm={1}>
-          {(ingredient.carbohydrate * ingredient.mass / 100).toFixed(
+        </div>
+        <div className="col-xs-3 col-sm-1 col-ch">
+          {((ingredient.carbohydrate * ingredient.mass) / 100).toFixed(
             NUM_OF_DECIMALS
-          )}g
-        </Col>
-        <Col className="col-fat" xs={3} sm={1}>
-          {(ingredient.fat * ingredient.mass / 100).toFixed(NUM_OF_DECIMALS)}g
-        </Col>
-        <Col className="col-protein" xs={3} sm={1}>
-          {(ingredient.protein * ingredient.mass / 100).toFixed(
+          )}
+          g
+        </div>
+        <div className="col-xs-3 col-xs-1 col-fat">
+          {((ingredient.fat * ingredient.mass) / 100).toFixed(NUM_OF_DECIMALS)}g
+        </div>
+        <div className="col-xs-3 col-sm-1 col-protein">
+          {((ingredient.protein * ingredient.mass) / 100).toFixed(
             NUM_OF_DECIMALS
-          )}g
-        </Col>
-        <Col className="col-kcal" xs={3} sm={2}>
-          {(ingredient.kcal * ingredient.mass / 100).toFixed(NUM_OF_DECIMALS)}kcal
-        </Col>
-      </Row>
+          )}
+          g
+        </div>
+        <div className="col-xs-3 col-sm-2 col-kcal">
+          {((ingredient.kcal * ingredient.mass) / 100).toFixed(NUM_OF_DECIMALS)}
+          kcal
+        </div>
+      </div>
     );
   }
 
@@ -165,9 +134,9 @@ class Meals extends Component {
     var fat = 0;
     var protein = 0;
     _.map(meal.ingredients, ingredient => {
-      carbohydrate += ingredient.carbohydrate * ingredient.mass / 100;
-      fat += ingredient.fat * ingredient.mass / 100;
-      protein += ingredient.protein * ingredient.mass / 100;
+      carbohydrate += (ingredient.carbohydrate * ingredient.mass) / 100;
+      fat += (ingredient.fat * ingredient.mass) / 100;
+      protein += (ingredient.protein * ingredient.mass) / 100;
     });
     const data = [
       { name: 'Carbohydrate', value: Math.round(carbohydrate * 10) / 10 },
@@ -201,50 +170,55 @@ class Meals extends Component {
     const timeStr = moment(meal.date).format('HH:mm');
     var energy = 0;
     _.map(meal.ingredients, ingredient => {
-      energy += ingredient.kcal * ingredient.mass / 100;
+      energy += (ingredient.kcal * ingredient.mass) / 100;
     });
+
     return (
-      <Panel key={meal._id} bsStyle="success">
-        <Panel.Heading key={meal._id}>
-          <Row key={meal._id}>
-            <Col xs={2}>{timeStr}</Col>
-            <Panel.Toggle>
-              <Col xs={4}>{meal.name}</Col>
-            </Panel.Toggle>
-            <Col xs={2}>{energy.toFixed(NUM_OF_DECIMALS)} kcal</Col>
-            <Col xs={4} align="right">
-              <Button
-                className="btn-meal-list"
-                bsStyle="success"
-                bsSize="xsmall"
+      <div className="panel panel-default" key={meal._id}>
+        <div className="panel-heading" key={meal._id}>
+          <div className="row" key={meal._id}>
+            <div className="col-xs-2">{timeStr}</div>
+            <a role="button" data-toggle="collapse" href={`#${meal._id}`}>
+              <div className="col-xs-4">{meal.name}</div>
+            </a>
+            <div className="col-xs-2">
+              {energy.toFixed(NUM_OF_DECIMALS)} kcal
+            </div>
+            <div className="col-xs-4" align="right">
+              <button
+                className="btn btn-xs btn-success btn-meal-list"
                 onClick={() => this.editMeal(meal)}
               >
                 Edit
-              </Button>
-              <Button
-                className="btn-meal-list"
-                bsStyle="danger"
-                bsSize="xsmall"
+              </button>
+              <button
+                className="btn btn-xs btn-danger btn-meal-list"
                 onClick={() => this.deleteMeal(meal)}
               >
                 Delete
-              </Button>
-            </Col>
-          </Row>
-        </Panel.Heading>
-        <Panel.Collapse>
-          <Panel.Body>
-            <Col xs={12} md={8}>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id={`${meal._id}`}
+          class="panel-collapse collapse"
+          role="tabpanel"
+          aria-expanded="false"
+        >
+          <div class="panel-body">
+            <div className="col-xs-12 col-md-8">
               {_.map(_.sortBy(meal.ingredients, ['name']), ingredient => {
                 return this.renderIngredientRow(ingredient);
               })}
-            </Col>
-            <Col xs={12} md={4}>
+            </div>
+            <div className="col-xs-12 col-md-4">
               {this.renderMacroPieChart(meal)}
-            </Col>
-          </Panel.Body>
-        </Panel.Collapse>
-      </Panel>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -252,47 +226,46 @@ class Meals extends Component {
     var totalCalories = 0;
     _.map(this.props.meals, meal => {
       _.map(meal.ingredients, ingredient => {
-        totalCalories += ingredient.kcal * ingredient.mass / 100;
+        totalCalories += (ingredient.kcal * ingredient.mass) / 100;
       });
     });
     return (
-      <Grid>
+      <div>
         <h4>
-          {this.props.meals.length} meals today, {totalCalories.toFixed(NUM_OF_DECIMALS)} kcal
+          {this.props.meals.length} meals today,{' '}
+          {totalCalories.toFixed(NUM_OF_DECIMALS)} kcal
         </h4>
-        <Grid>
+        <div>
           {_.map(_.sortBy(this.props.meals, ['date']), meal => {
             return this.renderMealPanel(meal);
           })}
           <Link to="/meals/new">
-            <Panel bsStyle="success">
-              <Panel.Heading>
-                <Panel.Title componentClass="h1" align="center">
-                  Click here to add new meal!
-                </Panel.Title>
-              </Panel.Heading>
-            </Panel>
+            <div className="panel panel-default panel-new-meal">
+              <div className="panel-heading">
+                Click here to add new meal!
+              </div>
+            </div>
           </Link>
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     );
   }
 
   renderWater() {
     return (
-      <Grid>
+      <div>
         <DailyWater showTargetSettings={this.state.showMore} />
-      </Grid>
+      </div>
     );
   }
 
   render() {
     return (
-      <Grid>
+      <div className="container">
         {this.renderDateAndControls()}
         {this.renderMeals()}
         {this.renderWater()}
-      </Grid>
+      </div>
     );
   }
 }
@@ -301,10 +274,13 @@ function mapsStateToProps({ meals, date }) {
   return { meals, date };
 }
 
-export default connect(mapsStateToProps, {
-  chooseDate,
-  fetchDailyMeals,
-  fetchDailyWater,
-  fetchDefaultWaterTarget,
-  deleteMeal
-})(Meals);
+export default connect(
+  mapsStateToProps,
+  {
+    chooseDate,
+    fetchDailyMeals,
+    fetchDailyWater,
+    fetchDefaultWaterTarget,
+    deleteMeal
+  }
+)(Meals);

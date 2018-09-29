@@ -58,7 +58,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <Navbar collapseOnSelect fluid>
+      <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to={this.isLoggedIn() ? '/meals' : '/'}>KaloriRaptorit</Link>

@@ -62,7 +62,7 @@ class MealEdit extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     let headerStr = this.props.match.params.id? 'Edit your meal' : 'Add a new meal';
     return (
-      <div>
+      <div className="container">
         <h2>{headerStr}</h2>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <div className="row">

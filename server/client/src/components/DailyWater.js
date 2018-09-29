@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button,
-  Grid,
-  Row,
-  Col,
-  Glyphicon,
-  ProgressBar
-} from 'react-bootstrap';
-import {
   setWater,
   setDefaultWaterTarget,
   fetchDefaultWaterTarget
@@ -57,70 +49,73 @@ class DailyWater extends Component {
 
   renderProgressBarRow() {
     if (this.props.water.target > 0) {
+      const style = {
+        width:
+          (this.props.water.desiliters / this.props.water.target) * 100 + '%'
+      };
       return (
-        <Row>
-          <ProgressBar
-            striped
-            bsStyle="info"
-            now={this.props.water.desiliters}
-            max={this.props.water.target}
-          />
-        </Row>
+        <div className="row">
+          <div className="progress">
+            <div class="progress">
+              <div
+                class="progress-bar progress-bar-striped bg-info"
+                role="progressbar"
+                style={style}
+              />
+            </div>
+          </div>
+        </div>
       );
     }
   }
 
   renderButtonRow() {
     return (
-      <Row>
-        <Col xs={3} sm={1}>
-          <Button
+      <div className="row">
+        <div className="col-xs-3 col-sm-1">
+          <button
+            className="btn btn-info btn-water"
             disabled={this.props.water.desiliters <= 0}
-            bsStyle="info"
-            className="btn-water"
             onClick={this.incWater.bind(this, -5)}
           >
-            <Glyphicon glyph="minus" />
-          </Button>
-        </Col>
-        <Col xs={3} sm={1}>
-          <Button
+            <i className="fas fa-minus" />
+          </button>
+        </div>
+        <div className="col-xs-3 col-sm-1">
+          <button
+            className="btn btn-info btn-water"
             disabled={this.props.water.desiliters <= 0}
-            bsStyle="info"
-            className="btn-water"
             onClick={this.incWater.bind(this, -1)}
           >
             -
-          </Button>
-        </Col>
-        <Col xs={3} sm={1}>
-          <Button
-            bsStyle="info"
-            className="btn-water"
+          </button>
+        </div>
+        <div className="col-xs-3 col-sm-1">
+          <button
+            className="btn btn-info btn-water"
             onClick={this.incWater.bind(this, 1)}
           >
             +
-          </Button>
-        </Col>
-        <Col xs={3} sm={1}>
-          <Button
-            bsStyle="info"
-            className="btn-water"
+          </button>
+        </div>
+        <div className="col-xs-3 col-sm-1">
+          <button
+            className="btn btn-info btn-water"
             onClick={this.incWater.bind(this, 5)}
           >
-            <Glyphicon glyph="plus" />
-          </Button>
-        </Col>
-      </Row>
+            <i className="fas fa-plus" />
+          </button>
+        </div>
+      </div>
     );
   }
 
   renderWater() {
     return (
-      <Grid>
+      <div className="container">
         {this.renderProgressBarRow()}
         {this.renderButtonRow()}
-      </Grid>
+      </div>
     );
   }
 
@@ -129,66 +124,66 @@ class DailyWater extends Component {
       return (
         <div>
           <h4>Water target settings</h4>
-          <Grid>
-            <Row>
-              <Col xs={12}>
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
                 <h5>
                   This day's target: {(this.props.water.target / 10).toFixed(1)}{' '}
                   liters
                 </h5>
-              </Col>
+              </div>
 
-              <Col xs={12}>
-                <Button
-                  className="btn-sync-target"
+              <div className="col-12">
+                <button
+                  className="btn btn-sync-target"
                   onClick={this.updateDailyTarget.bind(this)}
                   disabled={
                     this.props.water.defaultTarget === this.props.water.target
                   }
                 >
                   Update to default
-                </Button>
-              </Col>
-              <Col xs={12}>
-                <Button
-                  className="btn-dec-target"
+                </button>
+              </div>
+              <div className="col-12">
+                <button
+                  className="btn btn-dec-target"
                   onClick={this.incDailyTarget.bind(this, -1)}
                   disabled={this.props.water.target <= 0}
                 >
-                  <Glyphicon glyph="minus" />
-                </Button>
-                <Button
-                  className="btn-inc-target"
+                  <i className="fas fa-minus" />{' '}
+                </button>
+                <button
+                  className="btn btn-inc-target"
                   onClick={this.incDailyTarget.bind(this, 1)}
                 >
-                  <Glyphicon glyph="plus" />
-                </Button>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
+                  <i className="fas fa-plus" />{' '}
+                </button>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12">
                 <h5>
                   Your default target:{' '}
                   {(this.props.water.defaultTarget / 10).toFixed(1)} liters
                 </h5>
-              </Col>
-              <Col xs={12}>
-                <Button
-                  className="btn-dec-target"
+              </div>
+              <div className="col-12">
+                <button
+                  className="btn btn-dec-target"
                   onClick={this.incDefaultTarget.bind(this, -1)}
                   disabled={this.props.water.defaultTarget <= 0}
                 >
-                  <Glyphicon glyph="minus" />
-                </Button>
-                <Button
+                  <i className="fas fa-minus" />{' '}
+                </button>
+                <button
                   className="btn-inc-target"
                   onClick={this.incDefaultTarget.bind(this, 1)}
                 >
-                  <Glyphicon glyph="plus" />
-                </Button>
-              </Col>
-            </Row>
-          </Grid>
+                  <i className="fas fa-plus" />{' '}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }
@@ -212,8 +207,11 @@ function mapsStateToProps({ date, water }) {
   return { date, water };
 }
 
-export default connect(mapsStateToProps, {
-  setWater,
-  setDefaultWaterTarget,
-  fetchDefaultWaterTarget
-})(DailyWater);
+export default connect(
+  mapsStateToProps,
+  {
+    setWater,
+    setDefaultWaterTarget,
+    fetchDefaultWaterTarget
+  }
+)(DailyWater);

@@ -96,33 +96,32 @@ export const renderIngredients = function({
                       placeholder="100"
                       component={renderField}
                       label="Quantity (g/ml)"
-                      size="col-xs-5 col-sm-4 col-md-2" //bootstrap size
+                      size="col-5 col-sm-4 col-md-2" //bootstrap size
                     />
                   </div>
                   <div className="row">
-                    <div className="panel panel-default">
-                      <div className="panel-heading">
-                        <a
-                          role="button"
+                    <div className="card" style={{width: '100%'}}>
+                      <div className="card-header">
+                        <button
+                          class="btn btn-link collapsed"
+                          type="button"
                           data-toggle="collapse"
-                          href={`#${index}`}
+                          data-target={`#collapse-${index}`}
+                          aria-expanded="false"
+                          aria-controls={`collapse-${index}`}
                         >
                           Edit nutritions (per 100g)
-                        </a>
+                        </button>
                       </div>
-                      <div
-                        id={`${index}`}
-                        className="panel-collapse collapse"
-                        role="tabpanel"
-                      >
-                        <div className="panel-body">
+                      <div id={`collapse-${index}`} className="collapse">
+                        <div className="card-body">
                           <Field
                             name={`${ingredient}.kcal`}
                             type="text"
                             placeholder="add calories (per 100g)"
                             component={renderField}
                             label="kcal "
-                            size="col-xs-6 col-sm-2 col-md-2"
+                            size="col-6 col-sm-3 col-md-3"
                           />
                           <Field
                             name={`${ingredient}.fat`}
@@ -130,7 +129,7 @@ export const renderIngredients = function({
                             placeholder="add fat in grams  (per 100g)"
                             component={renderField}
                             label="fat"
-                            size="col-xs-6 col-sm-2 col-md-2"
+                            size="col-6 col-sm-3 col-md-3"
                           />
                           <Field
                             name={`${ingredient}.protein`}
@@ -138,7 +137,7 @@ export const renderIngredients = function({
                             placeholder="add protein in grams (per 100g)"
                             component={renderField}
                             label="Protein"
-                            size="col-xs-6 col-sm-2 col-md-2"
+                            size="col-6 col-sm-3 col-md-3"
                           />
                           <Field
                             name={`${ingredient}.carbohydrate`}
@@ -146,7 +145,7 @@ export const renderIngredients = function({
                             placeholder="add carbs i grams (per 100g)"
                             component={renderField}
                             label="Carbohydrate"
-                            size="col-xs-6 col-sm-2 col-md-2"
+                            size="col-6 col-sm-3 col-md-3"
                           />
                         </div>
                       </div>

@@ -70,14 +70,14 @@ class MealEdit extends Component {
               name="name"
               label="Meal name"
               component={renderField}
-              size="col-xs-10 col-sm-5 col-md-3"
+              size="col-10 col-sm-5 col-md-3"
             />
             <Field
               name="date"
               label="Date & Time"
               placeholder="YYYY-MM-DD"
               component={renderDateField}
-              size="col-xs-10 col-sm-5 col-md-3"
+              size="col-10 col-sm-5 col-md-3"
               showTime={true}
             />
           </div>

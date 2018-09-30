@@ -22,8 +22,8 @@ class Header extends Component {
       return null;
     } else {
       return (
-        <ul className="nav navbar-nav navbar-right">
-          <li>
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
             <a href={this.isLoggedIn() ? '/api/logout' : '/auth/google'}>
               {this.isLoggedIn() ? 'Logout' : 'Login with Google'}
             </a>
@@ -36,15 +36,21 @@ class Header extends Component {
   renderFeaturesNav() {
     if (this.isLoggedIn()) {
       return (
-        <ul className="nav navbar-nav">
-          <li>
-            <Link to="/meals">My Meals</Link>
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/meals">
+              My Meals
+            </Link>
           </li>
-          <li>
-            <Link to="/trends">My Trends</Link>
+          <li className="nav-item">
+            <Link className="nav-link" to="/trends">
+              My Trends
+            </Link>
           </li>
-          <li>
-            <Link to="/meals/new">New Meal</Link>
+          <li className="nav-item">
+            <Link className="nav-link" to="/meals/new">
+              New Meal
+            </Link>
           </li>
         </ul>
       );
@@ -55,35 +61,27 @@ class Header extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button
-              type="button"
-              className="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-            </button>
-            <div className="navbar-brand" href="#">
-              <Link to={this.isLoggedIn() ? '/meals' : '/'}>
-                KaloriRaptorit
-              </Link>
-            </div>
-          </div>
+      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+        <div className="navbar-brand" href="#">
+          <Link className="nav-link" to={this.isLoggedIn() ? '/meals' : '/'}>
+            KaloriRaptorit
+          </Link>
+        </div>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
 
-          <div
-            className="collapse navbar-collapse"
-            id="bs-example-navbar-collapse-1"
-          >
-            {this.renderFeaturesNav()}
-            {this.renderAuthNav()}
-          </div>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {this.renderFeaturesNav()}
+          {this.renderAuthNav()}
         </div>
       </nav>
     );

@@ -75,20 +75,20 @@ class Meals extends Component {
       <div>
         <h3>{dateString}</h3>
         <button
-          className="btn btn-default btn-small btn-meals-date"
+          className="btn btn-secondary btn-md btn-meals-date"
           onClick={this.decrementDate.bind(this)}
         >
           <i className="fas fa-chevron-left" />
         </button>
         <button
-          className="btn btn-default btn-small btn-meals-date"
+          className="btn btn-secondary btn-md btn-meals-date"
           onClick={this.incrementDate.bind(this)}
         >
           <i className="fas fa-chevron-right" />
         </button>
 
         <button
-          className="btn btn-default btn-sm btn-show-more"
+          className="btn btn-secondary btn-md btn-show-more"
           onClick={this.toggleShowMore.bind(this)}
         >
           <i className="fas fa-edit" />
@@ -100,28 +100,26 @@ class Meals extends Component {
   renderIngredientRow(ingredient) {
     return (
       <div className="row" key={ingredient._id}>
-        <div className="col-xs-9 col-sm-4 col-ingredient">
-          {ingredient.name}
-        </div>
-        <div className="col-xs-3 col-sm 3 col-mass">
+        <div className="col-9 col-sm-4 col-ingredient">{ingredient.name}</div>
+        <div className="col-3 col-sm 3 col-mass">
           {ingredient.mass.toFixed(NUM_OF_DECIMALS)}g
         </div>
-        <div className="col-xs-3 col-sm-1 col-ch">
+        <div className="col-3 col-sm-1 col-ch">
           {((ingredient.carbohydrate * ingredient.mass) / 100).toFixed(
             NUM_OF_DECIMALS
           )}
           g
         </div>
-        <div className="col-xs-3 col-xs-1 col-fat">
+        <div className="col-3 col-sm-1 col-fat">
           {((ingredient.fat * ingredient.mass) / 100).toFixed(NUM_OF_DECIMALS)}g
         </div>
-        <div className="col-xs-3 col-sm-1 col-protein">
+        <div className="col-3 col-sm-1 col-protein">
           {((ingredient.protein * ingredient.mass) / 100).toFixed(
             NUM_OF_DECIMALS
           )}
           g
         </div>
-        <div className="col-xs-3 col-sm-2 col-kcal">
+        <div className="col-3 col-sm-2 col-kcal">
           {((ingredient.kcal * ingredient.mass) / 100).toFixed(NUM_OF_DECIMALS)}
           kcal
         </div>
@@ -174,25 +172,33 @@ class Meals extends Component {
     });
 
     return (
-      <div className="panel panel-default" key={meal._id}>
-        <div className="panel-heading" key={meal._id}>
+      <div className="card mt-3" key={meal._id}>
+        <div className="card-header" key={meal._id}>
           <div className="row" key={meal._id}>
-            <div className="col-xs-2">{timeStr}</div>
-            <a role="button" data-toggle="collapse" href={`#${meal._id}`}>
-              <div className="col-xs-4">{meal.name}</div>
-            </a>
-            <div className="col-xs-2">
-              {energy.toFixed(NUM_OF_DECIMALS)} kcal
-            </div>
-            <div className="col-xs-4" align="right">
+            <div className="col-2">{timeStr}</div>
+            <div className="col-4">
               <button
-                className="btn btn-xs btn-success btn-meal-list"
+                className="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target={`#collapse-${meal._id}`}
+                aria-expanded="true"
+                aria-controls={`collapse-${meal._id}`}
+              >
+                {meal.name}
+              </button>
+            </div>
+
+            <div className="col-2">{energy.toFixed(NUM_OF_DECIMALS)} kcal</div>
+            <div className="col-4" align="right">
+              <button
+                className="btn btn-sm btn-success btn-meal-list"
                 onClick={() => this.editMeal(meal)}
               >
                 Edit
               </button>
               <button
-                className="btn btn-xs btn-danger btn-meal-list"
+                className="btn btn-sm btn-danger btn-meal-list"
                 onClick={() => this.deleteMeal(meal)}
               >
                 Delete
@@ -202,17 +208,17 @@ class Meals extends Component {
         </div>
 
         <div
-          id={`${meal._id}`}
-          className="panel-collapse collapse"
-          role="tabpanel"
+          id={`collapse-${meal._id}`}
+          className="collapse"
+          aria-labelledby="headingOne"
         >
-          <div className="panel-body">
-            <div className="col-xs-12 col-md-8">
+          <div className="card-body">
+            <div className="col-12 col-md-8">
               {_.map(_.sortBy(meal.ingredients, ['name']), ingredient => {
                 return this.renderIngredientRow(ingredient);
               })}
             </div>
-            <div className="col-xs-12 col-md-4">
+            <div className="col-12 col-md-4">
               {this.renderMacroPieChart(meal)}
             </div>
           </div>
@@ -239,10 +245,8 @@ class Meals extends Component {
             return this.renderMealPanel(meal);
           })}
           <Link to="/meals/new">
-            <div className="panel panel-default panel-new-meal">
-              <div className="panel-heading">
-                Click here to add new meal!
-              </div>
+            <div className="card mt-3 panel-new-meal">
+              <div className="card-header">Click here to add new meal!</div>
             </div>
           </Link>
         </div>

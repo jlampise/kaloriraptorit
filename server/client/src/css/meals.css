@@ -1,3 +1,7 @@
+.progress {
+  height: 30px;
+}
+
 .panel-new-meal {
   font-size: 16;
   font-weight: bold;
@@ -5,7 +9,7 @@
 }
 
 .btn-meal-list {
-  width: 45px;
+  width: 55px;
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 3px;

@@ -49,20 +49,16 @@ class DailyWater extends Component {
 
   renderProgressBarRow() {
     if (this.props.water.target > 0) {
-      const style = {
-        width:
-          (this.props.water.desiliters / this.props.water.target) * 100 + '%'
-      };
+      const percentage =
+        (this.props.water.desiliters / this.props.water.target) * 100;
       return (
-        <div className="row">
-          <div className="progress">
-            <div className="progress">
-              <div
-                className="progress-bar progress-bar-striped"
-                role="progressbar"
-                style={style}
-              />
-            </div>
+        <div className="progress my-3">
+          <div
+            className="progress-bar bg-info"
+            role="progressbar"
+            style={{ width: `${percentage}%` }}
+          >
+            {`${Math.floor(percentage)}%`}
           </div>
         </div>
       );
@@ -72,7 +68,7 @@ class DailyWater extends Component {
   renderButtonRow() {
     return (
       <div className="row">
-        <div className="col-xs-3 col-sm-1">
+        <div className="col-3 col-sm-1">
           <button
             className="btn btn-info btn-water"
             disabled={this.props.water.desiliters <= 0}
@@ -81,7 +77,7 @@ class DailyWater extends Component {
             <i className="fas fa-minus" />
           </button>
         </div>
-        <div className="col-xs-3 col-sm-1">
+        <div className="col-3 col-sm-1">
           <button
             className="btn btn-info btn-water"
             disabled={this.props.water.desiliters <= 0}
@@ -90,7 +86,7 @@ class DailyWater extends Component {
             -
           </button>
         </div>
-        <div className="col-xs-3 col-sm-1">
+        <div className="col-3 col-sm-1">
           <button
             className="btn btn-info btn-water"
             onClick={this.incWater.bind(this, 1)}
@@ -98,7 +94,7 @@ class DailyWater extends Component {
             +
           </button>
         </div>
-        <div className="col-xs-3 col-sm-1">
+        <div className="col-3 col-sm-1">
           <button
             className="btn btn-info btn-water"
             onClick={this.incWater.bind(this, 5)}
@@ -193,7 +189,7 @@ class DailyWater extends Component {
     return (
       <div>
         <h4>
-          Water: {(this.props.water.desiliters / 10).toFixed(1)} /{' '}
+          Water: {(this.props.water.desiliters / 10).toFixed(1)} /
           {(this.props.water.target / 10).toFixed(1)} liters (daily target)
         </h4>
         {this.renderWater()}

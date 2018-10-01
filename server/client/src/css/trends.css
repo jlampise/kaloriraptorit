@@ -1,4 +1,4 @@
-.btn-set-range {
+.trends-container .btn-set-range {
   text-align: center;
   width: 100px;
   margin-left: 5px;
@@ -7,7 +7,7 @@
   margin-bottom: 3px;
 }
 
-.btn-load-data {
+.trends-container .btn-load-data {
   text-align: center;
   width: 100px;
   margin-left: 5px;

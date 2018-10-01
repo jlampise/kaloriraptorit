@@ -357,7 +357,7 @@ class Trends extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container trends-container">
         {this.renderDateAndControls()}
         {this.renderChartToggles()}
         {this.renderCharts()}

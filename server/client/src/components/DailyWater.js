@@ -5,6 +5,7 @@ import {
   setDefaultWaterTarget,
   fetchDefaultWaterTarget
 } from '../actions';
+import WaterProgressBar from './WaterProgressBar';
 
 class DailyWater extends Component {
   async incWater(increment) {
@@ -45,24 +46,6 @@ class DailyWater extends Component {
       newValue = 0;
     }
     this.props.setDefaultWaterTarget(newValue);
-  }
-
-  renderProgressBarRow() {
-    if (this.props.water.target > 0) {
-      const percentage =
-        (this.props.water.desiliters / this.props.water.target) * 100;
-      return (
-        <div className="progress my-3">
-          <div
-            className="progress-bar bg-info"
-            role="progressbar"
-            style={{ width: `${percentage}%` }}
-          >
-            {`${Math.floor(percentage)}%`}
-          </div>
-        </div>
-      );
-    }
   }
 
   renderButtonRow() {
@@ -108,8 +91,11 @@ class DailyWater extends Component {
 
   renderWater() {
     return (
-      <div className="container">
-        {this.renderProgressBarRow()}
+      <div>
+        <WaterProgressBar
+          desiliters={this.props.water.desiliters}
+          target={this.props.water.target}
+        />
         {this.renderButtonRow()}
       </div>
     );
@@ -188,10 +174,11 @@ class DailyWater extends Component {
   render() {
     return (
       <div>
-        <h4>
-          Water: {(this.props.water.desiliters / 10).toFixed(1)} /
-          {(this.props.water.target / 10).toFixed(1)} liters (daily target)
-        </h4>
+        <h2>
+          {`Water: ${(this.props.water.desiliters / 10).toFixed(1)} / ${(
+            this.props.water.target / 10
+          ).toFixed(1)} liters`}
+        </h2>
         {this.renderWater()}
         {this.renderTargetSettings()}
       </div>

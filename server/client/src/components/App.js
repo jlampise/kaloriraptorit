@@ -5,10 +5,11 @@ import * as actions from '../actions';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 
 import MealsComponent from '../components/Meals';
-import Header from './Header';
+import Navbar from './Navbar';
 import Landing from './Landing';
 import MealEditComponent from './MealEdit';
 import TrendsComponent from './Trends';
+import '../css/app.css';
 
 const LoadingSpinner = () => <h2>Checking authentication...</h2>;
 
@@ -37,7 +38,7 @@ class App extends Component {
       <div className="container-fluid">
         <BrowserRouter>
           <div>
-            <Header />
+            <Navbar />
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/meals" component={Meals} />

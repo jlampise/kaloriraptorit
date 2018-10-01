@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../css/navbar.css';
 
-class Header extends Component {
+class Navbar extends Component {
   isLoggedIn() {
     if (this.props.auth.data === null) {
       return false;
@@ -25,7 +25,8 @@ class Header extends Component {
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
             <a href={this.isLoggedIn() ? '/api/logout' : '/auth/google'}>
-              {this.isLoggedIn() ? 'Logout' : 'Login with Google'}
+              <i className="fab fa-google" />
+              {this.isLoggedIn() ? ' Logout ' : ' Login'}
             </a>
           </li>
         </ul>
@@ -95,4 +96,4 @@ function mapsStateToProps({ auth, date }) {
 export default connect(
   mapsStateToProps,
   null
-)(Header);
+)(Navbar);

@@ -1,35 +1,28 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-body {
-  background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
-}
-form button {
+.meal-edit-container form button {
   margin-left: 5px;
 }
-form button:first-of-type {
+.meal-edit-container form button:first-of-type {
   margin-left: 0;
 }
-.remove-ingredient {
+.meal-edit-container .remove-ingredient {
   margin-top: 20px;
 }
-.form__subtitle {
+.meal-edit-container .form__subtitle {
   margin-top: 0;
 }
-.form__actions {
+.meal-edit-container .form__actions {
   margin-top: 40px;
   border-top: 5px solid rgb(255, 255, 255);
   padding-top: 40px;
 }
 
-form ul {
+.meal-edit-container form ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.DayPickerInput input {
+.meal-edit-container .DayPickerInput input {
   display: block;
   width: 100%;
   height: 34px;
@@ -50,14 +43,11 @@ form ul {
 }
 
 /* ingredients */
-.ingredient-actions {
+.meal-edit-container .ingredient-actions {
   margin: 25px -15px;
 }
 
-.popover {
-  max-width: 300px;
-}
-ul.ingredients {
+.meal-edit-container ul.ingredients {
   max-height: 400px;
   min-width: 300px;
   max-width: 600px;
@@ -67,17 +57,18 @@ ul.ingredients {
   margin-top: -15px;
   width: 31%;
 }
-.ingredients li {
+
+.meal-edit-container .ingredients li {
   cursor: pointer;
 }
-.remove-ingredient {
+.meal-edit-container .remove-ingredient {
   border-radius: 25px;
   padding: 6px 9px;
   position: absolute;
   top: -28px;
   right: -7px;
 }
-li > div.ingredient {
+.meal-edit-container li > div.ingredient {
   margin: 20px 0px;
     padding: 20px 0px;
     padding-left: 10px;
@@ -88,12 +79,12 @@ li > div.ingredient {
     width: 80%;
 }
 @media (max-width: 992px){
-  li > div.ingredient {
+  .meal-edit-container li > div.ingredient {
     width: 90%;
   }
 }
 @media (max-width: 768px){
-  li > div.ingredient {
+  .meal-edit-container li > div.ingredient {
     width: 100%;
   }
 }

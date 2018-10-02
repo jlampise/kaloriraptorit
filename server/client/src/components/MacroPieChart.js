@@ -1,8 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const MacroPieChart = props => {
-  const meal = props.meal;
+const MacroPieChart = ({ meal, size }) => {
   let carbohydrate = 0;
   let fat = 0;
   let protein = 0;
@@ -22,14 +21,14 @@ const MacroPieChart = props => {
   const colors = ['#0066ff', '#ff0000', '#669900'];
 
   return (
-    <PieChart width={props.size * 2} height={props.size * 2}>
+    <PieChart width={size * 2} height={size * 2}>
       <Pie
         data={data}
         dataKey="value"
         nameKey="name"
         cx="50%"
         cy="50%"
-        outerRadius={props.size}
+        outerRadius={size}
         fill="#8884d8"
       >
         {data.map((entry, index) => (

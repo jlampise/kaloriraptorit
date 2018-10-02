@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import MacroPieChart from './MacroPieChart';
 
 const NUM_OF_DECIMALS = 0;
 
@@ -45,11 +46,14 @@ class MealCard extends Component {
           <div className="row" key={meal._id}>
             <div className="col-12 col-sm-4 col-md-2">{timeStr}</div>
             <div className="col-12 col-sm-8 col-md-4">{mealName}</div>
-            <div className="col-12 col-sm-4 col-md-3">
+            <div className="col-12 col-sm-12 col-md-2">
               {sumIngredient.kcal.toFixed(NUM_OF_DECIMALS)}
               kcal
             </div>
-            <div className="col-12 col-sm-8 col-md-3">
+            <div className="col-2 col-sm-2 col-md-1">
+              <MacroPieChart meal={meal} size={15} />
+            </div>
+            <div className="col-10 col-sm-10 col-md-3">
               <button
                 className="btn btn-sm btn-primary btn-meal-list"
                 onClick={() => {
@@ -57,11 +61,6 @@ class MealCard extends Component {
                 }}
               >
                 <i className={collapseCtrlClass} />
-              </button>
-              <button
-                className="btn btn-sm btn-info btn-meal-list"
-              >
-                <i className="fas fa-info-circle" />
               </button>
               <button
                 className="btn btn-sm btn-warning btn-meal-list"

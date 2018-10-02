@@ -12,16 +12,22 @@ async function getMeals(req, res, next) {
 
     if (req.query.after) {
       const after = new Date(req.query.after);
-      if (!isNaN(after)) {
-        dateConditions.$gt = after;
+      if (isNaN(after)) {
+        let e = Error(`Malformed param after=${after}.`);
+        e.name = 'BadParamError';
+        throw e;
       }
+      dateConditions.$gt = after;
     }
 
     if (req.query.before) {
       const before = new Date(req.query.before);
-      if (!isNaN(before)) {
-        dateConditions.$lt = before;
+      if (isNaN(before)) {
+        let e = Error(`Malformed param before=${before}.`);
+        e.name = 'BadParamError';
+        throw e;
       }
+      dateConditions.$lt = before;
     }
 
     if (dateConditions.$lt || dateConditions.$gt) {

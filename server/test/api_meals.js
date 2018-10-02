@@ -477,17 +477,21 @@ describe('/api/meals', () => {
         done();
       });
     });
-    it('success: ignores query params with malformed values', done => {
-      agent
-        .get('/api/meals?before=2018-0sdf3-02&after=adsuef')
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.should.be.a('object');
-          res.body.count.should.be.a('number');
-          res.body.meals.should.be.a('array');
-          done();
-        });
+    it('fails with malformed param "before"', done => {
+      agent.get('/api/meals?before=2018-0sdf3-02').end((err, res) => {
+        res.should.have.status(400);
+        res.should.be.json;
+        res.body.error.should.not.be.empty;
+        done();
+      });
+    });
+    it('fails with malformed param "after"', done => {
+      agent.get('/api/meals?after=2018-0sdf3-02').end((err, res) => {
+        res.should.have.status(400);
+        res.should.be.json;
+        res.body.error.should.not.be.empty;
+        done();
+      });
     });
   });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const MacroPieChart =  props => {
+const MacroPieChart = props => {
   const meal = props.meal;
   let carbohydrate = 0;
   let fat = 0;

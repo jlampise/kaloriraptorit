@@ -24,6 +24,8 @@ class Meals extends Component {
     this.state = {
       showMore: false
     };
+    this.editMeal = this.editMeal.bind(this);
+    this.deleteMeal = this.deleteMeal.bind(this);
   }
 
   componentDidMount() {
@@ -112,7 +114,7 @@ class Meals extends Component {
         </h2>
         <div>
           {_.map(_.sortBy(this.props.meals, ['date']), meal => {
-            return <MealCard key={meal._id} meal={meal}/>;
+            return <MealCard key={meal._id} meal={meal} editMeal={this.editMeal} deleteMeal={this.deleteMeal}/>;
           })}
           <Link to="/meals/new">
             <div className="card mt-3 panel-new-meal">

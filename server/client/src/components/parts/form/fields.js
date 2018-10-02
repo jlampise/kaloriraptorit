@@ -100,15 +100,13 @@ export const renderIngredients = function({
                     />
                   </div>
                   <div className="row">
-                    <div className="card" style={{width: '100%'}}>
+                    <div className="card" style={{ width: '100%' }}>
                       <div className="card-header">
                         <button
-                          class="btn btn-link collapsed"
+                          className="btn btn-link collapsed"
                           type="button"
                           data-toggle="collapse"
                           data-target={`#collapse-${index}`}
-                          aria-expanded="false"
-                          aria-controls={`collapse-${index}`}
                         >
                           Edit nutritions (per 100g)
                         </button>

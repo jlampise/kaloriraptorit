@@ -21,6 +21,17 @@
   margin-right: -3;
 }
 
+.meals-container .card-header .row div {
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.meals-container .card-body .row {
+
+  border: 1px solid rgb(145, 218, 142);
+  margin-bottom: 4px;
+}
+
 .meals-container .card-body .row div {
   padding-left: 0.2rem;
   padding-right: 0.2rem;
@@ -28,11 +39,19 @@
   text-align: right;
 }
 
-.meals-container .card-body .row .col-ingredient {
+.meals-container .card-body .row .ingredient {
   padding-left: 0.2rem;
   padding-right: 0.2rem;
   text-align: left;
   font-weight: 600;
+}
+
+.meals-container .row-sum {
+  font-weight: 600;
+}
+
+.meals-container .row-legend {
+  text-align: left;
 }
 
 .meals-container .btn-link {

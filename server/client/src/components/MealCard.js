@@ -3,6 +3,9 @@ import moment from 'moment';
 import _ from 'lodash';
 import MacroPieChart from './MacroPieChart';
 
+
+
+
 const NUM_OF_DECIMALS = 0;
 
 class MealCard extends Component {
@@ -50,10 +53,10 @@ class MealCard extends Component {
               {sumIngredient.kcal.toFixed(NUM_OF_DECIMALS)}
               kcal
             </div>
-            <div className="col-2 col-sm-2 col-md-1">
+            <div className="col-2 col-sm-4 col-md-1">
               <MacroPieChart meal={meal} size={15} />
             </div>
-            <div className="col-10 col-sm-10 col-md-3">
+            <div className="col-10 col-sm-8 col-md-3">
               <button
                 className="btn btn-sm btn-primary btn-meal-list"
                 onClick={() => {
@@ -100,8 +103,8 @@ class MealCard extends Component {
 const IngredientRow = ({ ingredient }) => {
   return (
     <div className="row">
-      <div className="col-8 col-md-6 ingredient">{ingredient.name}</div>
-      <div className="col-2 col-md-2 kcal">
+      <div className="col-6 col-md-6 ingredient">{ingredient.name}</div>
+      <div className="col-4 col-md-2 kcal">
         {ingredient.kcal.toFixed(NUM_OF_DECIMALS)}
         kcal
       </div>

@@ -1,10 +1,57 @@
 .meals-container {
   background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
-  /* background-color: white; */
   padding: 30px;
   border: 2px solid grey;
   border-radius: 10px 10px 10px 10px;
+  font-family: 'Muli', sans-serif;
 }
+
+.meals-container .water-container {
+  margin-top: 20px;
+}
+
+.meals-container .water-container .btn {
+  color: rgb(23, 122, 168);
+}
+
+.meals-container .water-container .btn:hover {
+  color: rgb(17, 90, 124);
+}
+
+.meals-container .fa-wine-glass-alt {
+  font-size: 2.0rem;
+}
+
+.meals-container .fa-tint {
+  font-size: 1.8rem;
+}
+
+.meals-container h1 {
+  font-size: 1.8rem;
+}
+
+.meals-container h2 {
+  font-size: 1.5rem;
+}
+
+.meals-container .date-input {
+  width: 276px;
+  color: grey;
+}
+
+.meals-container .btn-meals-date {
+  height: 35px;
+  width: 138px;
+  background-color: rgb(214, 214, 214);
+  color: rgb(88, 88, 88);
+  margin-left: 0px;
+  margin-right: 1px;
+  margin-top: 0px;
+  margin-bottom: 1px;
+  padding: 0;
+  border: 1px solid rgb(18, 18, 133);
+}
+
 
 .meals-container .card {
   background-color: rgb(167, 228, 165);
@@ -12,7 +59,7 @@
 }
 
 .meals-container .card-header {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.2rem;
 }
 
@@ -43,11 +90,11 @@
   padding-left: 0.2rem;
   padding-right: 0.2rem;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .meals-container .row-sum {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .meals-container .row-legend {

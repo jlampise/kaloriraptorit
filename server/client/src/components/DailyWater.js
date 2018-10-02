@@ -3,11 +3,35 @@ import { connect } from 'react-redux';
 import {
   setWater,
   setDefaultWaterTarget,
-  fetchDefaultWaterTarget
+  fetchDefaultWaterTarget,
+  fetchDailyWater
 } from '../actions';
 import WaterProgressBar from './WaterProgressBar';
+import WaterTargetSettings from './WaterTargetSettings';
 
 class DailyWater extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showtargetSettings: false
+    };
+    this.toggleShowTargetSettings = this.toggleShowTargetSettings.bind(this);
+    this.incWater = this.incWater.bind(this);
+    this.incDailyTarget = this.incDailyTarget.bind(this);
+    this.incDefaultTarget = this.incDefaultTarget.bind(this);
+    this.updateDailyTarget = this.updateDailyTarget.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchDailyWater(this.props.date);
+    this.props.fetchDefaultWaterTarget();
+  }
+
+  toggleShowTargetSettings() {
+    this.setState({ showTargetSettings: !this.state.showTargetSettings });
+  }
+
   async incWater(increment) {
     var newValue = this.props.water.desiliters + increment;
     if (newValue < 0) {
@@ -53,40 +77,58 @@ class DailyWater extends Component {
       <div className="row">
         <div className="col-3 col-sm-1">
           <button
-            className="btn btn-info btn-water"
+            className="btn btn-link btn-water"
             disabled={this.props.water.desiliters <= 0}
-            onClick={this.incWater.bind(this, -5)}
+            onClick={() => this.incWater(-5)}
           >
             <i className="fas fa-minus" />
+            <i className="fas fa-wine-glass-alt" />
           </button>
         </div>
         <div className="col-3 col-sm-1">
           <button
-            className="btn btn-info btn-water"
+            className="btn btn-link btn-water"
             disabled={this.props.water.desiliters <= 0}
-            onClick={this.incWater.bind(this, -1)}
+            onClick={() => this.incWater(-1)}
           >
-            -
+            <i className="fas fa-minus" />
+            <i className="fas fa-tint" />
           </button>
         </div>
         <div className="col-3 col-sm-1">
           <button
-            className="btn btn-info btn-water"
-            onClick={this.incWater.bind(this, 1)}
-          >
-            +
-          </button>
-        </div>
-        <div className="col-3 col-sm-1">
-          <button
-            className="btn btn-info btn-water"
-            onClick={this.incWater.bind(this, 5)}
+            className="btn btn-link btn-water"
+            onClick={() => this.incWater(1)}
           >
             <i className="fas fa-plus" />
+            <i className="fas fa-tint" />
+          </button>
+        </div>
+        <div className="col-3 col-sm-1">
+          <button
+            className="btn btn-link btn-water"
+            onClick={() => this.incWater(5)}
+          >
+            <i className="fas fa-plus" />
+            <i className="fas fa-wine-glass-alt" />
           </button>
         </div>
       </div>
     );
+  }
+
+  renderWaterTargetSettings() {
+    if (this.state.showTargetSettings) {
+      return (
+        <WaterTargetSettings
+          dailyTarget={this.props.water.target}
+          defaultTarget={this.props.water.defaultTarget}
+          incDaily={this.incDailyTarget}
+          updateDaily={this.updateDailyTarget}
+          incDefault={this.incDefaultTarget}
+        />
+      );
+    }
   }
 
   renderWater() {
@@ -97,90 +139,26 @@ class DailyWater extends Component {
           target={this.props.water.target}
         />
         {this.renderButtonRow()}
+        {this.renderWaterTargetSettings()}
       </div>
     );
   }
 
-  renderTargetSettings() {
-    if (this.props.showTargetSettings) {
-      return (
-        <div>
-          <h4>Water target settings</h4>
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <h5>
-                  This day's target: {(this.props.water.target / 10).toFixed(1)}{' '}
-                  liters
-                </h5>
-              </div>
-
-              <div className="col-12">
-                <button
-                  className="btn btn-sync-target"
-                  onClick={this.updateDailyTarget.bind(this)}
-                  disabled={
-                    this.props.water.defaultTarget === this.props.water.target
-                  }
-                >
-                  Update to default
-                </button>
-              </div>
-              <div className="col-12">
-                <button
-                  className="btn btn-dec-target"
-                  onClick={this.incDailyTarget.bind(this, -1)}
-                  disabled={this.props.water.target <= 0}
-                >
-                  <i className="fas fa-minus" />{' '}
-                </button>
-                <button
-                  className="btn btn-inc-target"
-                  onClick={this.incDailyTarget.bind(this, 1)}
-                >
-                  <i className="fas fa-plus" />{' '}
-                </button>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12">
-                <h5>
-                  Your default target:{' '}
-                  {(this.props.water.defaultTarget / 10).toFixed(1)} liters
-                </h5>
-              </div>
-              <div className="col-12">
-                <button
-                  className="btn btn-dec-target"
-                  onClick={this.incDefaultTarget.bind(this, -1)}
-                  disabled={this.props.water.defaultTarget <= 0}
-                >
-                  <i className="fas fa-minus" />{' '}
-                </button>
-                <button
-                  className="btn-inc-target"
-                  onClick={this.incDefaultTarget.bind(this, 1)}
-                >
-                  <i className="fas fa-plus" />{' '}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
-
   render() {
     return (
-      <div>
+      <div className="water-container">
         <h2>
           {`Water: ${(this.props.water.desiliters / 10).toFixed(1)} / ${(
             this.props.water.target / 10
-          ).toFixed(1)} liters`}
+          ).toFixed(1)} liters`}{' '}
+          <button
+            className="btn btn-link btn-show-more"
+            onClick={this.toggleShowTargetSettings}
+          >
+            <i className="fas fa-edit" />
+          </button>
         </h2>
         {this.renderWater()}
-        {this.renderTargetSettings()}
       </div>
     );
   }
@@ -195,6 +173,7 @@ export default connect(
   {
     setWater,
     setDefaultWaterTarget,
-    fetchDefaultWaterTarget
+    fetchDefaultWaterTarget,
+    fetchDailyWater
   }
 )(DailyWater);

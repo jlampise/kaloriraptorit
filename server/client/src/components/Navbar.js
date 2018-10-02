@@ -63,23 +63,25 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <div className="navbar-brand" href="#">
-          <Link className="nav-link" to={this.isLoggedIn() ? '/meals' : '/'}>
-            KaloriRaptorit
-          </Link>
-        </div>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
+        <div className="container">
+          <div className="navbar-brand" href="#">
+            <Link className="nav-link" to={this.isLoggedIn() ? '/meals' : '/'}>
+              KaloriRaptorit
+            </Link>
+          </div>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          {this.renderFeaturesNav()}
-          {this.renderAuthNav()}
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            {this.renderFeaturesNav()}
+            {this.renderAuthNav()}
+          </div>
         </div>
       </nav>
     );

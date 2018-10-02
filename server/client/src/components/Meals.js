@@ -5,37 +5,34 @@ import moment from 'moment';
 import _ from 'lodash';
 import DailyWater from './DailyWater';
 import MealCard from './MealCard';
+import DayPicker from './DayPicker';
 
 import {
   fetchDailyMeals,
   fetchDailyWater,
-  fetchDefaultWaterTarget,
   deleteMeal,
   chooseDate
 } from '../actions';
 
 import '../css/meals.css';
 
-
 class Meals extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showMore: false
-    };
     this.editMeal = this.editMeal.bind(this);
     this.deleteMeal = this.deleteMeal.bind(this);
+    this.chooseDate = this.chooseDate.bind(this);
+    this.incrementDate = this.incrementDate.bind(this);
+    this.decrementDate = this.decrementDate.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchDailyMeals(this.props.date);
-    this.props.fetchDailyWater(this.props.date);
-    this.props.fetchDefaultWaterTarget();
   }
   async chooseDate(date) {
     // When typing on date picker bar, it generates undefined values
-    if (!(date === undefined)) {
+    if (date) {
       await this.props.chooseDate(date);
       await this.props.fetchDailyMeals(this.props.date);
       await this.props.fetchDailyWater(this.props.date);
@@ -57,10 +54,6 @@ class Meals extends Component {
     );
   }
 
-  toggleShowMore() {
-    this.setState({ showMore: !this.state.showMore });
-  }
-
   editMeal(meal) {
     this.props.history.push(`meals/edit/${meal._id}`);
   }
@@ -72,29 +65,22 @@ class Meals extends Component {
 
   renderDateAndControls() {
     const dateString = moment(this.props.date).format('ddd, DD of MMM YYYY');
-
     return (
       <div>
         <h1>{dateString}</h1>
         <button
-          className="btn btn-secondary btn-md btn-meals-date"
-          onClick={this.decrementDate.bind(this)}
+          className="btn btn-info btn-md btn-meals-date"
+          onClick={this.decrementDate}
         >
           <i className="fas fa-chevron-left" />
         </button>
         <button
-          className="btn btn-secondary btn-md btn-meals-date"
-          onClick={this.incrementDate.bind(this)}
+          className="btn btn-info btn-md btn-meals-date"
+          onClick={this.incrementDate}
         >
           <i className="fas fa-chevron-right" />
         </button>
-
-        <button
-          className="btn btn-secondary btn-md btn-show-more"
-          onClick={this.toggleShowMore.bind(this)}
-        >
-          <i className="fas fa-edit" />
-        </button>
+        <DayPicker chooseDate={this.chooseDate} currentDate={this.props.date} />
       </div>
     );
   }
@@ -109,12 +95,18 @@ class Meals extends Component {
     return (
       <div>
         <h2>
-          {this.props.meals.length} meals,{' '}
-          {totalCalories.toFixed(0)} kcal
+          {this.props.meals.length} meals, {totalCalories.toFixed(0)} kcal
         </h2>
         <div>
           {_.map(_.sortBy(this.props.meals, ['date']), meal => {
-            return <MealCard key={meal._id} meal={meal} editMeal={this.editMeal} deleteMeal={this.deleteMeal}/>;
+            return (
+              <MealCard
+                key={meal._id}
+                meal={meal}
+                editMeal={this.editMeal}
+                deleteMeal={this.deleteMeal}
+              />
+            );
           })}
           <Link to="/meals/new">
             <div className="card mt-3 panel-new-meal">
@@ -126,20 +118,12 @@ class Meals extends Component {
     );
   }
 
-  renderWater() {
-    return (
-      <div>
-        <DailyWater showTargetSettings={this.state.showMore} />
-      </div>
-    );
-  }
-
   render() {
     return (
       <div className="container meals-container">
         {this.renderDateAndControls()}
         {this.renderMeals()}
-        {this.renderWater()}
+        <DailyWater />
       </div>
     );
   }
@@ -154,8 +138,7 @@ export default connect(
   {
     chooseDate,
     fetchDailyMeals,
-    fetchDailyWater,
-    fetchDefaultWaterTarget,
-    deleteMeal
+    deleteMeal,
+    fetchDailyWater
   }
 )(Meals);

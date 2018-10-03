@@ -75,9 +75,9 @@ class DailyWater extends Component {
   renderButtonRow() {
     return (
       <div className="row">
-        <div className="col-3 col-sm-1">
+        <div className="col-3 col-sm-2 col-md-1">
           <button
-            className="btn btn-link btn-water"
+            className="btn btn-link"
             disabled={this.props.water.desiliters <= 0}
             onClick={() => this.incWater(-5)}
           >
@@ -85,9 +85,9 @@ class DailyWater extends Component {
             <i className="fas fa-wine-glass-alt" />
           </button>
         </div>
-        <div className="col-3 col-sm-1">
+        <div className="col-3 col-sm-2 col-md-1">
           <button
-            className="btn btn-link btn-water"
+            className="btn btn-link"
             disabled={this.props.water.desiliters <= 0}
             onClick={() => this.incWater(-1)}
           >
@@ -95,18 +95,18 @@ class DailyWater extends Component {
             <i className="fas fa-tint" />
           </button>
         </div>
-        <div className="col-3 col-sm-1">
+        <div className="col-3 col-sm-2 col-md-1">
           <button
-            className="btn btn-link btn-water"
+            className="btn btn-link"
             onClick={() => this.incWater(1)}
           >
             <i className="fas fa-plus" />
             <i className="fas fa-tint" />
           </button>
         </div>
-        <div className="col-3 col-sm-1">
+        <div className="col-3 col-sm-2 col-md-1">
           <button
-            className="btn btn-link btn-water"
+            className="btn btn-link"
             onClick={() => this.incWater(5)}
           >
             <i className="fas fa-plus" />

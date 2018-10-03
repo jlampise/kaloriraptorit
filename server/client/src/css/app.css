@@ -5,3 +5,11 @@
 body {
   background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
 }
+
+.btn-link {
+  color: darkgray;
+}
+
+.btn-link:hover {
+  color: darkblue;
+}

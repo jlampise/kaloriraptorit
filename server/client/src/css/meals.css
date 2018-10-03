@@ -6,108 +6,136 @@
   font-family: 'Muli', sans-serif;
 }
 
-.meals-container .water-container {
-  margin-top: 20px;
-}
-
-.meals-container .water-container .btn {
-  color: rgb(23, 122, 168);
-}
-
-.meals-container .water-container .btn:hover {
-  color: rgb(17, 90, 124);
-}
-
-.meals-container .fa-wine-glass-alt {
-  font-size: 2.0rem;
-}
-
-.meals-container .fa-tint {
-  font-size: 1.8rem;
-}
-
 .meals-container h1 {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
+  text-align: center;
 }
 
 .meals-container h2 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.meals-container .date-input {
-  width: 276px;
-  color: grey;
+/* ----------------- */
+/* Date section */
+/* ----------------- */
+
+.date-container .col-date-button {
+  text-align: center;
 }
 
-.meals-container .btn-meals-date {
-  height: 35px;
-  width: 138px;
-  background-color: rgb(214, 214, 214);
-  color: rgb(88, 88, 88);
-  margin-left: 0px;
-  margin-right: 1px;
-  margin-top: 0px;
-  margin-bottom: 1px;
-  padding: 0;
-  border: 1px solid rgb(18, 18, 133);
+.date-container .fas {
+  font-size: 2rem;
 }
 
+.date-container .rw-datetime-picker {
+  width: 180px;
+  margin: auto;
+}
 
-.meals-container .card {
+.date-container .rw-widget-picker {
+  background-color: rgba(0, 0, 0, 0);
+  border: unset;
+  box-shadow: unset;
+}
+
+.date-container .rw-widget-picker:hover {
+  background-color: rgba(0, 0, 0, 0);
+  border: unset;
+  box-shadow: unset;
+}
+
+.date-container .rw-widget-input {
+  background-color: lightgray;
+  border-radius: 5px 0px 0px 5px;
+  border: 1px solid darkgray;
+}
+
+.date-container .rw-select-bordered {
+  margin: 0;
+  background-color: lightgray;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid darkgray;
+}
+
+.date-container .rw-select-bordered :hover {
+  background-color: darkgrey;
+}
+
+.date-container .rw-calendar-popup {
+  width: auto;
+}
+
+.date-container .rw-calendar {
+  border-radius: 5px 5px 5px 5px;
+  font-size: 0.8rem;
+  background-color: lightgray;
+  box-shadow: unset;
+}
+
+/* ----------------- */
+/* Meal list section */
+/* ----------------- */
+
+.meal-list-container {
+  margin-top: 20px;
+}
+
+.meal-list-container .card {
   background-color: rgb(167, 228, 165);
   border-radius: 10px 10px 10px 10px;
 }
 
-.meals-container .card-header {
+.meal-list-container .card-header {
   font-weight: 700;
   font-size: 1.2rem;
 }
 
-.meals-container .card-header * {
+.meal-list-container .card-header * {
   margin-left: -3;
   margin-right: -3;
 }
 
-.meals-container .card-header .row div {
+.meal-list-container .card-header .row div {
   padding-left: 0.2rem;
   padding-right: 0.2rem;
 }
 
-.meals-container .card-body .row {
-
+.meal-list-container .card-body .row {
   border: 1px solid rgb(145, 218, 142);
   margin-bottom: 4px;
 }
 
-.meals-container .card-body .row div {
+.meal-list-container .card-body .row div {
   padding-left: 0.2rem;
   padding-right: 0.2rem;
   font-size: 0.8rem;
   text-align: right;
 }
 
-.meals-container .card-body .row .ingredient {
+.meal-list-container .card-body .row .ingredient {
   padding-left: 0.2rem;
   padding-right: 0.2rem;
   text-align: left;
   font-weight: 700;
 }
 
-.meals-container .row-sum {
+.meal-list-container .row-sum {
   font-weight: 700;
 }
 
-.meals-container .row-legend {
+.meal-list-container .row-legend {
   text-align: left;
 }
 
-.meals-container .btn-link {
+.meal-list-container .btn-link {
   font-weight: 600;
   font-size: 1.2rem;
   padding: 0;
 }
 
-.meals-container .btn-meal-list {
+.meal-list-container .btn-meal-list {
   width: 40px;
   margin-left: 5px;
   margin-right: 5px;
@@ -116,62 +144,69 @@
   padding: 0;
 }
 
-.meals-container h1 {
-  text-align: center;
-}
-
-.meals-container h2 {
-  text-align: center;
-}
-
-
-.meals-container .progress {
-  height: 30px;
-}
-
-.meals-container .panel-new-meal {
+.meal-list-container .panel-new-meal {
   font-size: 16;
   font-weight: bold;
   text-align: center;
 }
 
-
-.meals-container .btn-water {
-  margin-right: 5px;
-  margin-bottom: 5px;
-  width: 45px;
-  height: 45px;
+.meal-list-container .fat {
+  color: #f00;
 }
 
-.meals-container .btn-sync-target {
+.meal-list-container .carbohydrate {
+  color: #06f;
+}
+
+.meal-list-container .protein {
+  color: #690;
+}
+
+/* ----------------- */
+/* Water section */
+/* ----------------- */
+
+.water-container {
+  margin-top: 20px;
+}
+
+.water-container .btn {
+  color: rgb(23, 122, 168);
+}
+
+.water-container .btn:hover {
+  color: rgb(17, 90, 124);
+}
+
+.water-container .fa-wine-glass-alt {
+  font-size: 2rem;
+}
+
+.water-container .fa-tint {
+  font-size: 1.8rem;
+}
+
+.water-container .progress {
+  height: 30px;
+}
+
+.water-container .btn-sync-target {
   margin-right: 5px;
   width: 140px;
   height: 35px;
   font-weight: bold;
 }
 
-.meals-container .btn-inc-target {
+.water-container .btn-inc-target {
   margin-right: 2px;
   width: 69px;
   height: 35px;
   font-weight: bold;
 }
 
-.meals-container .btn-dec-target {
+.water-container .btn-dec-target {
   margin-right: 2px;
   width: 69px;
   height: 35px;
   font-weight: bold;
-}
-
-.meals-container .fat {
-  color: #f00;
-}
-
-.meals-container .carbohydrate {
-  color: #06f;
-}
-
-.meals-container .protein {
-  color: #690;
 }

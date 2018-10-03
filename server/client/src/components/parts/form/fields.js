@@ -3,7 +3,6 @@ import { Field } from 'redux-form';
 import moment from 'moment';
 import { DateTimePicker } from 'react-widgets';
 import momentLocaliser from 'react-widgets-moment';
-import 'react-widgets/dist/css/react-widgets.css';
 momentLocaliser(moment);
 
 //field parameter handles all events properties for Field component

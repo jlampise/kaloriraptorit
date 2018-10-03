@@ -68,19 +68,32 @@ class Meals extends Component {
     return (
       <div>
         <h1>{dateString}</h1>
-        <button
-          className="btn btn-info btn-md btn-meals-date"
-          onClick={this.decrementDate}
-        >
-          <i className="fas fa-chevron-left" />
-        </button>
-        <button
-          className="btn btn-info btn-md btn-meals-date"
-          onClick={this.incrementDate}
-        >
-          <i className="fas fa-chevron-right" />
-        </button>
-        <DayPicker chooseDate={this.chooseDate} currentDate={this.props.date} />
+        <div className="date-container">
+          <div className="row">
+            <div className="col-3 offset-3 col-sm-2 offset-sm-4 col-date-button">
+              <button
+                className="btn btn-link btn-date"
+                onClick={this.decrementDate}
+              >
+                <i className="fas fa-chevron-left" />
+              </button>
+            </div>
+            <div className="col-3 col-sm-2 col-date-button">
+              <button
+                className="btn btn-link btn-date"
+                onClick={this.incrementDate}
+              >
+                <i className="fas fa-chevron-right" />
+              </button>
+            </div>
+            <div className="col-12 col-md-4 col-date-controls">
+              <DayPicker
+                chooseDate={this.chooseDate}
+                currentDate={this.props.date}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -93,7 +106,7 @@ class Meals extends Component {
       });
     });
     return (
-      <div>
+      <div className="meal-list-container">
         <h2>
           {this.props.meals.length} meals, {totalCalories.toFixed(0)} kcal
         </h2>

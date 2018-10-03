@@ -75,7 +75,7 @@ class DailyWater extends Component {
   renderButtonRow() {
     return (
       <div className="row">
-        <div className="col-3 col-sm-2 col-md-1">
+        <div className="col-3 col-sm-2 offset-sm-2 col-md-1 offset-md-4">
           <button
             className="btn btn-link"
             disabled={this.props.water.desiliters <= 0}

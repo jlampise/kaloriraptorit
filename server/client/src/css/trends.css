@@ -1,11 +1,91 @@
-.trends-container .btn-set-range {
-  text-align: center;
-  width: 100px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+.trends-container {
+  background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
+  padding: 30px;
+  border: 2px solid grey;
+  border-radius: 10px 10px 10px 10px;
+  font-family: 'Muli', sans-serif;
 }
+
+.trends-container h1 {
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.trends-container h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.trends-container h4 {
+  font-size: 1.0rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ----------------- */
+/* Date section */
+/* ----------------- */
+
+.trends-container .date-container .col-date-button {
+  text-align: center;
+}
+
+.trends-container .date-container .fas {
+  font-size: 2rem;
+}
+
+.trends-container .date-container .rw-datetime-picker {
+  width: 180px;
+  margin: auto;
+}
+
+.trends-container .date-container .rw-widget-picker {
+  background-color: rgba(0, 0, 0, 0);
+  border: unset;
+  box-shadow: unset;
+}
+
+.trends-container .date-container .rw-widget-picker:hover {
+  background-color: rgba(0, 0, 0, 0);
+  border: unset;
+  box-shadow: unset;
+}
+
+.trends-container .date-container .rw-widget-input {
+  background-color: lightgray;
+  border-radius: 5px 0px 0px 5px;
+  border: 1px solid darkgray;
+}
+
+.trends-container .date-container .rw-select-bordered {
+  margin: 0;
+  background-color: lightgray;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid darkgray;
+}
+
+.trends-container .date-container .rw-select-bordered :hover {
+  background-color: darkgrey;
+}
+
+.trends-container .date-container .rw-calendar-popup {
+  width: auto;
+}
+
+.trends-container .date-container .rw-calendar {
+  border-radius: 5px 5px 5px 5px;
+  font-size: 0.8rem;
+  background-color: lightgray;
+  box-shadow: unset;
+}
+
+
+
+
+
+
+
 
 .trends-container .btn-load-data {
   text-align: center;

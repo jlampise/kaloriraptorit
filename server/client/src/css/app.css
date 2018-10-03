@@ -4,12 +4,30 @@
 }
 body {
   background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
+  font-family: 'Muli', sans-serif;
 }
 
-.btn-link {
+h1 {
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h3, h4 {
+  font-size: 1.0rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.btn-link, a {
   color: darkgray;
 }
 
-.btn-link:hover {
+.btn-link:hover, a:hover {
   color: darkblue;
 }

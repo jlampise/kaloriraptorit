@@ -122,7 +122,7 @@ class Meals extends Component {
             );
           })}
           <Link to="/meals/new">
-            <div className="card mt-3 panel-new-meal">
+            <div className="card mt-3 card-new-meal">
               <div className="card-header">Click here to add new meal!</div>
             </div>
           </Link>

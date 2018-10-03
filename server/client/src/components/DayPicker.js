@@ -1,10 +1,11 @@
 import React from 'react';
 import { DateTimePicker } from 'react-widgets';
+import '../css/dayPicker.css';
 
 export default ({ chooseDate, currentDate }) => {
   return (
     <DateTimePicker
-      className="date-input"
+      className="daypicker"
       format="YYYY-MM-DD"
       parse="YYYY-MM-DD"
       onChange={chooseDate}

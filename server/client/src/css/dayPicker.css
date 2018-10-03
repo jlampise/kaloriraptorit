@@ -1,0 +1,39 @@
+.daypicker .rw-widget-picker {
+  background-color: rgba(0, 0, 0, 0);
+  border: unset;
+  box-shadow: unset;
+}
+
+.daypicker .rw-widget-picker:hover {
+  background-color: rgba(0, 0, 0, 0);
+  border: unset;
+  box-shadow: unset;
+}
+
+.daypicker .rw-widget-input {
+  background-color: lightgray;
+  border-radius: 5px 0px 0px 5px;
+  border: 1px solid darkgray;
+}
+
+.daypicker .rw-select-bordered {
+  margin: 0;
+  background-color: lightgray;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid darkgray;
+}
+
+.daypicker .rw-select-bordered :hover {
+  background-color: darkgrey;
+}
+
+.daypicker .rw-calendar-popup {
+  width: auto;
+}
+
+.daypicker .rw-calendar {
+  border-radius: 5px 5px 5px 5px;
+  font-size: 0.8rem;
+  background-color: lightgray;
+  box-shadow: unset;
+}

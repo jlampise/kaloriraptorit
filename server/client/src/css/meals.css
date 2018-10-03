@@ -40,46 +40,6 @@
   margin: auto;
 }
 
-.meals-container .date-container .rw-widget-picker {
-  background-color: rgba(0, 0, 0, 0);
-  border: unset;
-  box-shadow: unset;
-}
-
-.meals-container .date-container .rw-widget-picker:hover {
-  background-color: rgba(0, 0, 0, 0);
-  border: unset;
-  box-shadow: unset;
-}
-
-.meals-container .date-container .rw-widget-input {
-  background-color: lightgray;
-  border-radius: 5px 0px 0px 5px;
-  border: 1px solid darkgray;
-}
-
-.meals-container .date-container .rw-select-bordered {
-  margin: 0;
-  background-color: lightgray;
-  border-radius: 0px 5px 5px 0px;
-  border: 1px solid darkgray;
-}
-
-.meals-container .date-container .rw-select-bordered :hover {
-  background-color: darkgrey;
-}
-
-.meals-container .date-container .rw-calendar-popup {
-  width: auto;
-}
-
-.meals-container .date-container .rw-calendar {
-  border-radius: 5px 5px 5px 5px;
-  font-size: 0.8rem;
-  background-color: lightgray;
-  box-shadow: unset;
-}
-
 /* ----------------- */
 /* Meal list section */
 /* ----------------- */
@@ -150,8 +110,7 @@
   padding: 0;
 }
 
-.meal-list-container .panel-new-meal {
-  font-size: 16;
+.meal-list-container .card-new-meal {
   font-weight: bold;
   text-align: center;
 }

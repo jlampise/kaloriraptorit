@@ -5,6 +5,10 @@
   border-radius: 10px 10px 10px 10px;
 }
 
+.trends-container h2 {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
 /* ----------------- */
 /* Date section */
 /* ----------------- */
@@ -13,11 +17,12 @@
   width: 180px;
 }
 
-.trends-container .btn-load-data {
-  text-align: center;
+.trends-container .centering {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trends-container .btn {
   width: 100px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-top: 3px;
-  margin-bottom: 3px;
 }

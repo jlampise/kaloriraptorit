@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/lib/connect/connect';
 import moment from 'moment';
-import { DateTimePicker } from 'react-widgets';
+import DayPicker from './DayPicker';
 import LineChart from './charts/LineChart';
 import {
   clearTrendsData,
@@ -11,15 +11,9 @@ import {
 import buildChartData from '../utils/buildChartData';
 import '../css/trends.css';
 
-const WATER = 'water';
-const MACRO = 'macronutrients';
-const ENERGY = 'energy';
-
 class Trends extends Component {
   constructor(props) {
     super(props);
-
-    this.handleToggles = this.handleToggles.bind(this);
 
     this.state = {
       startDate: new Date(),
@@ -29,20 +23,15 @@ class Trends extends Component {
       showMacros: false,
       showEnergy: false
     };
+
+    this.setStartDate = this.setStartDate.bind(this);
+    this.setEndDate = this.setEndDate.bind(this);
+    this.validDateRange = this.validDateRange.bind(this);
+    this.fetchTrendsData = this.fetchTrendsData.bind(this);
   }
 
   componentWillMount() {
     this.props.clearTrendsData();
-  }
-
-  handleToggles(e) {
-    if (e.target.value === WATER) {
-      this.setState({ showWater: !this.state.showWater });
-    } else if (e.target.value === ENERGY) {
-      this.setState({ showEnergy: !this.state.showEnergy });
-    } else if (e.target.value === MACRO) {
-      this.setState({ showMacros: !this.state.showMacros });
-    }
   }
 
   fetchTrendsData() {
@@ -86,95 +75,73 @@ class Trends extends Component {
     );
   }
 
-  renderDateRangeButton() {
-    return (
-      <div>
-        <DateTimePicker
-          value={this.state.startDate}
-          onChange={value => this.setStartDate(value)}
-        />
-        <DateTimePicker
-          value={this.state.endDate}
-          onChange={value => this.setEndDate(value)}
-        />
-      </div>
-    );
-  }
-
-  renderLoadButton() {
-    const disabled = this.state.gotData || !this.validDateRange();
-    let glyph = '';
-    if (this.state.gotData) {
-      glyph = 'fas fa-check-circle';
-    } else {
-      glyph = 'fas fa-download';
-    }
-    return (
-      <button
-        className="btn btn-primary btn-load-data"
-        onClick={this.fetchTrendsData.bind(this)}
-        disabled={disabled}
-      >
-        <i className={glyph} />
-      </button>
-    );
-  }
-
   renderDateAndControls() {
-    var header = 'My Trends: ';
-    if (this.validDateRange()) {
-      header +=
-        moment(this.state.startDate).format('DD.MM.YYYY') +
-        ' - ' +
-        moment(this.state.endDate).format('DD.MM.YYYY');
-    } else {
-      header += 'Valid range not set';
-    }
-
     return (
       <div>
-        <h3>{header}</h3>
-        {this.renderDateRangeButton()}
-        {this.renderLoadButton()}
-      </div>
-    );
-  }
-
-  renderChartToggles() {
-    return (
-      <div>
-        <h4>Charts to show</h4>
-        <div>
-          <label>
-            <input
-              value={ENERGY}
-              name="showEnergy"
-              type="checkbox"
-              checked={this.state.showEnergy}
-              onChange={this.handleToggles}
-            />
-            Energy
-          </label>
-          <label>
-            <input
-              value={MACRO}
-              name="showMacros"
-              type="checkbox"
-              checked={this.state.showMacros}
-              onChange={this.handleToggles}
-            />
-            Macronutrients
-          </label>
-          <label>
-            <input
-              value={WATER}
-              name="showWater"
-              type="checkbox"
-              checked={this.state.showWater}
-              onChange={this.handleToggles}
-            />
-            Water
-          </label>
+        <div className="date-container">
+          <div className="row">
+            <div className="col-12 col-sm-6 col-lg-4">
+              <h2>1. Choose dates</h2>
+              <div className="row">
+                <div className="col-2">From</div>
+                <div className="col">
+                  <DayPicker
+                    chooseDate={this.setStartDate}
+                    currentDate={this.state.startDate}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-2">To</div>
+                <div className="col">
+                  <DayPicker
+                    chooseDate={this.setEndDate}
+                    currentDate={this.state.endDate}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+              <h2>2. Choose charts</h2>
+              <div>
+                <CheckboxButton
+                  checked={this.state.showEnergy}
+                  onClick={() =>
+                    this.setState({ showEnergy: !this.state.showEnergy })
+                  }
+                />
+                Energy
+              </div>
+              <div>
+                <CheckboxButton
+                  checked={this.state.showMacros}
+                  onClick={() =>
+                    this.setState({ showMacros: !this.state.showMacros })
+                  }
+                />
+                Macronutrients
+              </div>
+              <div>
+                <CheckboxButton
+                  checked={this.state.showWater}
+                  onClick={() =>
+                    this.setState({ showWater: !this.state.showWater })
+                  }
+                />
+                Water
+              </div>
+            </div>
+            <div className="col-12 col-sm-12 col-lg-4">
+              <h2>3. Load data</h2>
+              <div className="centering">
+                <DownloadButton
+                  hasData={this.state.gotData}
+                  validRange={this.validDateRange()}
+                  onClick={this.fetchTrendsData}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -221,13 +188,46 @@ class Trends extends Component {
   render() {
     return (
       <div className="container trends-container">
+        <h1>Trends</h1>
         {this.renderDateAndControls()}
-        {this.renderChartToggles()}
         {this.renderCharts()}
       </div>
     );
   }
 }
+
+const DownloadButton = ({ hasData, validRange, onClick }) => {
+  let fa = 'fas ';
+  let className = 'btn btn-lg btn-load-data ';
+  let disabled = false;
+  if (!hasData && validRange) {
+    fa += 'fa-download';
+    className += 'btn-success';
+    disabled = false;
+  } else if (!validRange) {
+    fa += 'fa-times';
+    className += 'btn-danger';
+    disabled = true;
+  } else {
+    fa += 'fa-check';
+    className += 'btn-info';
+    disabled = true;
+  }
+
+  return (
+    <button className={className} onClick={onClick} disabled={disabled}>
+      <i className={fa} />
+    </button>
+  );
+};
+
+const CheckboxButton = ({ checked, onClick }) => {
+  return (
+    <button className="btn btn-link" onClick={onClick}>
+      <i className={checked ? 'fas fa-check' : 'fas fa-times'} />
+    </button>
+  );
+};
 
 function mapStateToProps({ trends }) {
   return { trends };

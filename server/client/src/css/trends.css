@@ -10,7 +10,7 @@
   margin-bottom: 20px;
 }
 /* ----------------- */
-/* Date section */
+/* Date and controls section */
 /* ----------------- */
 
 .trends-container .date-container .rw-datetime-picker {
@@ -23,6 +23,6 @@
   align-items: center;
 }
 
-.trends-container .btn {
-  width: 100px;
+.trends-container .btn-load-data {
+  font-size: 3.5rem;
 }

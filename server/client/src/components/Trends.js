@@ -3,6 +3,7 @@ import connect from 'react-redux/lib/connect/connect';
 import moment from 'moment';
 import DayPicker from './DayPicker';
 import LineChart from './charts/LineChart';
+import { CheckboxButton, DownloadButton } from './TrendsButtons';
 import {
   clearTrendsData,
   fetchTrendsWater,
@@ -195,39 +196,6 @@ class Trends extends Component {
     );
   }
 }
-
-const DownloadButton = ({ hasData, validRange, onClick }) => {
-  let fa = 'fas ';
-  let className = 'btn btn-lg btn-load-data ';
-  let disabled = false;
-  if (!hasData && validRange) {
-    fa += 'fa-download';
-    className += 'btn-success';
-    disabled = false;
-  } else if (!validRange) {
-    fa += 'fa-times';
-    className += 'btn-danger';
-    disabled = true;
-  } else {
-    fa += 'fa-check';
-    className += 'btn-info';
-    disabled = true;
-  }
-
-  return (
-    <button className={className} onClick={onClick} disabled={disabled}>
-      <i className={fa} />
-    </button>
-  );
-};
-
-const CheckboxButton = ({ checked, onClick }) => {
-  return (
-    <button className="btn btn-link" onClick={onClick}>
-      <i className={checked ? 'fas fa-check' : 'fas fa-times'} />
-    </button>
-  );
-};
 
 function mapStateToProps({ trends }) {
   return { trends };

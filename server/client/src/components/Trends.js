@@ -19,7 +19,6 @@ class Trends extends Component {
     this.state = {
       startDate: new Date(),
       endDate: new Date(),
-      gotData: false,
       showWater: false,
       showMacros: false,
       showEnergy: false
@@ -33,6 +32,10 @@ class Trends extends Component {
 
   componentWillMount() {
     this.props.clearTrendsData();
+  }
+
+  gotData() {
+    return (this.props.trends.waters && this.props.trends.meals);
   }
 
   fetchTrendsData() {
@@ -53,18 +56,16 @@ class Trends extends Component {
     // We can only get ALL water data for our user (without start and end dates)
     // AND this data does not contain zero-water-dates
     this.props.fetchTrendsWater();
-
-    this.setState({ gotData: true });
   }
 
   setStartDate(date) {
     this.props.clearTrendsData();
-    this.setState({ startDate: date, gotData: false });
+    this.setState({ startDate: date });
   }
 
   setEndDate(date) {
     this.props.clearTrendsData();
-    this.setState({ endDate: date, gotData: false });
+    this.setState({ endDate: date });
   }
 
   validDateRange() {
@@ -136,7 +137,7 @@ class Trends extends Component {
               <h2>3. Load data</h2>
               <div className="centering">
                 <DownloadButton
-                  hasData={this.state.gotData}
+                  hasData={this.gotData()}
                   validRange={this.validDateRange()}
                   onClick={this.fetchTrendsData}
                 />

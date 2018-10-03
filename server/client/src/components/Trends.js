@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/lib/connect/connect';
+import moment from 'moment';
 import { DateTimePicker } from 'react-widgets';
+import LineChart from './charts/LineChart';
 import {
   clearTrendsData,
   fetchTrendsWater,
   fetchTrendsMeals
 } from '../actions';
-import moment from 'moment';
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Tooltip,
-  Legend
-} from 'recharts';
 import buildChartData from '../utils/buildChartData';
-
 import '../css/trends.css';
 
 const WATER = 'water';
@@ -75,89 +65,6 @@ class Trends extends Component {
     this.props.fetchTrendsWater();
 
     this.setState({ gotData: true });
-  }
-
-  renderEnergyChart(chartData) {
-    // Energy is in its own chart because it has unit of kcal. The chart is
-    // shown only if ENERGY is activated.
-    if (this.state.showEnergy) {
-      return (
-        <ResponsiveContainer width="100%" aspect={3}>
-          <LineChart
-            data={chartData}
-            margin={{ top: 50, right: 50, left: 0, bottom: 50 }}
-          >
-            <Line name="Energy (kcal)" type="monotone" dataKey="energy" />
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="datePresentation" />
-            <YAxis dataKey="energy" />
-            <Tooltip />
-            <Legend />
-          </LineChart>
-        </ResponsiveContainer>
-      );
-    }
-  }
-
-  renderMacronutrientChart(chartData) {
-    // Macronutrients are in their own chart because they have unit of grams.
-    // The chart is shown only if MACRO is activated
-    if (this.state.showMacros) {
-      return (
-        <ResponsiveContainer width="100%" aspect={3}>
-          <LineChart
-            data={chartData}
-            margin={{ top: 50, right: 50, left: 0, bottom: 50 }}
-          >
-            <Line
-              name="Protein (g)"
-              type="monotone"
-              dataKey="protein"
-              stroke="#669900"
-            />
-            <Line
-              name="Carbohydrate (g)"
-              type="monotone"
-              dataKey="carbohydrate"
-              stroke="#0066ff"
-            />
-            <Line
-              name="Fat (g)"
-              type="monotone"
-              dataKey="fat"
-              stroke="#ff0000"
-            />
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="datePresentation" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-          </LineChart>
-        </ResponsiveContainer>
-      );
-    }
-  }
-
-  renderWaterChart(chartData) {
-    // Water is in its own chart because it has unit of desiliter. The chart
-    // is shown only if WATER is activated
-    if (this.state.showWater) {
-      return (
-        <ResponsiveContainer width="100%" aspect={3}>
-          <LineChart
-            data={chartData}
-            margin={{ top: 50, right: 50, left: 0, bottom: 50 }}
-          >
-            <Line name="Water (dl)" type="monotone" dataKey="water" />
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="datePresentation" />
-            <YAxis dataKey="water" />
-            <Tooltip />
-            <Legend />
-          </LineChart>
-        </ResponsiveContainer>
-      );
-    }
   }
 
   setStartDate(date) {
@@ -282,11 +189,30 @@ class Trends extends Component {
         this.state.startDate,
         this.state.endDate
       );
+
+      const macroChartKeys = [
+        { dataKey: 'protein', name: 'Protein (g)', stroke: '#669900' },
+        {
+          dataKey: 'carbohydrate',
+          name: 'Carbohydrate (g)',
+          stroke: '#0066ff'
+        },
+        { dataKey: 'fat', name: 'Fat (g)', stroke: '#ff0000' }
+      ];
+      const energyChartKeys = [{ dataKey: 'energy', name: 'Energy (kcal)' }];
+      const waterChartKeys = [{ dataKey: 'water', name: 'Water (dl)' }];
+
       return (
         <div>
-          {this.renderEnergyChart(chartData)}
-          {this.renderMacronutrientChart(chartData)}
-          {this.renderWaterChart(chartData)}
+          {this.state.showEnergy ? (
+            <LineChart data={chartData} instructions={energyChartKeys} />
+          ) : null}
+          {this.state.showMacros ? (
+            <LineChart data={chartData} instructions={macroChartKeys} />
+          ) : null}
+          {this.state.showWater ? (
+            <LineChart data={chartData} instructions={waterChartKeys} />
+          ) : null}
         </div>
       );
     }

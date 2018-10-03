@@ -1,6 +1,5 @@
 import moment from 'moment';
 import MIterator from 'moment-iterator';
-import _ from 'lodash';
 
 const buildChartData = (meals, waters, startDate, endDate) => {
   // We combine all the data to common chart data which could be used
@@ -9,12 +8,11 @@ const buildChartData = (meals, waters, startDate, endDate) => {
   // lines.
 
   // First creating zero-data -array for each date in date range
-  var data = [];
+  var data = new Map();
   const start = startDate;
   const end = endDate;
   MIterator(start, end).each('days', day => {
-    data.push({
-      date: day.format('YYYY-MM-DD'),
+    data.set(day.format('YYYY-MM-DD'), {
       datePresentation: day.format('DD.MM'),
       protein: 0,
       carbohydrate: 0,
@@ -27,16 +25,14 @@ const buildChartData = (meals, waters, startDate, endDate) => {
   // 1. Energy and macronutrients from fetched meals
 
   // for each meal in fetched meals data
-  _.map(meals, meal => {
+  meals.forEach(meal => {
     // We find the correct daily object from chart data array
     const mealDate = moment(meal.date).format('YYYY-MM-DD');
-    const dailyValues = _.find(data, record => {
-      return record.date === mealDate;
-    });
+    const dailyValues = data.get(mealDate);
 
     if (dailyValues) {
       // for each ingredient
-      _.map(meal.ingredients, ingredient => {
+      meal.ingredients.forEach(ingredient => {
         // We calculate sum values from unit values and mass and add
         // them to chart data object
         const factor = ingredient.mass / 100;
@@ -54,17 +50,16 @@ const buildChartData = (meals, waters, startDate, endDate) => {
   // from above energy and macro -stuff
 
   // for each daily record in chart data array
-  _.map(data, zeroWater => {
+  data.forEach((value, key) => {
     // If fetched daily waters contain this date, set the chart data value
-    const existingRecord = _.find(waters, record => {
-      return record.date === zeroWater.date;
+    const existingRecord = waters.find(record => {
+      return record.date === key;
     });
     if (existingRecord) {
-      zeroWater.water = existingRecord.desiliters;
+      value.water = existingRecord.desiliters;
     }
   });
-
-  return data;
+  return Array.from(data.values());
 };
 
 export default buildChartData;

@@ -6,9 +6,7 @@ import {
   fetchTrendsWater,
   fetchTrendsMeals
 } from '../actions';
-import _ from 'lodash';
 import moment from 'moment';
-import MIterator from 'moment-iterator';
 import {
   LineChart,
   Line,
@@ -19,6 +17,8 @@ import {
   Tooltip,
   Legend
 } from 'recharts';
+import buildChartData from '../utils/buildChartData';
+
 import '../css/trends.css';
 
 const WATER = 'water';
@@ -75,71 +75,6 @@ class Trends extends Component {
     this.props.fetchTrendsWater();
 
     this.setState({ gotData: true });
-  }
-
-  buildChartData(meals, waters) {
-    // We combine all the data to common chart data which could be used
-    // to render single chart with individual lines. In reality, we render
-    // a couple of charts because we need different units for many of the
-    // lines.
-
-    // First creating zero-data -array for each date in date range
-    var data = [];
-    const start = this.state.startDate;
-    const end = this.state.endDate;
-    MIterator(start, end).each('days', day => {
-      data.push({
-        date: day.format('YYYY-MM-DD'),
-        datePresentation: day.format('DD.MM'),
-        protein: 0,
-        carbohydrate: 0,
-        fat: 0,
-        energy: 0,
-        water: 0
-      });
-    });
-
-    // 1. Energy and macronutrients from fetched meals
-
-    // for each meal in fetched meals data
-    _.map(meals, meal => {
-      // We find the correct daily object from chart data array
-      const mealDate = moment(meal.date).format('YYYY-MM-DD');
-      const dailyValues = _.find(data, record => {
-        return record.date === mealDate;
-      });
-
-      if (dailyValues) {
-        // for each ingredient
-        _.map(meal.ingredients, ingredient => {
-          // We calculate sum values from unit values and mass and add
-          // them to chart data object
-          const factor = ingredient.mass / 100;
-          dailyValues.protein += ingredient.protein * factor;
-          dailyValues.carbohydrate += ingredient.carbohydrate * factor;
-          dailyValues.fat += ingredient.fat * factor;
-          dailyValues.energy += ingredient.kcal * factor;
-        });
-      }
-    });
-
-    // 2. Water from fetched daily waters
-
-    // API returns us only non-zero-dates, so we do this differently
-    // from above energy and macro -stuff
-
-    // for each daily record in chart data array
-    _.map(data, zeroWater => {
-      // If fetched daily waters contain this date, set the chart data value
-      const existingRecord = _.find(waters, record => {
-        return record.date === zeroWater.date;
-      });
-      if (existingRecord) {
-        zeroWater.water = existingRecord.desiliters;
-      }
-    });
-
-    return data;
   }
 
   renderEnergyChart(chartData) {
@@ -341,9 +276,11 @@ class Trends extends Component {
   renderCharts() {
     // To make it simple here, we must have fetched data to render charts
     if (this.props.trends.meals && this.props.trends.waters) {
-      const chartData = this.buildChartData(
+      const chartData = buildChartData(
         this.props.trends.meals,
-        this.props.trends.waters
+        this.props.trends.waters,
+        this.state.startDate,
+        this.state.endDate
       );
       return (
         <div>

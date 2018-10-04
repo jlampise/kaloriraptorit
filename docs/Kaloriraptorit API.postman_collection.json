@@ -1,53 +1,66 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "f68928e0-49df-42ee-8f72-49a721b25b6d",
 		"name": "Kaloriraptorit API",
-		"_postman_id": "37f32806-97f6-22d3-2c95-deef9d575b8a",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Misc",
-			"description": "",
 			"item": [
 				{
 					"name": "Misc: Logout the current user.",
 					"request": {
-						"url": "localhost:5000/api/logout",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"logout"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Misc: Get current user.",
 					"request": {
-						"url": "localhost:5000/api/current_user",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/current_user",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"current_user"
+							]
+						}
 					},
 					"response": []
 				}
@@ -55,216 +68,313 @@
 		},
 		{
 			"name": "Water",
-			"description": "",
 			"item": [
 				{
 					"name": "Water: Get default target value",
 					"request": {
-						"url": "localhost:5000/api/water/target",
 						"method": "GET",
 						"header": [],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/api/watertarget",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"watertarget"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set default target value correctly",
 					"request": {
-						"url": "localhost:5000/api/water/target",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"target\": 10\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/watertarget",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"watertarget"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set default target value with bad value",
 					"request": {
-						"url": "localhost:5000/api/water/target",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"target\": -7\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/watertarget",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"watertarget"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set default target value with bad body",
 					"request": {
-						"url": "localhost:5000/api/water/target",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"taget\": 10\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/watertarget",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"watertarget"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set the daily water document correctly.",
 					"request": {
-						"url": "localhost:5000/api/water/2018-05-03",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": 6,\n\t\"target\": 4\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water/2018-05-03",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water",
+								"2018-05-03"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set the daily water document with bad date.",
 					"request": {
-						"url": "localhost:5000/api/water/2018-04-0",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": 9\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water/2018-04-0",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water",
+								"2018-04-0"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set the daily water document with bad value.",
 					"request": {
-						"url": "localhost:5000/api/water/2018-04-04",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": -1,\n\t\"target\": 5\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water/2018-04-04",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water",
+								"2018-04-04"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Set the daily water document with bad body.",
 					"request": {
-						"url": "localhost:5000/api/water/2018-04-04",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desilite\": 4,\n\t\"target\": 6\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water/2018-04-04",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water",
+								"2018-04-04"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Get the daily water document correctly.",
 					"request": {
-						"url": "localhost:5000/api/water/2018-04-04",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": 9\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water/2018-04-04",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water",
+								"2018-04-04"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Get the daily water document with bad date.",
 					"request": {
-						"url": "localhost:5000/api/water/2018-04-0",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": 9\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water/2018-04-0",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water",
+								"2018-04-0"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Water: Get the whole water document of the user.",
 					"request": {
-						"url": "localhost:5000/api/water",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": 9\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/water",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"water"
+							]
+						}
 					},
 					"response": []
 				}
@@ -272,65 +382,71 @@
 		},
 		{
 			"name": "Ingredients",
-			"description": "",
 			"item": [
 				{
 					"name": "Ingredients: Get ingredients correctly.",
 					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"desiliters\": 9\n}"
+						},
 						"url": {
-							"raw": "localhost:5000/api/fineli/foods?q=kaurapuuro",
+							"raw": "localhost:5000/api/ingredients?q=kaurapuuro",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
 								"api",
-								"fineli",
-								"foods"
+								"ingredients"
 							],
 							"query": [
 								{
 									"key": "q",
-									"value": "kaurapuuro",
-									"equals": true,
-									"description": ""
+									"value": "kaurapuuro"
 								}
-							],
-							"variable": []
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"desiliters\": 9\n}"
-						},
-						"description": ""
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Ingredients: Get ingredients with query missing.",
 					"request": {
-						"url": "localhost:5000/api/fineli/foods",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"desiliters\": 9\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/ingredients",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ingredients"
+							]
+						}
 					},
 					"response": []
 				}
@@ -338,7 +454,6 @@
 		},
 		{
 			"name": "Meals",
-			"description": "",
 			"item": [
 				{
 					"name": "Meals: (SAVE ID) Save new meal correctly.",
@@ -346,383 +461,572 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "c8fd1b1d-d096-4d07-b81a-52fc016a322c",
 								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"test-meal-id\", jsonData.createdMeal._id);",
+									"pm.globals.set(\"test-meal-id\", jsonData._id);",
+									"",
 									""
 								]
 							}
 						}
 					],
 					"request": {
-						"url": "localhost:5000/api/meals/new",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Save new meal correctly with no ingredients.",
 					"request": {
-						"url": "localhost:5000/api/meals/new",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Save new meal with extra-properties.",
 					"request": {
-						"url": "localhost:5000/api/meals",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t\"plaa\": \"PLAA\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Save new meal with malformatted date",
 					"request": {
-						"url": "localhost:5000/api/meals/new",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:0\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Save new meal with missing property.",
 					"request": {
-						"url": "localhost:5000/api/meals",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Get all the meals of the current user.",
 					"request": {
-						"url": "localhost:5000/api/meals/",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t    \"ingredients\": [\n\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								""
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Get specific meal with given id properly.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
 						"method": "GET",
 						"header": [],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Get specific meal with malformed id.",
 					"request": {
-						"url": "localhost:5000/api/meals/43145112",
 						"method": "GET",
 						"header": [],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/api/meals/43145112",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"43145112"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Get non-existing meal with given proper id.",
 					"request": {
-						"url": "localhost:5000/api/meals/5ac4a4236613d34c5d9e272d",
 						"method": "GET",
 						"header": [],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:5000/api/meals/5ac4a4236613d34c5d9e272d",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"5ac4a4236613d34c5d9e272d"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save existing meal properly.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save meal with non-existing id.",
 					"request": {
-						"url": "localhost:5000/api/meals/5ac4b2a76613d34c5d9e275c",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/5ac4b2a76613d34c5d9e275c",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"5ac4b2a76613d34c5d9e275c"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save meal with malformed id.",
 					"request": {
-						"url": "localhost:5000/api/meals/5ac4b2a76613d5c",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/5ac4b2a76613d5c",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"5ac4b2a76613d5c"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save existing meal with missing property.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save meal with malformatted date.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save meal with additional property.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"plaa\": \"PLAA\",\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save meal with missing property in ingredient.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"plaa\": \"PLAA\",\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t\"name\": \"Aamiainen\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Re-Save meal with missing property in meal.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"date\": \"2018-04-04T10:00:00+03:00\",\n\t    \"ingredients\": [\n        {\n            \"name\": \"Omena, kuivattu\",\n            \"mass\": 100,\n            \"kcal\": 274,\n            \"protein\": 0.89,\n            \"carbohydrate\": 60.2,\n            \"fat\": 0.32\n        },\n        {\n            \"name\": \"Jauheliha, broilerin\",\n            \"mass\": 150,\n            \"kcal\": 112,\n            \"protein\": 19.27,\n            \"carbohydrate\": 0,\n            \"fat\": 3.87\n        },\n        {\n            \"name\": \"Riisi, pitkäjyväinen\",\n            \"mass\": 80,\n            \"kcal\": 366,\n            \"protein\": 8.13,\n            \"carbohydrate\": 79,\n            \"fat\": 1.03\n        }\n    ]\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Delete non-existing meal.",
 					"request": {
-						"url": "localhost:5000/api/meals/5ac4a8932615d34c5d944e27",
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/5ac4a8932615d34c5d944e27",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"5ac4a8932615d34c5d944e27"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Delete meal with malformatted id.",
 					"request": {
-						"url": "localhost:5000/api/meals/5ac4a8932615d34c5d9",
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/5ac4a8932615d34c5d9",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"5ac4a8932615d34c5d9"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Meals: Delete meal with given id properly.",
 					"request": {
-						"url": "localhost:5000/api/meals/{{test-meal-id}}",
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "localhost:5000/api/meals/{{test-meal-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"meals",
+								"{{test-meal-id}}"
+							]
+						}
 					},
 					"response": []
 				}

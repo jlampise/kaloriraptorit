@@ -8,10 +8,7 @@ const DateInput = field => {
   const {
     meta: { touched, error }
   } = field;
-  const colSize = field.size ? field.size : '';
-  const className = `form-group ${colSize} ${
-    touched && error ? ' has-error' : ''
-  } `;
+  const className = `form-group ${touched && error ? ' has-error' : ''} `;
 
   return (
     <div className={className}>

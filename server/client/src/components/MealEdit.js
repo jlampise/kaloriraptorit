@@ -58,41 +58,46 @@ class MealEdit extends Component {
 
   render() {
     if (this.props.match.params.id && !this.props.initialValues) {
-      return (
-        <div>
-          No meal with given id exists.
-        </div>
-      );
+      return <div>No meal with given id exists.</div>;
     }
 
     const { handleSubmit, pristine, reset, submitting } = this.props;
-    let headerStr = this.props.match.params.id? 'Edit your meal' : 'Add a new meal';
+    let headerStr = this.props.match.params.id
+      ? 'Edit your meal'
+      : 'Add a new meal';
     return (
       <div className="container meal-edit-container">
         <h1>{headerStr}</h1>
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <div className="row">
-            <Field
-              name="name"
-              label="Meal name"
-              component={TextInput}
-              size="col-10 col-sm-5 col-md-3"
-            />
-            <Field
-              name="date"
-              label="Date & Time"
-              placeholder="YYYY-MM-DD"
-              component={DateInput}
-              size="col-10 col-sm-5 col-md-3"
-              showTime={true}
-            />
+            <div className="col-12 col-sm-6 col-lg-4">
+              <Field name="name" label="Meal name" component={TextInput} />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+              <Field
+                name="date"
+                label="Date & Time"
+                placeholder="YYYY-MM-DD"
+                component={DateInput}
+                showTime={true}
+              />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+              <Field
+                name="addIngredient"
+                label="Search Ingredient"
+                component={SearchInput}
+                chosen={this.chosenFood}
+              />
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={() => this.props.array.unshift('ingredients', {})}
+              >
+                Add custom ingredient
+              </button>
+            </div>
           </div>
-          <Field
-            name="addIngredient"
-            label="add custom ingredient"
-            component={SearchInput}
-            chosen={this.chosenFood}
-          />
           <FieldArray name="ingredients" component={IngredientsInput} />
           <div className="form__actions">
             <button type="submit" className="btn btn-success">
@@ -116,6 +121,7 @@ class MealEdit extends Component {
   }
 }
 
+// NOTICE: This "initialValues" -prop name is Redux-Form magic-word!!!
 function mapsStateToProps({ editableMeal, date }) {
   return { initialValues: editableMeal, date };
 }

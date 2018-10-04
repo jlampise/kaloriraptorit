@@ -5,13 +5,7 @@ import TextInput from './TextInput';
 const IngredientsInput = ({ fields, meta: { error, submitFailed } }) => {
   return (
     <div>
-      <button
-        className="btn btn-primary"
-        type="button"
-        onClick={() => fields.unshift({})}
-      >
-        Or add custom ingredient
-      </button>
+
       <ul>
         <li>{submitFailed && error && <span>{error}</span>}</li>
 

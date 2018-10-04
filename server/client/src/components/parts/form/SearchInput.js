@@ -8,10 +8,7 @@ const renderSearchField = field => {
   const {
     meta: { touched, error }
   } = field;
-  const colSize = field.size ? field.size : '';
-  const className = `form-group ${colSize} ${
-    touched && error ? ' has-error' : ''
-  } `;
+  const className = `form-group ${touched && error ? ' has-error' : ''} `;
   return (
     <div className={className}>
       <label>{field.label}</label>
@@ -23,8 +20,8 @@ const renderSearchField = field => {
           type="text"
           {...field.input} //generate all input events, like equliant to examples of: onChange={field.input.onChange} or onFocus={field.input.onFocus} or onBlur....
         />
-        <div class="input-group-append">
-          <button class="btn btn-secondary" disabled type="button">
+        <div className="input-group-append">
+          <button className="btn btn-secondary" disabled type="button">
             <i className="fas fa-search" />
           </button>
         </div>
@@ -78,16 +75,12 @@ class SearchInput extends Component {
     const foodSearch = _.debounce(this.searchIngredient.bind(this), 600);
     return (
       <div className="">
-        <div className="row">
-          <div className="col-md-4">
-            <Field
-              name="searchIngredient"
-              label="Search Ingredient"
-              component={renderSearchField}
-              onChange={foodSearch}
-            />
-          </div>
-        </div>
+        <Field
+          name="searchIngredient"
+          label="Search Ingredient"
+          component={renderSearchField}
+          onChange={foodSearch}
+        />
         <div>
           <ul className="ingredients list-group list-group-hover list-product-search scrollbar">
             {this.state.foodsearch.length >= 3 && this.addIngredient()}

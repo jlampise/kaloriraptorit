@@ -59,26 +59,6 @@ const WaterTargetSettings = ({
           <i className="fas fa-plus" />{' '}
         </button>
       </div>
-
-      {/* <div className="row">
-        <div className="col-12">
-          <h4>
-            Target today: 
-            
-          </h4>
-        </div>
-
-        <div className="col-12" />
-        <div className="col-12" />
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <h4>
-            Default target: {(defaultTarget / 10).toFixed(1)} liters
-            
-          </h4>
-        </div>
-        <div className="col-12" /> */}
     </div>
   );
 };

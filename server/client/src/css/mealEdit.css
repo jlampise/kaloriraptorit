@@ -1,3 +1,11 @@
+.meal-edit-container {
+  background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
+  padding: 30px;
+  border: 2px solid grey;
+  border-radius: 10px 10px 10px 10px;
+}
+
+
 .meal-edit-container form button {
   margin-left: 5px;
 }

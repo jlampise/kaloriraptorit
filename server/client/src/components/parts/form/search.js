@@ -16,7 +16,6 @@ const renderSearchField = field => {
     <div className={className}>
       <label>{field.label}</label>
       <div className="input-group">
-
         <input
           name={field.name}
           placeholder={field.placeholder ? field.placeholder : ''}
@@ -24,9 +23,11 @@ const renderSearchField = field => {
           type="text"
           {...field.input} //generate all input events, like equliant to examples of: onChange={field.input.onChange} or onFocus={field.input.onFocus} or onBlur....
         />
-        <span className="input-group-addon">
-          <span className="glyphicon glyphicon-search"></span>
-        </span>
+        <div class="input-group-append">
+          <button class="btn btn-secondary" disabled type="button">
+            <i className="fas fa-search" />
+          </button>
+        </div>
       </div>
       <div className="help-block">{touched ? error : ''}</div>
     </div>
@@ -42,7 +43,6 @@ class SearchField extends Component {
   searchIngredient(e) {
     this.setState({ foodsearch: e.target.value });
     if (e.target.value) {
-      
       this.props.searchIngredients(e.target.value);
     }
   }
@@ -104,4 +104,7 @@ function mapsStateToProps({ ingredients }) {
 }
 
 //and add redux connection
-export default connect(mapsStateToProps, { searchIngredients })(SearchField);
+export default connect(
+  mapsStateToProps,
+  { searchIngredients }
+)(SearchField);

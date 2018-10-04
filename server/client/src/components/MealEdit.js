@@ -14,6 +14,13 @@ import validate from './parts/form/validate';
 import '../css/mealEdit.css';
 
 class MealEdit extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.chosenFood = this.chosenFood.bind(this);
+  }
+
   componentDidMount() {
     if (this.props.match.params.id) {
       this.props.fetchMeal(this.props.match.params.id);
@@ -64,8 +71,8 @@ class MealEdit extends Component {
     let headerStr = this.props.match.params.id? 'Edit your meal' : 'Add a new meal';
     return (
       <div className="container meal-edit-container">
-        <h2>{headerStr}</h2>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <h1>{headerStr}</h1>
+        <form onSubmit={handleSubmit(this.onSubmit)}>
           <div className="row">
             <Field
               name="name"
@@ -86,7 +93,7 @@ class MealEdit extends Component {
             name="addIngredient"
             label="add custom ingredient"
             component={renderSearchField}
-            chosen={this.chosenFood.bind(this)}
+            chosen={this.chosenFood}
           />
           <FieldArray name="ingredients" component={renderIngredients} />
           <div className="form__actions">

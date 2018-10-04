@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { fetchMeal, updateMeal, createMeal, initNewMeal } from '../actions';
-import SearchInput from './parts/form/SearchInput';
+import IngredientSearchField from './parts/form/IngredientSearchField';
 import TextInput from './parts/form/TextInput';
 import DateInput from './parts/form/DateInput';
 import IngredientsInput from './parts/form/IngredientsInput';
@@ -16,7 +16,7 @@ class MealEdit extends Component {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.chosenFood = this.chosenFood.bind(this);
+    this.addIngredient = this.addIngredient.bind(this);
   }
 
   componentDidMount() {
@@ -39,21 +39,16 @@ class MealEdit extends Component {
     }
   }
 
-  chosenFood(foodInfo) {
-    let newFoodInfo = {};
-    for (let prop in foodInfo) {
-      switch (prop) {
-        case 'name':
-          newFoodInfo[prop] = foodInfo[prop];
-          break;
-        case 'fineliId':
-          newFoodInfo[prop] = foodInfo[prop];
-          break;
-        default:
-          newFoodInfo[prop] = Number(Math.round(foodInfo[prop] + 'e2') + 'e-2');
+  addIngredient(ingredient) {
+    let roundedFoodInfo = {};
+    for (let prop in ingredient) {
+      if (prop === 'name' || prop === 'fineliId') {
+        roundedFoodInfo[prop] = ingredient[prop];
+      } else {
+        roundedFoodInfo[prop] = Number(Math.round(ingredient[prop] + 'e2') + 'e-2');
       }
     }
-    this.props.array.unshift('ingredients', newFoodInfo);
+    this.props.array.unshift('ingredients', roundedFoodInfo);
   }
 
   render() {
@@ -83,11 +78,8 @@ class MealEdit extends Component {
               />
             </div>
             <div className="col-12 col-sm-6 col-lg-4">
-              <Field
-                name="addIngredient"
-                label="Search Ingredient"
-                component={SearchInput}
-                chosen={this.chosenFood}
+              <IngredientSearchField
+                pickIngredient={this.addIngredient}
               />
               <button
                 className="btn btn-primary"

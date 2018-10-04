@@ -31,7 +31,7 @@ const renderSearchField = field => {
   );
 };
 
-class SearchInput extends Component {
+class IngredientSearchField extends Component {
   constructor(props) {
     super(props);
     this.state = { foodsearch: '' };
@@ -52,7 +52,7 @@ class SearchInput extends Component {
       : [];
 
     let specificValue = ins => {
-      this.props.chosen(ins);
+      this.props.pickIngredient(ins);
       this.setState({ foodsearch: '' });
     };
 
@@ -100,4 +100,4 @@ function mapsStateToProps({ ingredients }) {
 export default connect(
   mapsStateToProps,
   { searchIngredients }
-)(SearchInput);
+)(IngredientSearchField);

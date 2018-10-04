@@ -34,7 +34,7 @@ const renderSearchField = field => {
   );
 };
 
-class SearchField extends Component {
+class SearchInput extends Component {
   constructor(props) {
     super(props);
     this.state = { foodsearch: '' };
@@ -107,4 +107,4 @@ function mapsStateToProps({ ingredients }) {
 export default connect(
   mapsStateToProps,
   { searchIngredients }
-)(SearchField);
+)(SearchInput);

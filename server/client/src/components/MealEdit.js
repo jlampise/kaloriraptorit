@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { fetchMeal, updateMeal, createMeal, initNewMeal } from '../actions';
-import renderSearchField from './parts/form/search';
-
-import {
-  renderField,
-  renderDateField,
-  renderIngredients
-} from './parts/form/fields';
+import SearchInput from './parts/form/SearchInput';
+import TextInput from './parts/form/TextInput';
+import DateInput from './parts/form/DateInput';
+import IngredientsInput from './parts/form/IngredientsInput';
 import validate from './parts/form/validate';
+
 import '../css/mealEdit.css';
 
 class MealEdit extends Component {
@@ -77,14 +75,14 @@ class MealEdit extends Component {
             <Field
               name="name"
               label="Meal name"
-              component={renderField}
+              component={TextInput}
               size="col-10 col-sm-5 col-md-3"
             />
             <Field
               name="date"
               label="Date & Time"
               placeholder="YYYY-MM-DD"
-              component={renderDateField}
+              component={DateInput}
               size="col-10 col-sm-5 col-md-3"
               showTime={true}
             />
@@ -92,10 +90,10 @@ class MealEdit extends Component {
           <Field
             name="addIngredient"
             label="add custom ingredient"
-            component={renderSearchField}
+            component={SearchInput}
             chosen={this.chosenFood}
           />
-          <FieldArray name="ingredients" component={renderIngredients} />
+          <FieldArray name="ingredients" component={IngredientsInput} />
           <div className="form__actions">
             <button type="submit" className="btn btn-success">
               Save

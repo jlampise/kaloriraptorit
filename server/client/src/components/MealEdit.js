@@ -69,7 +69,7 @@ class MealEdit extends Component {
           <div className="container name-date-search">
             <div class="row">
               <div className="col-12 col-sm-6 col-lg-4">
-                <Field name="name" label="Meal name" component={TextInput} />
+                <Field name="name" label="Name" component={TextInput} />
               </div>
               <div className="col-12 col-sm-6 col-lg-4">
                 <Field

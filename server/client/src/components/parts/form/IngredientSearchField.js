@@ -58,7 +58,7 @@ class IngredientSearchField extends Component {
       <div className="">
         <Field
           name="searchIngredient"
-          label="Search Ingredient"
+          label="Search and Add Ingredient"
           component={SearchInput}
           onChange={foodSearch}
         />

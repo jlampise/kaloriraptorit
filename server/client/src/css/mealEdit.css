@@ -6,29 +6,26 @@
 }
 
 
-.meal-edit-container form button {
-  margin-left: 5px;
-}
-.meal-edit-container form button:first-of-type {
-  margin-left: 0;
-}
-.meal-edit-container .remove-ingredient {
-  margin-top: 20px;
-}
-.meal-edit-container .form__subtitle {
-  margin-top: 0;
-}
-.meal-edit-container .form__actions {
-  margin-top: 40px;
-  border-top: 5px solid rgb(255, 255, 255);
-  padding-top: 40px;
-}
-
 .meal-edit-container form ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
+
+.meal-edit-container form button {
+  margin-left: 5px;
+}
+
+.meal-edit-container form button:first-of-type {
+  margin-left: 0;
+}
+
+
+
+/* ------------------------------ */
+/* Name, date and search -section */
+/* ------------------------------ */
 
 .meal-edit-container .DayPickerInput input {
   display: block;
@@ -50,11 +47,6 @@
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-/* ingredients */
-.meal-edit-container .ingredient-actions {
-  margin: 25px -15px;
-}
-
 .meal-edit-container ul.ingredients {
   max-height: 400px;
   min-width: 300px;
@@ -64,20 +56,20 @@
   position: absolute;
   margin-top: -15px;
   width: 31%;
-}
+} 
 
 .meal-edit-container .ingredients li {
   cursor: pointer;
 }
-.meal-edit-container .remove-ingredient {
-  border-radius: 25px;
-  padding: 6px 9px;
-  position: absolute;
-  top: -28px;
-  right: -7px;
-}
+
+
+
+/* -------------------- */
+/* Ingredients -section */
+/* -------------------- */
+
 .meal-edit-container li > div.ingredient {
-  margin: 20px 0px;
+  margin: 10px 10px 10px 10px;
     padding: 20px 0px;
     padding-left: 10px;
     /* border: 1px solid beige; */
@@ -86,6 +78,32 @@
     position: relative;
     width: 80%;
 }
+
+
+/* .meal-edit-container .remove-ingredient {
+  border-radius: 25px;
+  padding: 6px 9px;
+  position: absolute;
+  top: -48px;
+  right: -7px;
+} */
+
+
+
+/* ---------------- */
+/* Actions -section */
+/* ---------------- */
+
+
+.meal-edit-container .actions {
+  margin-top: 40px;
+  border-top: 5px solid rgb(255, 255, 255);
+  padding-top: 40px;
+}
+
+
+
+
 @media (max-width: 992px){
   .meal-edit-container li > div.ingredient {
     width: 90%;

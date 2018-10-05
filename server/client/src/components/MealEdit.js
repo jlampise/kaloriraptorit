@@ -45,7 +45,9 @@ class MealEdit extends Component {
       if (prop === 'name' || prop === 'fineliId') {
         roundedFoodInfo[prop] = ingredient[prop];
       } else {
-        roundedFoodInfo[prop] = Number(Math.round(ingredient[prop] + 'e2') + 'e-2');
+        roundedFoodInfo[prop] = Number(
+          Math.round(ingredient[prop] + 'e2') + 'e-2'
+        );
       }
     }
     this.props.array.unshift('ingredients', roundedFoodInfo);
@@ -59,39 +61,39 @@ class MealEdit extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     let headerStr = this.props.match.params.id
       ? 'Edit your meal'
-      : 'Add a new meal';
+      : 'Add new meal';
     return (
       <div className="container meal-edit-container">
         <h1>{headerStr}</h1>
         <form onSubmit={handleSubmit(this.onSubmit)}>
-          <div className="row">
-            <div className="col-12 col-sm-6 col-lg-4">
-              <Field name="name" label="Meal name" component={TextInput} />
-            </div>
-            <div className="col-12 col-sm-6 col-lg-4">
-              <Field
-                name="date"
-                label="Date & Time"
-                placeholder="YYYY-MM-DD"
-                component={DateInput}
-                showTime={true}
-              />
-            </div>
-            <div className="col-12 col-sm-6 col-lg-4">
-              <IngredientSearchField
-                pickIngredient={this.addIngredient}
-              />
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={() => this.props.array.unshift('ingredients', {})}
-              >
-                Add custom ingredient
-              </button>
+          <div className="container name-date-search">
+            <div class="row">
+              <div className="col-12 col-sm-6 col-lg-4">
+                <Field name="name" label="Meal name" component={TextInput} />
+              </div>
+              <div className="col-12 col-sm-6 col-lg-4">
+                <Field
+                  name="date"
+                  label="Date & Time"
+                  placeholder="YYYY-MM-DD"
+                  component={DateInput}
+                  showTime={true}
+                />
+              </div>
+              <div className="col-12 col-sm-6 col-lg-4">
+                <IngredientSearchField pickIngredient={this.addIngredient} />
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={() => this.props.array.unshift('ingredients', {})}
+                >
+                  Add custom ingredient
+                </button>
+              </div>
             </div>
           </div>
           <FieldArray name="ingredients" component={IngredientsInput} />
-          <div className="form__actions">
+          <div className="actions">
             <button type="submit" className="btn btn-success">
               Save
             </button>

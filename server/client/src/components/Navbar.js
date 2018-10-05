@@ -65,7 +65,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
         <div className="container">
           <div className="navbar-brand" href="#">
-            <Link className="nav-link" to={this.isLoggedIn() ? '/meals' : '/'}>
+            <Link className="nav-link" to="/">
               KaloriRaptorit
             </Link>
           </div>

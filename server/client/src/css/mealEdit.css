@@ -46,14 +46,16 @@
 /* Ingredients -section */
 /* -------------------- */
 
-.meal-edit-container div.ingredients {
-    border-radius: 5px;
-    border: solid 1px grey;
+.meal-edit-container div.ingredient {
+  background-color: rgb(167, 228, 165);
+  border-radius: 10px 10px 10px 10px;
+  margin-top: 20px;
+  padding: 10px;
 }
 
-.meal-edit-container div.ingredient {
-    border-radius: 5px;
-    border: solid 1px grey;
+.meal-edit-container div.ingredient .btn {
+  width: 50px;
+  margin: 0 10px 0 10px;
 }
 
 /* ---------------- */
@@ -63,8 +65,12 @@
 
 .meal-edit-container .actions {
   margin-top: 40px;
-  border-top: 5px solid rgb(255, 255, 255);
+  border-top: 3px solid rgb(194, 193, 193);
   padding-top: 40px;
+}
+
+.meal-edit-container .actions .btn {
+  margin: 0 10px 0 10px;
 }
 
 

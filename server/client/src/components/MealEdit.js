@@ -67,7 +67,7 @@ class MealEdit extends Component {
         <h1>{headerStr}</h1>
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <div className="container name-date-search">
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-6 col-lg-4">
                 <Field name="name" label="Name" component={TextInput} />
               </div>
@@ -82,13 +82,6 @@ class MealEdit extends Component {
               </div>
               <div className="col-12 col-sm-6 col-lg-4">
                 <IngredientSearchField pickIngredient={this.addIngredient} />
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={() => this.props.array.unshift('ingredients', {})}
-                >
-                  Add custom ingredient
-                </button>
               </div>
             </div>
           </div>

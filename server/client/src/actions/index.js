@@ -152,9 +152,13 @@ export const clearTrendsData = () => dispatch => {
 };
 
 export const updateMeal = (mealId, values, callback) => async dispatch => {
-  const res = await axios.put(`/api/meals/${mealId}`, values);
-  callback();
-  dispatch({ type: UPDATE_MEAL, payload: res.data });
+  try {
+    const res = await axios.put(`/api/meals/${mealId}`, values);
+    callback();
+    dispatch({ type: UPDATE_MEAL, payload: res.data });
+  } catch (err) {
+    dispatch({ type: UPDATE_MEAL, payload: null });
+  }
 };
 
 export const searchIngredients = query => async dispatch => {

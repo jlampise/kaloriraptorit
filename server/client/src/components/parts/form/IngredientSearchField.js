@@ -8,11 +8,12 @@ import SearchInput from './SearchInput';
 class IngredientSearchField extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { searchTerm: '' };
     this.searchIngredient = this.searchIngredient.bind(this);
   }
 
   searchIngredient(e) {
+    this.setState({ searchTerm: e.target.value });
     if (e.target.value) {
       this.props.searchIngredients(e.target.value);
     }
@@ -25,6 +26,11 @@ class IngredientSearchField extends Component {
         : []
       : [];
 
+    const pickIngredient = ingredient => {
+      this.props.pickIngredient(ingredient);
+      this.setState({ searchTerm: '' });
+    };
+
     return (
       <div>
         <ul className="ingredients list-group list-group-hover list-product-search scrollbar">
@@ -33,7 +39,7 @@ class IngredientSearchField extends Component {
               <li
                 className="list-group-item"
                 onClick={() => {
-                  this.props.pickIngredient(ingredient);
+                  pickIngredient(ingredient);
                 }}
                 key={index}
               >
@@ -56,7 +62,7 @@ class IngredientSearchField extends Component {
           component={SearchInput}
           onChange={foodSearch}
         />
-        {this.renderIngredientList()}
+        {this.state.searchTerm.length >= 3 && this.renderIngredientList()}
       </div>
     );
   }

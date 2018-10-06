@@ -29,19 +29,6 @@
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-.meal-edit-container ul.ingredients {
-  max-height: 400px;
-  min-width: 300px;
-  max-width: 600px;
-  z-index: 5;
-  overflow: auto;
-  position: absolute;
-  margin-top: -15px;
-  width: 31%;
-  cursor: pointer;
-} 
-
-
 /* -------------------- */
 /* Ingredients -section */
 /* -------------------- */

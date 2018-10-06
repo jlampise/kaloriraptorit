@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { fetchMeal, updateMeal, createMeal, initNewMeal } from '../actions';
-import IngredientSearchField from './parts/form/IngredientSearchField';
+import IngredientSelect from './parts/form/IngredientSelect';
 import TextInput from './parts/form/TextInput';
 import DateInput from './parts/form/DateInput';
 import IngredientsInput from './parts/form/IngredientsInput';
@@ -18,7 +18,7 @@ class MealEdit extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
   }
-
+  
   componentDidMount() {
     if (this.props.match.params.id) {
       this.props.fetchMeal(this.props.match.params.id);
@@ -81,11 +81,12 @@ class MealEdit extends Component {
                 />
               </div>
               <div className="col-12 col-sm-6 col-lg-4">
-                <IngredientSearchField pickIngredient={this.addIngredient} />
+                <IngredientSelect selectIngredient={this.addIngredient} />
               </div>
             </div>
           </div>
           <FieldArray name="ingredients" component={IngredientsInput} />
+
           <div className="actions">
             <button type="submit" className="btn btn-success">
               Save
@@ -106,6 +107,7 @@ class MealEdit extends Component {
       </div>
     );
   }
+
 }
 
 // NOTICE: This "initialValues" -prop name is Redux-Form magic-word!!!

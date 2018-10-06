@@ -14,8 +14,7 @@ import {
   FETCH_TRENDS_WATER_DATA,
   FETCH_TRENDS_MEALS_DATA,
   FETCH_DEFAULT_WATER_TARGET,
-  UPDATE_MEAL,
-  FETCH_INGREDIENTS
+  UPDATE_MEAL
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -159,9 +158,4 @@ export const updateMeal = (mealId, values, callback) => async dispatch => {
   } catch (err) {
     dispatch({ type: UPDATE_MEAL, payload: null });
   }
-};
-
-export const searchIngredients = query => async dispatch => {
-  const res = await axios.get(`/api/ingredients?q=${query}`);
-  dispatch({ type: FETCH_INGREDIENTS, payload: res.data });
 };

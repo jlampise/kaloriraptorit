@@ -2,6 +2,63 @@
 
 const passport = require('passport');
 const router = require('express').Router();
+const mongoose = require('mongoose');
+
+const pw = require('../services/password');
+const User = mongoose.model('users');
+const Water = mongoose.model('waters');
+
+const WATER_TARGET_INITIAL_VALUE = 0;
+
+router.post('/register', async function(req, res) {
+  if (
+    !req.body.username ||
+    !req.body.password ||
+    req.body.username.length === 0 ||
+    req.body.password === 0
+  ) {
+    return res.status(409).json({ message: 'username already in use' });
+  }
+
+  const newWaterId = new mongoose.mongo.ObjectID();
+  const user = new User({
+    username: req.body.username,
+    password: pw.createHash(req.body.password),
+    name: req.body.username,
+    _water: newWaterId
+  });
+
+  user.save((err, item) => {
+    if (err) {
+
+      return res.status(409).json({ message: 'username already in use' });
+    } else {
+      const water = new Water({
+        _id: newWaterId,
+        _user: user._id,
+        defaultTarget: WATER_TARGET_INITIAL_VALUE,
+        dailyWaters: []
+      });
+
+      water.save((err, item) => {
+        if (err) {
+          return res.status(409).json({ message: 'username already in use' });
+        } else {
+          return res.status(200).json({ message: 'success' });
+        }
+      });
+    }
+  });
+});
+
+router.post(
+  '/login',
+  passport.authenticate('local', {
+    // successfulRedirect: '/',
+    // failureRedirect: '/local'
+    //    failureFlash: 'Invalid username or password.'
+  })
+);
 
 router.get(
   '/google',
@@ -10,12 +67,8 @@ router.get(
   })
 );
 
-router.get(
-  '/google/callback',
-  passport.authenticate('google'),
-  (req, res) => {
-    res.redirect('/');
-  }
-);
+router.get('/google/callback', passport.authenticate('google'), (req, res) => {
+  res.redirect('/');
+});
 
 module.exports = router;

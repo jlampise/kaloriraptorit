@@ -2,10 +2,12 @@
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const MockStrategy = require('passport-mock-strategy');
 const testUser = require('../config/testUser');
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
+const pw = require('./password');
 
 const User = mongoose.model('users');
 const Water = mongoose.model('waters');
@@ -17,26 +19,26 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    done(null, user);
+  User.findById(id, (err, user) => {
+    done(err, { _id: user._id, name: user.name });
   });
 });
 
-passport.use(strategyForEnvironment());
-
-function strategyForEnvironment() {
-  if (process.env.NODE_ENV === 'test') {
-    return new MockStrategy(
+if (process.env.NODE_ENV === 'test') {
+  passport.use(
+    new MockStrategy(
       {
         name: 'google',
         user: testUser
       },
       (user, done) => {
-        strategyCallback(null, null, user, done);
+        googleStrategyCallback(null, null, user, done);
       }
-    );
-  } else {
-    return new GoogleStrategy(
+    )
+  );
+} else {
+  passport.use(
+    new GoogleStrategy(
       {
         name: 'google',
         clientID: keys.googleClientID,
@@ -44,12 +46,46 @@ function strategyForEnvironment() {
         callbackURL: '/auth/google/callback',
         proxy: true
       },
-      strategyCallback
-    );
+      googleStrategyCallback
+    )
+  );
+  passport.use(
+    new LocalStrategy(
+      {
+        usernameField: 'username',
+        passwordField: 'password'
+      },
+      localStrategyCallback
+    )
+  );
+}
+
+async function localStrategyCallback(username, password, done) {
+  console.log('Calling localStrategyCallback with username: ' + username);
+
+  const user = await User.findOne({ username: username });
+  if (user) {
+    console.log('Login found user: ' + user);
+
+    if (!pw.isPasswordValid(password, user.password)) {
+      console.log('Login: wrong password!');
+      return done(null, false, { message: 'Incorrect username or password.' });
+    } else {
+      console.log('Login: Password correct, logging in user: ' + user);
+      return done(null, user);
+    }
+  } else {
+    console.log('Login: no user found, ' + username);
+    return done(null, false, { message: 'Incorrect username or password.' });
   }
 }
 
-async function strategyCallback(accessToken, refreshToken, profile, done) {
+async function googleStrategyCallback(
+  accessToken,
+  refreshToken,
+  profile,
+  done
+) {
   const existingUser = await User.findOne({ googleId: profile.id });
 
   if (existingUser) {

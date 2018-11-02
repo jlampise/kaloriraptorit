@@ -7,7 +7,7 @@ import IngredientSelect from './parts/form/IngredientSelect';
 import TextInput from './parts/form/TextInput';
 import DateInput from './parts/form/DateInput';
 import IngredientsInput from './parts/form/IngredientsInput';
-import validate from './parts/form/validate';
+import validate from './parts/form/validateMealForm';
 
 import '../css/mealEdit.css';
 

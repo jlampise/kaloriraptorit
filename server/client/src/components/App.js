@@ -9,6 +9,8 @@ import Navbar from './Navbar';
 import Landing from './Landing';
 import MealEditComponent from './MealEdit';
 import TrendsComponent from './Trends';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 import '../css/app.css';
 
 const LoadingSpinner = () => <h2>Checking authentication...</h2>;
@@ -45,6 +47,8 @@ class App extends Component {
               <Route exact path="/meals/new" component={MealNew} />
               <Route exact path="/meals/edit/:id" component={MealEdit} />
               <Route exact path="/trends" component={Trends} />
+              <Route exact path="/register" component={RegisterForm} />
+              <Route exact path="/login" component={LoginForm} />
               <Route path="/" render={() => <Redirect to="/" />} />
             </Switch>
           </div>
@@ -54,4 +58,7 @@ class App extends Component {
   }
 }
 
-export default connect(null, actions)(App);
+export default connect(
+  null,
+  actions
+)(App);

@@ -20,13 +20,33 @@ class Navbar extends Component {
   renderAuthNav() {
     if (this.isLoadingAuth()) {
       return null;
+    } else if (this.isLoggedIn()) {
+      return (
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <a className="nav-link" href="/api/logout">
+              Logout
+            </a>
+          </li>
+        </ul>
+      );
     } else {
       return (
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a href={this.isLoggedIn() ? '/api/logout' : '/auth/google'}>
+            <Link className="nav-link" to="/register">
+              Register
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/auth/google">
               <i className="fab fa-google" />
-              {this.isLoggedIn() ? ' Logout ' : ' Login'}
+              -Login
             </a>
           </li>
         </ul>

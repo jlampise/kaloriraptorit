@@ -42,7 +42,7 @@ router.post('/register', function(req, res) {
             defaultTarget: WATER_TARGET_INITIAL_VALUE,
             dailyWaters: []
           });
-          water.save((err) => {
+          water.save(err => {
             if (err) {
               return res
                 .status(409)
@@ -57,17 +57,9 @@ router.post('/register', function(req, res) {
   });
 });
 
-router.post(
-  '/login',
-  passport.authenticate('local', {
-    // successfulRedirect: '/',
-    // failureRedirect: '/local'
-    //    failureFlash: 'Invalid username or password.'
-  }),
-  (req, res) => {
-    return res.status(200).json({ message: 'success' });
-  }
-);
+router.post('/login', passport.authenticate('local', {}), (req, res) => {
+  return res.status(200).json({ message: 'success' });
+});
 
 router.get(
   '/google',

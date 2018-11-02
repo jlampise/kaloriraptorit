@@ -25,23 +25,13 @@ mongoose.connect(
 app.use(bodyParser.json());
 app.use(
   cookieSession({
-    maxAge: 1 * 60 * 1000,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [keys.cookieKey]
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-app.use((req, res, next) => {
-  console.log('User:');
-  console.log(req.user);
-  console.log('Session:');
-  console.log(req.session);
-  next();
-});
-
 
 
 // Setup routes

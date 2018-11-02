@@ -10,7 +10,7 @@ const Water = mongoose.model('waters');
 
 const WATER_TARGET_INITIAL_VALUE = 0;
 
-router.post('/register', async function(req, res) {
+router.post('/register', function(req, res) {
   if (
     !req.body.username ||
     !req.body.password ||
@@ -20,31 +20,37 @@ router.post('/register', async function(req, res) {
     return res.status(409).json({ message: 'username already in use' });
   }
 
-  const newWaterId = new mongoose.mongo.ObjectID();
-  const user = new User({
-    username: req.body.username,
-    password: pw.createHash(req.body.password),
-    name: req.body.username,
-    _water: newWaterId
-  });
-
-  user.save((err, item) => {
-    if (err) {
-
+  User.findOne({ username: req.body.username }, (err, foundUser) => {
+    if (!err && foundUser) {
       return res.status(409).json({ message: 'username already in use' });
     } else {
-      const water = new Water({
-        _id: newWaterId,
-        _user: user._id,
-        defaultTarget: WATER_TARGET_INITIAL_VALUE,
-        dailyWaters: []
+      const newWaterId = new mongoose.mongo.ObjectID();
+      const user = new User({
+        username: req.body.username,
+        password: pw.createHash(req.body.password),
+        name: req.body.username,
+        _water: newWaterId
       });
 
-      water.save((err, item) => {
+      user.save((err, createdUser) => {
         if (err) {
           return res.status(409).json({ message: 'username already in use' });
         } else {
-          return res.status(200).json({ message: 'success' });
+          const water = new Water({
+            _id: newWaterId,
+            _user: createdUser._id,
+            defaultTarget: WATER_TARGET_INITIAL_VALUE,
+            dailyWaters: []
+          });
+          water.save((err) => {
+            if (err) {
+              return res
+                .status(409)
+                .json({ message: 'username already in use' });
+            } else {
+              return res.status(200).json({ message: 'success' });
+            }
+          });
         }
       });
     }
@@ -57,7 +63,10 @@ router.post(
     // successfulRedirect: '/',
     // failureRedirect: '/local'
     //    failureFlash: 'Invalid username or password.'
-  })
+  }),
+  (req, res) => {
+    return res.status(200).json({ message: 'success' });
+  }
 );
 
 router.get(

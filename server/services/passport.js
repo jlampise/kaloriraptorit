@@ -61,21 +61,14 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 async function localStrategyCallback(username, password, done) {
-  console.log('Calling localStrategyCallback with username: ' + username);
-
   const user = await User.findOne({ username: username });
   if (user) {
-    console.log('Login found user: ' + user);
-
     if (!pw.isPasswordValid(password, user.password)) {
-      console.log('Login: wrong password!');
       return done(null, false, { message: 'Incorrect username or password.' });
     } else {
-      console.log('Login: Password correct, logging in user: ' + user);
       return done(null, user);
     }
   } else {
-    console.log('Login: no user found, ' + username);
     return done(null, false, { message: 'Incorrect username or password.' });
   }
 }

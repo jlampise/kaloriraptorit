@@ -8,20 +8,22 @@ const testUser = require('../config/testUser');
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 const pw = require('./password');
+const config = require('../config/config');
 
 const User = mongoose.model('users');
 const Water = mongoose.model('waters');
-
-const WATER_TARGET_INITIAL_VALUE = 0;
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, '-password', (err, user) => {
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id, '-password');
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 if (process.env.NODE_ENV === 'test') {
@@ -61,15 +63,21 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 async function localStrategyCallback(username, password, done) {
-  const user = await User.findOne({ username: username });
-  if (user) {
-    if (!pw.isPasswordValid(password, user.password)) {
-      return done(null, false, { message: 'Incorrect username or password.' });
+  try {
+    const user = await User.findOne({ username: username });
+    if (user) {
+      if (!pw.isPasswordValid(password, user.password)) {
+        return done(null, false, {
+          message: 'Incorrect username or password.'
+        });
+      } else {
+        return done(null, user);
+      }
     } else {
-      return done(null, user);
+      return done(null, false, { message: 'Incorrect username or password.' });
     }
-  } else {
-    return done(null, false, { message: 'Incorrect username or password.' });
+  } catch (err) {
+    done(err, null);
   }
 }
 
@@ -79,22 +87,26 @@ async function googleStrategyCallback(
   profile,
   done
 ) {
-  const existingUser = await User.findOne({ googleId: profile.id });
+  try {
+    const existingUser = await User.findOne({ googleId: profile.id });
 
-  if (existingUser) {
-    return done(null, existingUser);
+    if (existingUser) {
+      return done(null, existingUser);
+    }
+    const newWaterId = new mongoose.mongo.ObjectID();
+    const user = await new User({
+      googleId: profile.id,
+      name: profile.name.givenName,
+      _water: newWaterId
+    }).save();
+    await new Water({
+      _id: newWaterId,
+      _user: user._id,
+      defaultTarget: config.WATER_TARGET_INITIAL_VALUE,
+      dailyWaters: []
+    }).save();
+    done(null, user);
+  } catch (err) {
+    done(err, null);
   }
-  const newWaterId = new mongoose.mongo.ObjectID();
-  const user = await new User({
-    googleId: profile.id,
-    name: profile.name.givenName,
-    _water: newWaterId
-  }).save();
-  await new Water({
-    _id: newWaterId,
-    _user: user._id,
-    defaultTarget: WATER_TARGET_INITIAL_VALUE,
-    dailyWaters: []
-  }).save();
-  done(null, user);
 }

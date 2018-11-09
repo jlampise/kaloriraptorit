@@ -7,8 +7,7 @@ const mongoose = require('mongoose');
 const pw = require('../services/password');
 const User = mongoose.model('users');
 const Water = mongoose.model('waters');
-
-const WATER_TARGET_INITIAL_VALUE = 0;
+const config = require('../config/config');
 
 router.post('/register', function(req, res) {
   if (
@@ -39,7 +38,7 @@ router.post('/register', function(req, res) {
           const water = new Water({
             _id: newWaterId,
             _user: createdUser._id,
-            defaultTarget: WATER_TARGET_INITIAL_VALUE,
+            defaultTarget: config.WATER_TARGET_INITIAL_VALUE,
             dailyWaters: []
           });
           water.save(err => {

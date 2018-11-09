@@ -25,6 +25,7 @@ mongoose.connect(
 app.use(bodyParser.json());
 app.use(
   cookieSession({
+    name: 'kr-session',
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [keys.cookieKey]
   })

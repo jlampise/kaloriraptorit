@@ -33,7 +33,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.2.0",
     "concurrently": "^3.6.1",
-    "eslint": "^4.19.1",
+    "eslint": "^5.6.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4"
   }

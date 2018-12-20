@@ -4,12 +4,17 @@ Library                         SeleniumLibrary
 ***Test case***
 Open Application
   Open Application
-  Pause
 
-# Login
-#   Login With Google
-#   Pause
+Register
+  Go to Register Form
+  Add new User
 
+Login
+  Go to Login Form
+  Login with Username and Password
+
+Logout
+  Logout
 
 Close Browser
   Close Browser
@@ -18,27 +23,35 @@ Close Browser
 
 ${startURL}                     localhost:3000
 ${BROWSER}                      Chrome
-
+${USERNAME}                     Testuser
+${PASSWORD}                     Testuser
 
 ***Keyword***
 Open Application
-  Open Browser                  ${startURL}       ${BROWSER}
+  Open Browser                  ${startURL}           ${BROWSER}
   Title Should Be               Kaloriraptorit
 
+Go to Register Form
+  Click Link                    partial link:Register
+
+Add new User
+  Input Text                    name:username         ${USERNAME}
+  Input Text                    name:password         ${PASSWORD}
+  Click Button                  class:btn
 # Login With Google
 #   Click Link                    partial link:Login
 
-Pause
-  Sleep                         3 secs
 
-# Open Chrome
-#     ${options}=    Evaluate   sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
-#     # Call Method    ${options}    add_argument    --allow-running-insecure-content
-#     # Call Method    ${options}    add_argument    --disable-web-security
-#     # Call Method    ${options}    add_argument    --headless
-#     # Call Method    ${options}    add_argument    --no-sandbox
-#     # Call Method    ${options}    add_argument    --disable-dev-shm-usage
-#     ${options.add_argument}=    Set Variable     --user-data-dir\=/home/jlampfise/.config/chro
-#     # Call Method    ${options}    add_argument    --user-data-dir\=/home/jlampise/.config/chromium/
-#     Create WebDriver    ${BROWSER}    chrome_options=${options}
-#     Go To    ${startURL}
+Go to Login Form
+  Click Link                    partial link:Login
+
+Login with Username and Password
+  Input Text                    name:username         ${USERNAME}
+  Input Text                    name:password         ${PASSWORD}
+  Click Button                  class:btn
+
+Logout
+  Click Link                    partial link:Logout
+
+Pause
+  Sleep                         1.5 secs

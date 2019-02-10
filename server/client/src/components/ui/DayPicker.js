@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTimePicker } from 'react-widgets';
-import '../css/dayPicker.css';
+import '../../css/dayPicker.css';
 
 export default ({ chooseDate, currentDate }) => {
   return (

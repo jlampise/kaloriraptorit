@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { fetchMeal, updateMeal, createMeal, initNewMeal } from '../actions';
-import IngredientSelect from './parts/form/IngredientSelect';
-import TextInput from './parts/form/TextInput';
-import DateInput from './parts/form/DateInput';
-import IngredientsInput from './parts/form/IngredientsInput';
-import validate from './parts/form/validateMealForm';
+import { fetchMeal, updateMeal, createMeal, initNewMeal } from '../../actions';
+import IngredientSelect from '../form/IngredientSelect';
+import TextInput from '../form/TextInput';
+import DateInput from '../form/DateInput';
+import IngredientsInput from '../form/IngredientsInput';
+import validate from '../form/validateMealForm';
 
-import '../css/mealEdit.css';
+import '../../css/mealForm.css';
 
-class MealEdit extends Component {
+class MealForm extends Component {
   constructor(props) {
     super(props);
 
@@ -63,7 +63,7 @@ class MealEdit extends Component {
       ? 'Edit your meal'
       : 'Add new meal';
     return (
-      <div className="container meal-edit-container">
+      <div className="container meal-form-container">
         <h1>{headerStr}</h1>
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <div className="container name-date-search">
@@ -120,7 +120,7 @@ let InitializeFromStateForm = reduxForm({
   form: 'editMeal',
   validate,
   enableReinitialize: true
-})(MealEdit);
+})(MealForm);
 
 //and add redux connection
 InitializeFromStateForm = connect(

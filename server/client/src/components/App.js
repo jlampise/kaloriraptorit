@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 
-import DailyComponent from './Daily';
 import Navbar from './Navbar';
-import Landing from './Landing';
-import MealEditFormComponent from './MealEditForm';
-import TrendsComponent from './Trends';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import DailyScreenComponent from './screens/Daily/Daily';
+import MealFormSreenComponent from './screens/MealForm';
+import TrendsScreenComponent from './screens/Trends';
+import LandingScreen from './screens/Landing';
+import LoginFormScreen from './screens/LoginForm';
+import RegisterFormScreen from './screens/RegisterForm';
 import '../css/app.css';
 
 const LoadingSpinner = () => <h2>Checking authentication...</h2>;
@@ -25,9 +25,9 @@ const userIsAuthenticated = connectedRouterRedirect({
   AuthenticatingComponent: LoadingSpinner
 });
 
-const Daily = userIsAuthenticated(DailyComponent);
-const MealEditForm = userIsAuthenticated(MealEditFormComponent);
-const Trends = userIsAuthenticated(TrendsComponent);
+const DailyScreen = userIsAuthenticated(DailyScreenComponent);
+const MealFormScreen = userIsAuthenticated(MealFormSreenComponent);
+const TrendsScreen = userIsAuthenticated(TrendsScreenComponent);
 
 class App extends Component {
   componentDidMount() {
@@ -41,13 +41,13 @@ class App extends Component {
           <div>
             <Navbar />
             <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/daily" component={Daily} />
-              <Route exact path="/meals/new" component={MealEditForm} />
-              <Route exact path="/meals/edit/:id" component={MealEditForm} />
-              <Route exact path="/trends" component={Trends} />
-              <Route exact path="/register" component={RegisterForm} />
-              <Route exact path="/login" component={LoginForm} />
+              <Route exact path="/" component={LandingScreen} />
+              <Route exact path="/daily" component={DailyScreen} />
+              <Route exact path="/meals/new" component={MealFormScreen} />
+              <Route exact path="/meals/edit/:id" component={MealFormScreen} />
+              <Route exact path="/trends" component={TrendsScreen} />
+              <Route exact path="/register" component={RegisterFormScreen} />
+              <Route exact path="/login" component={LoginFormScreen} />
               <Route path="/" render={() => <Redirect to="/" />} />
             </Switch>
           </div>

@@ -4,7 +4,7 @@ import {
   setWater,
   setDefaultWaterTarget,
   fetchDefaultWaterTarget,
-} from '../actions';
+} from '../../../actions';
 import WaterProgressBar from './WaterProgressBar';
 import WaterTargetSettings from './WaterTargetSettings';
 

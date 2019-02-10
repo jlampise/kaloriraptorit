@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import TextInput from './parts/form/TextInput';
-import PasswordInput from './parts/form/PasswordInput';
-import validate from './parts/form/validateRegisterForm';
+import TextInput from '../form/TextInput';
+import PasswordInput from '../form/PasswordInput';
+import validate from '../form/validateRegisterForm';
 import axios from 'axios';
 
-import '../css/userForm.css';
+import '../../css/userForm.css';
 
 class RegisterForm extends Component {
   constructor(props) {

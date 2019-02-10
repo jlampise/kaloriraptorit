@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/lib/connect/connect';
 import moment from 'moment';
-import DayPicker from './DayPicker';
-import LineChart from './charts/LineChart';
-import { CheckboxButton, DownloadButton } from './TrendsButtons';
+import DayPicker from '../ui/DayPicker';
+import LineChart from '../charts/LineChart';
+import { CheckboxButton, DownloadButton } from '../ui/Buttons';
 import {
   clearTrendsData,
   fetchTrendsWater,
   fetchTrendsMeals
-} from '../actions';
-import buildChartData from '../utils/buildChartData';
-import '../css/trends.css';
+} from '../../actions';
+import buildChartData from '../../utils/buildChartData';
+import '../../css/trends.css';
 
 class Trends extends Component {
   constructor(props) {

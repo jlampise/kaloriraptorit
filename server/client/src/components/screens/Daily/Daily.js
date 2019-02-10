@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import Water from './Water';
 import MealList from './MealList';
-import DayPicker from './DayPicker';
+import DayPicker from '../../ui/DayPicker';
 
 import {
   fetchDailyMeals,
   fetchDailyWater,
   chooseDate,
   deleteMeal
-} from '../actions';
+} from '../../../actions';
 
-import '../css/daily.css';
+import '../../../css/daily.css';
 
 class Daily extends Component {
   constructor(props) {

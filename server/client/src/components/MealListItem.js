@@ -7,7 +7,7 @@ import MacroPieChart from './charts/MacroPieChart';
 
 const NUM_OF_DECIMALS = 0;
 
-class MealCard extends Component {
+export default class MealListItem extends Component {
   constructor(props) {
     super(props);
     this.state = { isOpen: false };
@@ -132,5 +132,3 @@ const relativeToAbsoluteValues = ingredient => {
   newIngredient.fat *= massFactor;
   return newIngredient;
 };
-
-export default MealCard;

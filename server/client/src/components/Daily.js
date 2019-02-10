@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
-import _ from 'lodash';
-import DailyWater from './DailyWater';
-import MealCard from './MealCard';
+import Water from './Water';
+import MealList from './MealList';
 import DayPicker from './DayPicker';
 
 import {
   fetchDailyMeals,
   fetchDailyWater,
-  deleteMeal,
-  chooseDate
+  chooseDate,
+  deleteMeal
 } from '../actions';
 
-import '../css/meals.css';
+import '../css/daily.css';
 
-class Meals extends Component {
+class Daily extends Component {
   constructor(props) {
     super(props);
 
-    this.editMeal = this.editMeal.bind(this);
-    this.deleteMeal = this.deleteMeal.bind(this);
     this.chooseDate = this.chooseDate.bind(this);
     this.incrementDate = this.incrementDate.bind(this);
     this.decrementDate = this.decrementDate.bind(this);
+    this.editMeal = this.editMeal.bind(this);
+    this.deleteMeal = this.deleteMeal.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +63,7 @@ class Meals extends Component {
     await this.props.fetchDailyMeals(this.props.date);
   }
 
+
   renderDateAndControls() {
     const dateString = moment(this.props.date).format('ddd, DD of MMM YYYY');
     return (
@@ -100,45 +99,12 @@ class Meals extends Component {
     );
   }
 
-  renderMeals() {
-    var totalCalories = 0;
-    _.map(this.props.meals, meal => {
-      _.map(meal.ingredients, ingredient => {
-        totalCalories += (ingredient.kcal * ingredient.mass) / 100;
-      });
-    });
-    return (
-      <div className="meal-list-container">
-        <h2>
-          {this.props.meals.length} meals, {totalCalories.toFixed(0)} kcal
-        </h2>
-        <div>
-          {_.map(_.sortBy(this.props.meals, ['date']), meal => {
-            return (
-              <MealCard
-                key={meal._id}
-                meal={meal}
-                editMeal={this.editMeal}
-                deleteMeal={this.deleteMeal}
-              />
-            );
-          })}
-          <Link to="/meals/new">
-            <div className="card mt-3 card-new-meal">
-              <div className="card-header">Click here to add new meal!</div>
-            </div>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   render() {
     return (
-      <div className="container meals-container">
+      <div className="container daily-container">
         {this.renderDateAndControls()}
-        {this.renderMeals()}
-        <DailyWater date={this.props.date} water={this.props.water}/>
+        <MealList meals={this.props.meals} editMeal={this.editMeal} deleteMeal={this.deleteMeal}/>
+        <Water date={this.props.date} water={this.props.water}/>
       </div>
     );
   }
@@ -153,7 +119,7 @@ export default connect(
   {
     chooseDate,
     fetchDailyMeals,
-    deleteMeal,
-    fetchDailyWater
+    fetchDailyWater,
+    deleteMeal
   }
-)(Meals);
+)(Daily);

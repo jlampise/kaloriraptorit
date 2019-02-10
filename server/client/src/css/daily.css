@@ -1,22 +1,22 @@
-.meals-container {
+.daily-container {
   background: linear-gradient(to right, rgb(99, 170, 126), rgb(207, 255, 225));
   padding: 30px;
   border: 2px solid grey;
   border-radius: 10px 10px 10px 10px;
 }
 
-.meals-container h1 {
+.daily-container h1 {
   font-size: 1.7rem;
   text-align: center;
 }
 
-.meals-container h2 {
+.daily-container h2 {
   font-size: 1.2rem;
   text-align: center;
   text-transform: uppercase;
 }
 
-.meals-container h4 {
+.daily-container h4 {
   font-size: 1.0rem;
   text-align: center;
   text-transform: uppercase;
@@ -26,15 +26,15 @@
 /* Date section */
 /* ----------------- */
 
-.meals-container .date-container .col-date-button {
+.daily-container .date-container .col-date-button {
   text-align: center;
 }
 
-.meals-container .date-container .fas {
+.daily-container .date-container .fas {
   font-size: 2rem;
 }
 
-.meals-container .date-container .rw-datetime-picker {
+.daily-container .date-container .rw-datetime-picker {
   width: 180px;
   margin: auto;
 }

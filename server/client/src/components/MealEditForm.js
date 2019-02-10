@@ -30,11 +30,11 @@ class MealEdit extends Component {
   onSubmit(values) {
     if (this.props.match.params.id) {
       this.props.updateMeal(this.props.match.params.id, values, () => {
-        this.props.history.push('/meals');
+        this.props.history.push('/daily');
       });
     } else {
       this.props.createMeal(values, () => {
-        this.props.history.push('/meals');
+        this.props.history.push('/daily');
       });
     }
   }
@@ -99,7 +99,7 @@ class MealEdit extends Component {
             >
               Discard Changes
             </button>
-            <Link className="btn btn-primary" to="/meals">
+            <Link className="btn btn-primary" to="/daily">
               Cancel
             </Link>
           </div>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 
-import DailyMealsComponent from './DailyMeals';
+import DailyComponent from './Daily';
 import Navbar from './Navbar';
 import Landing from './Landing';
 import MealEditFormComponent from './MealEditForm';
@@ -25,7 +25,7 @@ const userIsAuthenticated = connectedRouterRedirect({
   AuthenticatingComponent: LoadingSpinner
 });
 
-const DailyMeals = userIsAuthenticated(DailyMealsComponent);
+const Daily = userIsAuthenticated(DailyComponent);
 const MealEditForm = userIsAuthenticated(MealEditFormComponent);
 const Trends = userIsAuthenticated(TrendsComponent);
 
@@ -42,7 +42,7 @@ class App extends Component {
             <Navbar />
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/meals" component={DailyMeals} />
+              <Route exact path="/daily" component={Daily} />
               <Route exact path="/meals/new" component={MealEditForm} />
               <Route exact path="/meals/edit/:id" component={MealEditForm} />
               <Route exact path="/trends" component={Trends} />

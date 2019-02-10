@@ -8,7 +8,7 @@ import {
 import WaterProgressBar from './WaterProgressBar';
 import WaterTargetSettings from './WaterTargetSettings';
 
-class DailyWater extends Component {
+class Water extends Component {
   constructor(props) {
     super(props);
 
@@ -169,4 +169,4 @@ export default connect(
     setDefaultWaterTarget,
     fetchDefaultWaterTarget
   }
-)(DailyWater);
+)(Water);

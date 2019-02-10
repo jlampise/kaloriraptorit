@@ -59,7 +59,7 @@ class Navbar extends Component {
       return (
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link className="nav-link" to="/meals">
+            <Link className="nav-link" to="/daily">
               My Meals
             </Link>
           </li>

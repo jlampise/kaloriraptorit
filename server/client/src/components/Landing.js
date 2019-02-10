@@ -14,7 +14,7 @@ class Landing extends Component {
             targets.
           </p>
           <p>
-            <Link className="btn btn-info btn-md btn-meals" to="/meals">
+            <Link className="btn btn-info btn-md btn-meals" to="/daily">
               Go to Meals!
             </Link>
             <Link className="btn btn-info btn-md btn-new-meal" to="/meals/new">

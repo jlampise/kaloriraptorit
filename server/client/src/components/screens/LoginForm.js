@@ -7,7 +7,7 @@ import validate from '../form/validateRegisterForm';
 import axios from 'axios';
 import { fetchUser } from '../../actions';
 
-import '../../css/userForm.css';
+import './LoginForm.css';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -36,13 +36,13 @@ class LoginForm extends Component {
       this.props.fetchUser();
       this.props.history.push('/');
     } catch (err) {
-      this.setState({ error: 'Wrong username or passwod' });
+      this.setState({ error: 'Wrong username or password' });
     }
   };
 
   render() {
     return (
-      <div className="container userform-container">
+      <div className="container loginform-container">
         <h1>Login User</h1>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
           <Field name="username" label="Username" component={TextInput} />
@@ -51,10 +51,10 @@ class LoginForm extends Component {
             Login
           </button>
         </form>
-        <div className="userform-error">
+        <div className="loginform-error">
           <p>{this.state.error}</p>
         </div>
-        <div className="userform-message">
+        <div className="loginform-message">
           <p>{this.state.message}</p>
         </div>
       </div>

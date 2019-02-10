@@ -6,7 +6,7 @@ import PasswordInput from '../form/PasswordInput';
 import validate from '../form/validateRegisterForm';
 import axios from 'axios';
 
-import '../../css/userForm.css';
+import './RegisterForm.css';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class RegisterForm extends Component {
 
   render() {
     return (
-      <div className="container userform-container">
+      <div className="container registerform-container">
         <h1>Register new User</h1>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
           <Field name="username" label="Username" component={TextInput} />
@@ -53,10 +53,10 @@ class RegisterForm extends Component {
             Register
           </button>
         </form>
-        <div className="userform-error">
+        <div className="registerform-error">
           <p>{this.state.error}</p>
         </div>
-        <div className="userform-message">
+        <div className="registerform-message">
           <p>{this.state.message}</p>
         </div>
       </div>

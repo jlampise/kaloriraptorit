@@ -12,7 +12,7 @@ import {
   deleteMeal
 } from '../../../actions';
 
-import '../../../css/daily.css';
+import './Daily.css';
 
 class Daily extends Component {
   constructor(props) {

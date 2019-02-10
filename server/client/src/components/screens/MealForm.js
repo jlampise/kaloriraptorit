@@ -9,7 +9,7 @@ import DateInput from '../form/DateInput';
 import IngredientsInput from '../form/IngredientsInput';
 import validate from '../form/validateMealForm';
 
-import '../../css/mealForm.css';
+import './MealForm.css';
 
 class MealForm extends Component {
   constructor(props) {

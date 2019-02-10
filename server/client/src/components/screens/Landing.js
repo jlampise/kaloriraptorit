@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '../../css/landing.css';
+import './Landing.css';
 
 class Landing extends Component {
   renderActions(login) {

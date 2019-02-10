@@ -10,7 +10,7 @@ import {
   fetchTrendsMeals
 } from '../../actions';
 import buildChartData from '../../utils/buildChartData';
-import '../../css/trends.css';
+import './Trends.css';
 
 class Trends extends Component {
   constructor(props) {

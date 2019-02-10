@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '../css/navbar.css';
+import './Navbar.css';
 
 class Navbar extends Component {
   isLoggedIn() {

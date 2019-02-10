@@ -11,7 +11,7 @@ import TrendsScreenComponent from './screens/Trends';
 import LandingScreen from './screens/Landing';
 import LoginFormScreen from './screens/LoginForm';
 import RegisterFormScreen from './screens/RegisterForm';
-import '../css/app.css';
+import './App.css';
 
 const LoadingSpinner = () => <h2>Checking authentication...</h2>;
 

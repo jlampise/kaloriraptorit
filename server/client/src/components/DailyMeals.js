@@ -28,7 +28,9 @@ class Meals extends Component {
   }
 
   componentDidMount() {
+
     this.props.fetchDailyMeals(this.props.date);
+    this.props.fetchDailyWater(this.props.date);
   }
   async chooseDate(date) {
     // When typing on date picker bar, it generates undefined values
@@ -136,14 +138,14 @@ class Meals extends Component {
       <div className="container meals-container">
         {this.renderDateAndControls()}
         {this.renderMeals()}
-        <DailyWater />
+        <DailyWater date={this.props.date} water={this.props.water}/>
       </div>
     );
   }
 }
 
-function mapsStateToProps({ meals, date }) {
-  return { meals, date };
+function mapsStateToProps({ water, meals, date }) {
+  return { water, meals, date };
 }
 
 export default connect(

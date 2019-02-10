@@ -4,7 +4,6 @@ import {
   setWater,
   setDefaultWaterTarget,
   fetchDefaultWaterTarget,
-  fetchDailyWater
 } from '../actions';
 import WaterProgressBar from './WaterProgressBar';
 import WaterTargetSettings from './WaterTargetSettings';
@@ -24,7 +23,6 @@ class DailyWater extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchDailyWater(this.props.date);
     this.props.fetchDefaultWaterTarget();
   }
 
@@ -164,16 +162,11 @@ class DailyWater extends Component {
   }
 }
 
-function mapsStateToProps({ date, water }) {
-  return { date, water };
-}
-
 export default connect(
-  mapsStateToProps,
+  null,
   {
     setWater,
     setDefaultWaterTarget,
-    fetchDefaultWaterTarget,
-    fetchDailyWater
+    fetchDefaultWaterTarget
   }
 )(DailyWater);

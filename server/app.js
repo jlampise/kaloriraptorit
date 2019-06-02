@@ -4,7 +4,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const app = express();
 
@@ -22,7 +21,7 @@ mongoose.connect(
 );
 
 // Setup middleware
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(
   cookieSession({
     name: 'kr-session',

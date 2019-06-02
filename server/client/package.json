@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
+    "eslint-plugin-react": "^7.13.0",
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
@@ -31,9 +32,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "eslint-plugin-react": "^7.13.0"
-  },
+  "devDependencies": {},
   "browserslist": [
     ">0.2%",
     "not dead",

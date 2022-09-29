@@ -20,7 +20,7 @@
     "react-select": "^3.0.3",
     "react-widgets": "^4.4.11",
     "react-widgets-moment": "^4.0.27",
-    "recharts": "^1.6.2",
+    "recharts": "^2.1.14",
     "redux": "^3.7.2",
     "redux-auth-wrapper": "^2.1.0",
     "redux-form": "^7.4.2",
